@@ -1,0 +1,18 @@
+{
+  "app.general.UI.back": "Back",
+  "app.general.UI.cancel": "Cancel",
+  "app.general.UI.settings": "Settings",
+  "app.accounting.UI.username": "Username",
+  "app.accounting.UI.password": "Password",
+  "app.accounting.UI.login": "Login",
+  "app.accounting.UI.register": "Register",
+  "pg.register.tbl.title": "Registration",
+  "pg.register.user.alreadyexists": "This Username is already in use",
+  "pg.login.user.nonexistent": "Username or Password wrong",
+  "pg.start.btn.single": "Single Player",
+  "pg.character.select.btn.join": "Join",
+  "pg.character.select.btn.create": "Create",
+  "pg.character.select.btn.delete": "Delete",
+  "pg.settings.title": "Settings",
+  "pg.settings.language": "Language"
+}

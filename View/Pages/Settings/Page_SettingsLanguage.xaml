@@ -1,0 +1,28 @@
+﻿<Page x:Class="MyriaRPG.View.Pages.Settings.Page_SettingsLanguage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MyriaRPG.View.Pages.Settings"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Page_SettingsLanguage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock x:Name="tbl_Language" TextWrapping="Wrap" Text="{Binding TblLanguage}" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16" Margin="0,0,5,0"/>
+        <ComboBox x:Name="cbx_Language" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200" FontSize="16" SelectedItem="{Binding SelectedLanguage}" ItemsSource="{Binding Languages}"/>
+
+    </Grid>
+</Page>

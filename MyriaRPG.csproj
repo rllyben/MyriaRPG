@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Data\locales\de.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Data\locales\de.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\locales\en.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Maps\" />
+    <Folder Include="Assets\" />
+    <Folder Include="Model\" />
+    <Folder Include="Systems\" />
+    <Folder Include="ViewModel\UserControl\" />
+    <Folder Include="ViewModel\Windows\" />
+    <Folder Include="View\Pages\Game\" />
+    <Folder Include="View\UserControl\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MyriaLib">
+      <HintPath>..\MyriaLib\bin\Debug\net8.0\MyriaLib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
