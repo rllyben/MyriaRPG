@@ -1,22 +1,65 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using MyriaLib.Systems;
+﻿using MyriaRPG.Model;
 using MyriaRPG.Services;
 using MyriaRPG.Utils;
 using MyriaRPG.View.Pages;
+using System.Windows.Input;
 
 namespace MyriaRPG.ViewModel.Pages
 {
-    public class ViewModel_StartupMenuePage
+    public class ViewModel_StartupMenuePage : BaseViewModel
     {
-        public string btnSingle { get; set; } = Localization.T("pg.start.btn.single");
-        public string btnLogin { get; set; } = Localization.T("app.accounting.UI.login");
-        public string btnRegister { get; set; } = Localization.T("app.accounting.UI.register");
-        public string btnSettings { get; set; } = Localization.T("app.general.UI.settings");
+        private string _btnSingle;
+        private string _btnLogin;
+        private string _btnRegister;
+        private string _btnSettings;
+        [LocalizedKey("pg.start.btn.single")]
+        public string btnSingle 
+        { 
+            get { return _btnSingle; }
+            private set
+            {
+                _btnSingle = value;
+                OnPropertyChanged(nameof(btnSingle));
+            }
+
+        }
+
+        [LocalizedKey("app.accounting.UI.login")]
+        public string btnLogin 
+        { 
+            get { return _btnLogin; }
+            private set
+            {
+                _btnLogin = value;
+                OnPropertyChanged(nameof(btnLogin));
+            }
+
+        }
+
+        [LocalizedKey("app.accounting.UI.register")]
+        public string btnRegister
+        {
+            get { return _btnRegister; }
+            private set
+            {
+                _btnRegister = value;
+                OnPropertyChanged(nameof(btnRegister));
+            }
+
+        }
+
+        [LocalizedKey("app.general.UI.settings")]
+        public string btnSettings 
+        { 
+            get { return _btnSettings; }
+            private set
+            {
+                _btnSettings = value;
+                OnPropertyChanged(nameof(btnSettings));
+            }
+
+        }
+
         public ICommand SinglePlayer {  get; }
         public ICommand Login { get; }
         public ICommand Register { get; }
@@ -24,12 +67,13 @@ namespace MyriaRPG.ViewModel.Pages
 
         public ViewModel_StartupMenuePage()
         {
+            LocalizationAutoWire.Wire(this);
+
             SinglePlayer = new RelayCommand(SinglePlayerAction);
             Login = new RelayCommand(LoginAction);
             Register = new RelayCommand(RegisterAction);
             Settings = new RelayCommand(SettingsAction);
         }
-
         private void SinglePlayerAction()
         {
             Navigation.NavigateMain(new Page_CharacterSelection());

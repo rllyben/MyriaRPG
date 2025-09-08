@@ -1,41 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MyriaLib.Models.Settings;
 using MyriaLib.Services;
 using MyriaLib.Systems;
 using MyriaLib.Systems.Enums;
+using MyriaRPG.Model;
+using MyriaRPG.Utils;
 
 namespace MyriaRPG.ViewModel.Pages
 {
     public class ViewModel_SettingsLanguage : BaseViewModel
     {
+        private string _tblLanguage;
         private GameLanguage _selectedLanguage;
-        public string TblLanguage { get; set; } = (Localization.T("pg.settings.language") + ":");
+        [LocalizedKey("pg.settings.language")]
+        public string TblLanguage 
+        { 
+            get { return _tblLanguage; }
+            set
+            {
+                _tblLanguage = value;
+                OnPropertyChanged(nameof(TblLanguage));
+            }
+
+        }
         public GameLanguage SelectedLanguage 
         {
             get { return _selectedLanguage; }
             set 
             { 
                 _selectedLanguage = value;
-                SettingsService.Current.Language = value;
+                Settings.Current.LanguageSettings.Local = value;
                 SettingsService.Save();
-                Localization.Load(SettingsService.Current.Language);
-                Localization.LanguageChanged += OnLanguageChanged;
+                Localization.Load(Settings.Current.LanguageSettings.Local);
             }
 
-        }
-        private void OnLanguageChanged(object? s, EventArgs e)
-        {
-            TblLanguage = (Localization.T("pg.settings.language") + ":");
         }
         public List<GameLanguage> Languages { get; } = Enum.GetValues(typeof(GameLanguage))
                                                .Cast<GameLanguage>()
                                                .ToList();
         public ViewModel_SettingsLanguage() 
         {
-            SelectedLanguage = SettingsService.Current.Language;
+            SelectedLanguage = Settings.Current.LanguageSettings.Local;
+            LocalizationAutoWire.Wire(this);
         }
 
     }

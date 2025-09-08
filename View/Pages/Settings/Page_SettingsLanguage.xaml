@@ -21,8 +21,7 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock x:Name="tbl_Language" TextWrapping="Wrap" Text="{Binding TblLanguage}" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16" Margin="0,0,5,0"/>
-        <ComboBox x:Name="cbx_Language" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200" FontSize="16" SelectedItem="{Binding SelectedLanguage}" ItemsSource="{Binding Languages}"/>
-
+        <TextBlock x:Name="tbl_Language" TextWrapping="Wrap" Text="{Binding TblLanguage}" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16" Margin="0,0,5,0" Foreground="{DynamicResource Brush.Foreground}"/>
+        <ComboBox x:Name="cbx_Language" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200" FontSize="16" SelectedItem="{Binding SelectedLanguage}" ItemsSource="{Binding Languages}" Background="{DynamicResource Brush.Background}" BorderBrush="{DynamicResource Brush.Border}"/>
     </Grid>
 </Page>

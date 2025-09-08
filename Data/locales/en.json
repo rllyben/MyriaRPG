@@ -14,5 +14,8 @@
   "pg.character.select.btn.create": "Create",
   "pg.character.select.btn.delete": "Delete",
   "pg.settings.title": "Settings",
-  "pg.settings.language": "Language"
+  "pg.settings.language": "Language",
+  "pg.settings.visuals": "Visuals",
+  "pg.settings.visuals.darkmode": "Dark Mode",
+  "pg.settings.visuals.darmodecheck": "Enable Midnight Dark Mode"
 }

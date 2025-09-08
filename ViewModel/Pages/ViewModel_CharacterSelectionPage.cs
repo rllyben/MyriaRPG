@@ -1,23 +1,66 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using MyriaLib.Entities.Players;
-using MyriaLib.Systems;
+﻿using MyriaLib.Entities.Players;
+using MyriaRPG.Model;
 using MyriaRPG.Services;
 using MyriaRPG.Utils;
 using MyriaRPG.View.Pages;
+using System.Windows.Input;
 
 namespace MyriaRPG.ViewModel.Pages
 {
-    public class ViewModel_CharacterSelectionPage
+    public class ViewModel_CharacterSelectionPage : BaseViewModel
     {
-        public string btnJoin { get; set; } = Localization.T("pg.character.select.btn.join");
-        public string btnCreate { get; set; } = Localization.T("pg.character.select.btn.create");
-        public string btnDelete { get; set; } = Localization.T("pg.character.select.btn.delete");
-        public string btnBack { get; set; } = Localization.T("app.general.UI.back");
+        private string _btnJoin;
+        private string _btnCreate;
+        private string _btnDelete;
+        private string _btnBack;
+
+        [LocalizedKey("pg.character.select.btn.join")]
+        public string btnJoin 
+        {
+            get { return _btnJoin; }
+            set
+            {
+                _btnJoin = value;
+                OnPropertyChanged(nameof(btnJoin));
+            }
+
+        }
+
+        [LocalizedKey("pg.character.select.btn.create")]
+        public string btnCreate 
+        {
+            get { return _btnCreate; }
+            set
+            {
+                _btnCreate = value;
+                OnPropertyChanged(nameof(btnCreate));
+            }
+            
+        }
+
+        [LocalizedKey("pg.character.select.btn.delete")]
+        public string btnDelete 
+        {
+            get { return _btnDelete; }
+            set
+            {
+                _btnDelete = value;
+                OnPropertyChanged(nameof(btnDelete));
+            }
+
+        }
+
+            [LocalizedKey("app.general.UI.back")]
+        public string btnBack 
+        { 
+            get { return _btnBack; }
+            set
+            {
+                _btnBack = value;
+                OnPropertyChanged(nameof(btnBack));
+            }
+
+        }
 
         public Player Character1 { get; set; }
         public string btnCharacter1 { get; set; }
@@ -41,6 +84,7 @@ namespace MyriaRPG.ViewModel.Pages
             Create = new RelayCommand(CreateAction);
             Delete = new RelayCommand(DeleteAction, DeleteCanExecute);
             Back = new RelayCommand(BackAction);
+            LocalizationAutoWire.Wire(this);
         }
         private void JoinAction()
         {

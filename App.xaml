@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:MyriaRPG"
              StartupUri="View/Windows/MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Load *one* theme; you’ll swap this at runtime -->
+                <ResourceDictionary Source="/Assets/Light.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -1,3 +1,21 @@
 ﻿{
-  "app.general.UI.back": "Zurück"
+  "app.general.UI.back": "Zurück",
+  "app.general.UI.cancel": "Abbrechen",
+  "app.general.UI.settings": "Einstellungen",
+  "app.accounting.UI.username": "Benutzername",
+  "app.accounting.UI.password": "Password",
+  "app.accounting.UI.login": "Anmelden",
+  "app.accounting.UI.register": "Registrieren",
+  "pg.register.tbl.title": "Registrieren",
+  "pg.register.user.alreadyexists": "Dieser Benutzername ist bereits vergeben",
+  "pg.login.user.nonexistent": "Benutzername oder Password falsch",
+  "pg.start.btn.single": "Einzelspieler",
+  "pg.character.select.btn.join": "Spielen",
+  "pg.character.select.btn.create": "Erstellen",
+  "pg.character.select.btn.delete": "Löschen",
+  "pg.settings.title": "Einstellungen",
+  "pg.settings.language": "Sprache",
+  "pg.settings.visuals": "Grafik",
+  "pg.settings.visuals.darkmode": "Dunkelheit",
+  "pg.settings.visuals.darmodecheck": "Mitternachts Modus einschalten"
 }

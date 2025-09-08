@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MyriaRPG.ViewModel
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    public class BaseViewModel : BaseLocalizedViewModel, INotifyPropertyChanged
     {
         public string Password { get; set; }
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -17,7 +17,8 @@ namespace MyriaRPG.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
+        public void RaisePropertyChanged(string name) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
         {
             if (Equals(field, value)) return false;
