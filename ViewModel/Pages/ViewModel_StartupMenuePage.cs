@@ -1,8 +1,12 @@
-﻿using MyriaRPG.Model;
+﻿using MyriaLib.Models;
+using MyriaLib.Services;
+using MyriaRPG.Model;
 using MyriaRPG.Services;
 using MyriaRPG.Utils;
 using MyriaRPG.View.Pages;
+using System.Text.Json;
 using System.Windows.Input;
+using System.IO;
 
 namespace MyriaRPG.ViewModel.Pages
 {
@@ -76,6 +80,26 @@ namespace MyriaRPG.ViewModel.Pages
         }
         private void SinglePlayerAction()
         {
+
+            string path = Path.Combine("Data/users", $"localUser.json");
+
+            if (!File.Exists(path))
+            {
+
+                if (!Path.Exists(path))
+                    Directory.CreateDirectory("Data/users");
+
+                UserAccount account = new UserAccount();
+                account.Username = "localUser";
+
+
+                var jsons = JsonSerializer.Serialize(account, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(path, jsons);
+            }
+
+            var json = File.ReadAllText(path);
+            UserAccoundService.CurrentUser = JsonSerializer.Deserialize<UserAccount>(json);
+
             Navigation.NavigateMain(new Page_CharacterSelection());
         }
         private void LoginAction()

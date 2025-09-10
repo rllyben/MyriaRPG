@@ -32,7 +32,7 @@
             <TextBlock x:Name="tbl_Password" HorizontalAlignment="Center" Grid.Row="4" TextWrapping="Wrap" Text="{Binding tblPassword}" VerticalAlignment="Bottom" Margin="0,0,0,5" FontSize="16" FontWeight="Bold" Foreground="{DynamicResource Brush.Foreground}"/>
             <TextBox x:Name="tbx_Username" HorizontalAlignment="Center" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="14" Text="{Binding Username}" FontWeight="Bold" Margin="0,5,0,0" Background="{DynamicResource Brush.Background}" BorderBrush="{DynamicResource Brush.Border}" Foreground="{DynamicResource Brush.Foreground}"/>
             <PasswordBox x:Name="pbx_UserPassword" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Top" Width="120" FontSize="14" Margin="0,5,0,0" Background="{DynamicResource Brush.Background}" BorderBrush="{DynamicResource Brush.Border}" Foreground="{DynamicResource Brush.Foreground}"/>
-            <TextBlock x:Name="tbl_UsernameMsg" TextWrapping="Wrap" Text="{Binding tblUserNameMsg}" Foreground="{DynamicResource Brush.Foreground}"/>
+            <TextBlock x:Name="tbl_UsernameMsg" TextWrapping="Wrap" Text="{Binding tblUserNameMsg}" Foreground="{DynamicResource Brush.Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <TextBlock x:Name="tbl_PasswordMsg" HorizontalAlignment="Center" Grid.Row="3" TextWrapping="Wrap" Text="{Binding tblPasswordMsg}" VerticalAlignment="Bottom" Foreground="{DynamicResource Brush.Foreground}"/>
         </Grid>
         <TextBlock x:Name="tbl_Title" Grid.Column="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Title}" VerticalAlignment="Bottom" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource Brush.Foreground}"/>
