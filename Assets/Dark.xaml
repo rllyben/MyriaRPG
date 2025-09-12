@@ -8,8 +8,10 @@
     <Color x:Key="Color.Border">#33FFFFFF</Color>
     <Color x:Key="Color.Accent">#FF7AB4FF</Color>
     <Color x:Key="Color.Error">#FFCF6679</Color>
+    <Color x:Key="Color.TitleBackground">#FF222222</Color>
 
     <!-- Brushes -->
+    <SolidColorBrush x:Key="Brush.TitleBackground"      Color="{StaticResource Color.TitleBackground}"/>
     <SolidColorBrush x:Key="Brush.Background" Color="{StaticResource Color.Background}"/>
     <SolidColorBrush x:Key="Brush.Foreground" Color="{StaticResource Color.Foreground}"/>
     <SolidColorBrush x:Key="Brush.Surface"    Color="{StaticResource Color.Surface}"/>

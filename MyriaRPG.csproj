@@ -24,10 +24,11 @@
   <ItemGroup>
     <Folder Include="Data\Maps\" />
     <Folder Include="Systems\" />
-    <Folder Include="ViewModel\UserControl\" />
-    <Folder Include="ViewModel\Windows\" />
-    <Folder Include="View\Pages\Game\" />
-    <Folder Include="View\UserControl\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
   </ItemGroup>
 
   <ItemGroup>

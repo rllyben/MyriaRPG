@@ -4,6 +4,7 @@ using MyriaRPG.Model;
 using MyriaRPG.Services;
 using MyriaRPG.Utils;
 using MyriaRPG.View.Pages;
+using MyriaRPG.View.Pages.Game;
 using System.Windows;
 using System.Windows.Input;
 
@@ -11,6 +12,8 @@ namespace MyriaRPG.ViewModel.Pages
 {
     public class ViewModel_CharacterSelectionPage : BaseViewModel
     {
+        private List<Player> characters = new List<Player>();
+        private Player _selectedPlayer;
         private string _btnJoin;
         private string _btnCreate;
         private string _btnDelete;
@@ -118,67 +121,100 @@ namespace MyriaRPG.ViewModel.Pages
             }
 
         }
-        public Player Character1 { get; set; }
         public string btnCharacter1 { get; set; }
-        public Player Character2 { get; set; }
         public string btnCharacter2 { get; set; }
-        public Player Character3 { get; set; }
         public string btnCharacter3 { get; set; }
-        public Player Character4 { get; set; }
         public string btnCharacter4 { get; set; }
-        public Player Character5 { get; set; }
         public string btnCharacter5 { get; set; }
 
-        public ICommand Join { get; }
+        public RelayCommand Join { get; }
         public ICommand Create { get; }
-        public ICommand Delete { get; }
+        public RelayCommand Delete { get; }
         public ICommand Back { get; }
+        public ICommand SelectFirst { get; }
+        public ICommand SelectSecond { get; }
+        public ICommand SelectThird { get; }
+        public ICommand SelectFourth { get; }
+        public ICommand SelectFifth { get; }
 
-        public Player SelectedPlayer { get; set; }
+        public Player SelectedPlayer 
+        { 
+            get { return _selectedPlayer; } 
+            set
+            {
+                _selectedPlayer = value;
+                OnPropertyChanged(nameof(SelectedPlayer));
+                Join.RaiseCanExecuteChanged();
+                Delete.RaiseCanExecuteChanged();
+                UserAccoundService.CurrentCharacter = value;
+            }
+
+        }
 
         public ViewModel_CharacterSelectionPage() 
         {
-            Join = new RelayCommand(JoinAction, JoinCanExecute);
+            Join = new RelayCommand(JoinAction, IsSelected);
             Create = new RelayCommand(CreateAction);
-            Delete = new RelayCommand(DeleteAction, DeleteCanExecute);
+            Delete = new RelayCommand(DeleteAction, IsSelected);
             Back = new RelayCommand(BackAction);
+            SelectFirst = new RelayCommand(SelectFirstAction);
+            SelectSecond = new RelayCommand(SelectSecondAction);
+            SelectThird = new RelayCommand(SelectThirdAction);
+            SelectFourth = new RelayCommand(SelectFourthAction);
+            SelectFifth = new RelayCommand(SelectFifthAction);
+
             LocalizationAutoWire.Wire(this);
 
-            List<Player> list = CharacterService.LoadCharacters(UserAccoundService.CurrentUser);
-            for (int count = 0; count < list.Count; count++)
+            characters = CharacterService.LoadCharacters(UserAccoundService.CurrentUser);
+            for (int count = 0; count < characters.Count; count++)
             {
                 switch (count)
                 {
                     case 0:
-                        Character1 = list[count];
-                        btnCharacter1 = Character1.Name;
+                        btnCharacter1 = characters[count].Name;
                         Visibility1 = Visibility.Visible; break;
                     case 1: 
-                        Character2 = list[count];
-                        btnCharacter2 = Character2.Name;
+                        btnCharacter2 = characters[count].Name;
                         Visibility2 = Visibility.Visible; break;
                     case 2:
-                        Character3 = list[count];
-                        btnCharacter3 = Character3.Name;
+                        btnCharacter3 = characters[count].Name;
                         Visibility3 = Visibility.Visible; break;
                     case 3:
-                        Character4 = list[count];
-                        btnCharacter4 = Character4.Name;
+                        btnCharacter4 = characters[count].Name;
                         Visibility4 = Visibility.Visible; break;
                     case 4:
-                        Character5 = list[count];
-                        btnCharacter5 = Character5.Name;
+                        btnCharacter5 = characters[count].Name;
                         Visibility5 = Visibility.Visible; break;
                 }
 
             }
             
         }
+        private void SelectFirstAction()
+        {
+            SelectedPlayer = characters[0];
+        }
+        private void SelectSecondAction()
+        {
+            SelectedPlayer = characters[1];
+        }
+        private void SelectThirdAction()
+        {
+            SelectedPlayer = characters[2];
+        }
+        private void SelectFourthAction()
+        {
+            SelectedPlayer = characters[3];
+        }
+        private void SelectFifthAction()
+        {
+            SelectedPlayer = characters[4];
+        }
         private void JoinAction()
         {
-            
+            Navigation.NavigateMain(new Page_Room());
         }
-        private bool JoinCanExecute()
+        private bool IsSelected()
         {
             return SelectedPlayer != null;
         }
@@ -189,10 +225,7 @@ namespace MyriaRPG.ViewModel.Pages
         private void DeleteAction()
         {
             SelectedPlayer = null;
-        }
-        private bool DeleteCanExecute()
-        {
-            return SelectedPlayer != null;
+            UserAccoundService.CurrentCharacter = null;
         }
         private void BackAction()
         {

@@ -8,14 +8,16 @@
     <Color x:Key="Color.Border">#FFAFAFAF</Color>
     <Color x:Key="Color.Accent">#FF2D7FF9</Color>
     <Color x:Key="Color.Error">#FFB00020</Color>
+    <Color x:Key="Color.TitleBackground">#FFEFEFEF</Color>
 
     <!-- Brushes -->
-    <SolidColorBrush x:Key="Brush.Background" Color="{StaticResource Color.Background}"/>
-    <SolidColorBrush x:Key="Brush.Foreground" Color="{StaticResource Color.Foreground}"/>
-    <SolidColorBrush x:Key="Brush.Surface"    Color="{StaticResource Color.Surface}"/>
-    <SolidColorBrush x:Key="Brush.Border"     Color="{StaticResource Color.Border}"/>
-    <SolidColorBrush x:Key="Brush.Accent"     Color="{StaticResource Color.Accent}"/>
-    <SolidColorBrush x:Key="Brush.Error"      Color="{StaticResource Color.Error}"/>
+    <SolidColorBrush x:Key="Brush.TitleBackground"      Color="{StaticResource Color.TitleBackground}"/>
+    <SolidColorBrush x:Key="Brush.Background"           Color="{StaticResource Color.Background}"/>
+    <SolidColorBrush x:Key="Brush.Foreground"           Color="{StaticResource Color.Foreground}"/>
+    <SolidColorBrush x:Key="Brush.Surface"              Color="{StaticResource Color.Surface}"/>
+    <SolidColorBrush x:Key="Brush.Border"               Color="{StaticResource Color.Border}"/>
+    <SolidColorBrush x:Key="Brush.Accent"               Color="{StaticResource Color.Accent}"/>
+    <SolidColorBrush x:Key="Brush.Error"                Color="{StaticResource Color.Error}"/>
 
     <!-- Common control styles use the brushes -->
     <Style TargetType="Window">

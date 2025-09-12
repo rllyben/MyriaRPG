@@ -41,7 +41,7 @@ namespace MyriaRPG.ViewModel.Pages
             }
 
         }
-
+        
 
         [LocalizedKey("app.accounting.UI.username")]
         public string tblUsername 

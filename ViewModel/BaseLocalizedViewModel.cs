@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
 using System.Windows.Threading;
+using Microsoft.Win32;
 using MyriaLib.Systems;
 using MyriaRPG.Model;
 
@@ -10,7 +11,6 @@ namespace MyriaRPG.ViewModel
     public abstract class BaseLocalizedViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-
         protected BaseLocalizedViewModel()
         {
             // Initial fill
