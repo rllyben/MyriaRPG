@@ -21,6 +21,7 @@ namespace MyriaRPG.View.Windows
             Navigation.SetNavigationFrame(Frame, 0);
             Canvas.Children.Add(gameWindow);
             gameWindow.Visibility = Visibility.Hidden;
+            this.WindowState = WindowState.Maximized;
         }
 
     }
