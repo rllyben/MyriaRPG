@@ -11,8 +11,7 @@
     <!-- Bind state to VM -->
     <Grid Canvas.Left="{Binding Left}" Canvas.Top="{Binding Top}"
         Width="{Binding Width}" Height="{Binding Height}"
-        Panel.ZIndex="{Binding ZIndex}"
-        Visibility="{Binding IsVisible}">
+        Panel.ZIndex="{Binding ZIndex}">
 
         <Border Background="{DynamicResource Brush.Background}" CornerRadius="8" BorderBrush="#607D8B" BorderThickness="1">
             <Grid>
@@ -44,7 +43,7 @@
                 </Border>
 
                 <!-- Content -->
-                <ContentPresenter Grid.Row="1" Margin="8"/>
+                <Frame Name="Frame" NavigationUIVisibility="Hidden" Grid.Row="1"></Frame>
             </Grid>
         </Border>
 

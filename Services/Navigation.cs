@@ -14,14 +14,16 @@ namespace MyriaRPG.Services
         private static Frame MainNavigationFrame = new();
         private static Frame PageNavigationFrame = new();
         private static Frame SettingsNavigationFrame = new();
+        private static Frame IngameNavigationFrame = new();
 
-        public static bool SetNavigationFrame(Frame navFrame, int page)
+        public static bool SetNavigationFrame(Frame navFrame, int frameType)
         {
-            switch (page)
+            switch (frameType)
             {
                 case 0: MainNavigationFrame = navFrame; MainNavigationFrame.Navigate(new Page_StartupMenue()); return true;
                 case 1: PageNavigationFrame = navFrame; return true;
                 case 2: SettingsNavigationFrame = navFrame; return true;
+                case 3: IngameNavigationFrame = navFrame; return true;
                 default: return false;
             }
 
@@ -56,6 +58,18 @@ namespace MyriaRPG.Services
             try 
             {
                 SettingsNavigationFrame.Navigate(page);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool NavigateIngameWindow(Page page)
+        {
+            try
+            {
+                IngameNavigationFrame.Navigate(page);
             }
             catch
             {

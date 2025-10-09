@@ -1,5 +1,6 @@
 ﻿using MyriaLib.Models.Settings;
 using MyriaLib.Services;
+using MyriaLib.Services.Builder;
 using MyriaLib.Systems.Enums;
 using MyriaRPG.Services;
 using System.Configuration;
@@ -20,6 +21,8 @@ namespace MyriaRPG
             SettingsService.Load();
             MyriaLib.Systems.Localization.Load(Settings.Current.LanguageSettings.Local);
             ThemeManager.Apply(Settings.Current.VisualSettings.DarkMode);
+
+            ItemFactory.LoadItems();
         }
 
     }

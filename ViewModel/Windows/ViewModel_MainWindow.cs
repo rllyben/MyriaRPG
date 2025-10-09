@@ -33,12 +33,6 @@ namespace MyriaRPG.ViewModel.Windows
             }
 
         }
-        public ICommand ResizeCommand { get; }
-
-        public ViewModel_MainWindow()
-        {
-            ResizeCommand = new RelayCommand<ResizeDeltaArgs>();
-        }
 
     }
 

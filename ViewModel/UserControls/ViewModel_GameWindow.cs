@@ -15,7 +15,7 @@ namespace MyriaRPG.ViewModel.UserControls
     {
     public string Title { get; set; } = "Window";
 
-        private double _left, _top, _width = 400, _height = 300;
+        private double _left, _top, _width = 400, _height = 600;
         private int _zIndex;
         private Visibility _isVisible = Visibility.Visible;
 
@@ -24,7 +24,6 @@ namespace MyriaRPG.ViewModel.UserControls
         public double Width { get => _width; set { _width = value; OnPropertyChanged(); } }
         public double Height { get => _height; set { _height = value; OnPropertyChanged(); } }
         public int ZIndex { get => _zIndex; set { _zIndex = value; OnPropertyChanged(); } }
-        public Visibility IsVisible { get => _isVisible; set { _isVisible = value; OnPropertyChanged(); } }
 
         // Commands that receive event args (delta, etc.)
         public ICommand CloseCommand { get; }
@@ -34,12 +33,15 @@ namespace MyriaRPG.ViewModel.UserControls
 
         public ViewModel_GameWindow()
         {
-            CloseCommand = new RelayCommand(() => IsVisible = Visibility.Hidden);
+            CloseCommand = new RelayCommand(() => MainWindow.Instance.gameWindow.Visibility = Visibility.Hidden);
             //FocusCommand = new RelayCommand(() => ZIndex = WindowManager.BringToFront(this));
 
             // The parameter will be a small DTO we define below (DragDeltaArgs / ResizeDeltaArgs)
             DragDeltaCommand = new RelayCommand<DragDeltaArgs>(OnDragDelta);
             ResizeDeltaCommand = new RelayCommand<ResizeDeltaArgs>(OnResizeDelta);
+
+            Left = 100;
+            Top = 100;
         }
 
         private void OnDragDelta(DragDeltaArgs a)
