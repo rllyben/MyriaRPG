@@ -23,6 +23,7 @@ namespace MyriaRPG
             ThemeManager.Apply(Settings.Current.VisualSettings.DarkMode);
 
             ItemFactory.LoadItems();
+            RoomService.LoadRooms();
         }
 
     }

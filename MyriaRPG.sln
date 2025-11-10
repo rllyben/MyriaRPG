@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyriaRPG", "MyriaRPG.csproj", "{E05A263B-6DD9-411C-8521-36E56A07CEB4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5410E26F-8734-4A81-84FA-FA52B0298DCD} = {5410E26F-8734-4A81-84FA-FA52B0298DCD}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyriaLib", "..\MyriaLib\MyriaLib.csproj", "{5410E26F-8734-4A81-84FA-FA52B0298DCD}"
 EndProject

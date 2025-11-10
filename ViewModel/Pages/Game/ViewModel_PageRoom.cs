@@ -7,11 +7,13 @@ using MyriaRPG.View.Pages.Game.IngameWindow;
 using System.Windows;
 using System.Windows.Input;
 using MyriaRPG.ViewModel.Pages.Game.IngameWindow;
+using MyriaLib.Entities.Maps;
 
 namespace MyriaRPG.ViewModel.Pages.Game
 {
     public class ViewModel_PageRoom : BaseViewModel
     {
+        private Room currentRoom;
         public string RoomName { get; private set; } = "Lumina's Rise";
         public string RoomDescription { get; private set; } = "Sunlit plaza with cobblestones and a gentle fountain.";
 
@@ -23,12 +25,12 @@ namespace MyriaRPG.ViewModel.Pages.Game
         // Exit flags
         public bool HasNorth { get => _n; set { _n = value; OnPropertyChanged(); } }
         private bool _n;
+        public bool HasEast { get => _e; set { _e = value; OnPropertyChanged(); } }
+        private bool _e;
         public bool HasSouth { get => _s; set { _s = value; OnPropertyChanged(); } }
         private bool _s;
         public bool HasWest { get => _w; set { _w = value; OnPropertyChanged(); } }
         private bool _w;
-        public bool HasEast { get => _e; set { _e = value; OnPropertyChanged(); } }
-        private bool _e;
 
 
         // Commands
@@ -49,9 +51,29 @@ namespace MyriaRPG.ViewModel.Pages.Game
             OpenSkillsCommand = new RelayCommand(OpenSkills);
             OpenQuestsCommand = new RelayCommand(OpenQuests);
 
-            HasNorth = true; HasEast = true; HasWest = false; HasSouth = false;
+            currentRoom = RoomService.GetRoomById(UserAccoundService.CurrentCharacter.CurrentRoomId);
+            RoomName = currentRoom.Name;
+            RoomDescription = currentRoom.Description;
+            GetDirections();
+            HasSouth = true;
         }
 
+        private void GetDirections()
+        {
+            HasNorth = false; HasEast = false; HasSouth = false; HasWest = false;
+            foreach (string direction in currentRoom.ExitIds.Keys)
+            {
+                switch (direction)
+                {
+                    case "north": HasNorth = true; break;
+                    case "east": HasEast = true; break;
+                    case "south": HasSouth = true; break;
+                    case "west": HasWest = true; break;
+                }
+
+            }
+
+        }
 
         private void Move(string? dir)
         {
@@ -60,6 +82,11 @@ namespace MyriaRPG.ViewModel.Pages.Game
             RoomName = $"Moved {dir}"; OnPropertyChanged(nameof(RoomName));
             RoomDescription = $"You travel {dir}."; OnPropertyChanged(nameof(RoomDescription));
             // Then set exit flags for new room accordingly
+
+            currentRoom = RoomService.GetRoomById(currentRoom.Exits[dir.ToLower()].Id);
+            RoomName = currentRoom.Name;
+            RoomDescription = currentRoom.Description;
+            GetDirections();
         }
 
 

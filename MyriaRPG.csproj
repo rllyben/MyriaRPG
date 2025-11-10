@@ -9,10 +9,42 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Data\common\caves.json" />
+    <None Remove="Data\common\cities.json" />
+    <None Remove="Data\common\dungeons.json" />
+    <None Remove="Data\common\forests.json" />
+    <None Remove="Data\common\items.json" />
+    <None Remove="Data\common\monsters.json" />
+    <None Remove="Data\common\quests.json" />
+    <None Remove="Data\common\rooms.json" />
     <None Remove="Data\locales\de.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Data\common\caves.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\common\cities.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\common\dungeons.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\common\forests.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\common\items.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\common\monsters.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\common\quests.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\common\rooms.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\locales\de.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
