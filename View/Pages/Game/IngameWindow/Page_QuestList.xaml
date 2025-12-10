@@ -1,0 +1,220 @@
+﻿<Page x:Class="MyriaRPG.View.Pages.Game.IngameWindow.Page_QuestList"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MyriaRPG.View.Pages.Game.IngameWindow"
+      Title="Quests">
+
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+    </Page.Resources>
+
+    <Grid Margin="12" Background="#101013">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- header -->
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="*"/>
+            <!-- content -->
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350"/>
+            <!-- quest list -->
+            <ColumnDefinition Width="12"/>
+            <ColumnDefinition Width="*"/>
+            <!-- details -->
+        </Grid.ColumnDefinitions>
+
+        <!-- Header: mode switch -->
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="3">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                <TextBlock Text="Quests"
+                           FontSize="20" FontWeight="SemiBold"
+                           Foreground="#EFEFEF" Margin="0,0,12,0"/>
+                <TextBlock Text="{Binding HeaderSuffix}"
+                           FontSize="14" Foreground="#9A9AB5" VerticalAlignment="Bottom"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" >
+                <!-- Active -->
+                <ToggleButton Content="Active"
+                              IsChecked="{Binding ShowActive, Mode=TwoWay}"
+                              Margin="0,0,4,0" Padding="8,2">
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton">
+                            <Setter Property="Background" Value="#232532"/>
+                            <Setter Property="Foreground" Value="#CCCCDD"/>
+                            <Setter Property="BorderBrush" Value="#44475A"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Background" Value="#3D6BE5"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+
+                <!-- Available -->
+                <ToggleButton Content="Available"
+                              IsChecked="{Binding ShowAvailable, Mode=TwoWay}"
+                              Margin="4,0,0,0" Padding="8,2">
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+                            <Setter Property="Background" Value="#232532"/>
+                            <Setter Property="Foreground" Value="#CCCCDD"/>
+                            <Setter Property="BorderBrush" Value="#44475A"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Background" Value="#3D6BE5"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+            </StackPanel>
+        </DockPanel>
+
+        <!-- Quest list -->
+        <Border Grid.Row="2" Grid.Column="0" Background="#141723" CornerRadius="8" Padding="8">
+            <ListBox ItemsSource="{Binding Quests}"
+                     SelectedItem="{Binding SelectedQuest}"
+                     BorderThickness="0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="6" Margin="0,2"
+                                Background="#181B28">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Title}"
+                                               FontWeight="SemiBold"
+                                               Foreground="#EFEFEF"/>
+                                    <TextBlock Text="  •  " Foreground="#777"/>
+                                    <TextBlock Text="Lv. " Foreground="#999"/>
+                                    <TextBlock Text="{Binding Level}" Foreground="#DDD"/>
+                                </StackPanel>
+                                <TextBlock Text="{Binding ShortDescription}"
+                                           Foreground="#B4B4C5"
+                                           TextTrimming="CharacterEllipsis"
+                                           FontSize="12"/>
+                                <TextBlock Text="{Binding ProgressText}"
+                                           Foreground="#7EB57E"
+                                           FontSize="11" Margin="0,2,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+
+        <!-- Quest details -->
+        <Border Grid.Row="2" Grid.Column="2" Background="#141723" CornerRadius="8" Padding="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <!-- title -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- meta -->
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="*"/>
+                    <!-- description + objectives -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- rewards -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- buttons -->
+                </Grid.RowDefinitions>
+
+                <!-- No selection text -->
+                <TextBlock Text="Select a quest to see details."
+                           Foreground="#777" HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Visibility="{Binding SelectedQuest, Converter={StaticResource BoolToVisibility}, ConverterParameter=Inverse}"/>
+
+                <!-- Title -->
+                <StackPanel Grid.Row="0"
+                            Visibility="{Binding SelectedQuest, Converter={StaticResource BoolToVisibility}}">
+                    <TextBlock Text="{Binding SelectedQuest.Title}"
+                               FontSize="18" FontWeight="SemiBold" Foreground="#EFEFEF"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Lv. " Foreground="#999"/>
+                        <TextBlock Text="{Binding SelectedQuest.Level}" Foreground="#DDD"/>
+                        <TextBlock Text="  •  " Foreground="#777"/>
+                        <TextBlock Text="{Binding SelectedQuest.AreaName}" Foreground="#AAA"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Description -->
+                <ScrollViewer Grid.Row="3"
+                              Visibility="{Binding SelectedQuest, Converter={StaticResource BoolToVisibility}}">
+                    <StackPanel>
+                        <TextBlock Text="Description" FontWeight="SemiBold" Foreground="#C7C7D6" Margin="0,0,0,4"/>
+                        <TextBlock Text="{Binding SelectedQuest.Description}"
+                                   TextWrapping="Wrap" Foreground="#E0E0F0"
+                                   Margin="0,0,0,8"/>
+
+                        <TextBlock Text="Objectives" FontWeight="SemiBold" Foreground="#C7C7D6" Margin="0,4,0,2"/>
+                        <ItemsControl ItemsSource="{Binding SelectedQuest.Objectives}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="• " Foreground="#999"/>
+                                        <TextBlock Text="{Binding}" Foreground="#D8D8E8"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Rewards -->
+                <StackPanel Grid.Row="4"
+                            Visibility="{Binding SelectedQuest, Converter={StaticResource BoolToVisibility}}"
+                            Margin="0,6,0,4">
+                    <TextBlock Text="Rewards" FontWeight="SemiBold" Foreground="#C7C7D6" Margin="0,0,0,2"/>
+                    <ItemsControl ItemsSource="{Binding SelectedQuest.Rewards}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="• " Foreground="#999"/>
+                                    <TextBlock Text="{Binding}" Foreground="#E5E5FF"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <!-- Action buttons -->
+                <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right"
+                            Visibility="{Binding SelectedQuest, Converter={StaticResource BoolToVisibility}}">
+                    <!-- Active-mode buttons -->
+                    <StackPanel Orientation="Horizontal"
+                                Visibility="{Binding IsShowingActive, Converter={StaticResource BoolToVisibility}}">
+                        <Button Content="Track"
+                                Command="{Binding TrackQuestCommand}"
+                                CommandParameter="{Binding SelectedQuest}"
+                                Margin="0,4,4,0" Padding="10,2"/>
+                        <Button Content="Abandon"
+                                Command="{Binding AbandonQuestCommand}"
+                                CommandParameter="{Binding SelectedQuest}"
+                                Margin="0,4,0,0" Padding="10,2"/>
+                    </StackPanel>
+
+                    <!-- Available-mode buttons -->
+                    <StackPanel Orientation="Horizontal"
+                                Visibility="{Binding IsShowingAvailable, Converter={StaticResource BoolToVisibility}}">
+                        <Button Content="Accept"
+                                Command="{Binding AcceptQuestCommand}"
+                                CommandParameter="{Binding SelectedQuest}"
+                                Margin="0,4,0,0" Padding="10,2"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

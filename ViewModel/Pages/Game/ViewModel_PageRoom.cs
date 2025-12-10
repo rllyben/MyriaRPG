@@ -8,6 +8,8 @@ using System.Windows;
 using System.Windows.Input;
 using MyriaRPG.ViewModel.Pages.Game.IngameWindow;
 using MyriaLib.Entities.Maps;
+using MyriaRPG.ViewModel.UserControls;
+using MyriaLib.Entities.Skills;
 
 namespace MyriaRPG.ViewModel.Pages.Game
 {
@@ -50,12 +52,12 @@ namespace MyriaRPG.ViewModel.Pages.Game
             OpenCharacterCommand = new RelayCommand(OpenCharacter);
             OpenSkillsCommand = new RelayCommand(OpenSkills);
             OpenQuestsCommand = new RelayCommand(OpenQuests);
-
-            currentRoom = RoomService.GetRoomById(UserAccoundService.CurrentCharacter.CurrentRoomId);
+            if (UserAccoundService.CurrentCharacter.CurrentRoom == null)
+                UserAccoundService.CurrentCharacter.CurrentRoom = RoomService.GetRoomById(UserAccoundService.CurrentCharacter.CurrentRoomId);
+            currentRoom = RoomService.GetRoomById(UserAccoundService.CurrentCharacter.CurrentRoom.Id);
             RoomName = currentRoom.Name;
             RoomDescription = currentRoom.Description;
             GetDirections();
-            HasSouth = true;
         }
 
         private void GetDirections()
@@ -84,6 +86,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
             // Then set exit flags for new room accordingly
 
             currentRoom = RoomService.GetRoomById(currentRoom.Exits[dir.ToLower()].Id);
+            UserAccoundService.CurrentCharacter.CurrentRoom = currentRoom;
             RoomName = currentRoom.Name;
             RoomDescription = currentRoom.Description;
             GetDirections();
@@ -92,24 +95,42 @@ namespace MyriaRPG.ViewModel.Pages.Game
 
         private void OpenMap()
         {
-            MainWindow.Instance.gameWindow.Visibility = Visibility.Visible; /* open text-map overlay */
+            MainWindow.Instance.gameWindow.Visibility = Visibility.Visible; /* open inventory popup */
+            var room = RoomService.GetRoomById(UserAccoundService.CurrentCharacter.CurrentRoom.Id);
+            var page = new Page_LocalMap { DataContext = new ViewModel_PageLocalMap(room) };
+            ((MainWindow.Instance.gameWindow.DataContext) as ViewModel_GameWindow).Title = ((page.DataContext) as ViewModel_PageLocalMap).WindowTitle;
+            Navigation.NavigateIngameWindow(page);
         }
         private void OpenInventory()
         {
             MainWindow.Instance.gameWindow.Visibility = Visibility.Visible; /* open inventory popup */
-            Navigation.NavigateIngameWindow(new Page_Inventory());
+            Page_Inventory inv = new Page_Inventory();
+            ((MainWindow.Instance.gameWindow.DataContext) as ViewModel_GameWindow).Title = ((inv.DataContext) as InventoryPageViewModel).WindowTitle;
+            Navigation.NavigateIngameWindow(inv);
         }
         private void OpenCharacter()
         {
             MainWindow.Instance.gameWindow.Visibility = Visibility.Visible; /* open character popup */
+            Page_Character character = new Page_Character();
+            Navigation.NavigateIngameWindow(character);
         }
         private void OpenSkills()
         {
+            var player = UserAccoundService.CurrentCharacter;                 // or wherever your current player lives
+            var skills = player.Skills;
+
+            var page = new Page_Skills()
+            {
+                DataContext = new SkillPageViewModel(player, skills)
+            };
             MainWindow.Instance.gameWindow.Visibility = Visibility.Visible;/* open skills popup */
+            Navigation.NavigateIngameWindow(page);
         }
         private void OpenQuests()
         {
             MainWindow.Instance.gameWindow.Visibility = Visibility.Visible; /* open quests popup */
+            Page_QuestList list = new Page_QuestList();
+            Navigation.NavigateIngameWindow(list);
         }
 
     }

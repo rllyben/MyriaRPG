@@ -13,6 +13,12 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
 {
     public class InventoryPageViewModel : BaseViewModel
     {
+        public string WindowTitle
+        {
+            get => _windowTitle;
+            set { _windowTitle = value; OnPropertyChanged(); }
+        }
+        private string _windowTitle = "Inventory";
         private Dictionary<ItemRarity, SolidColorBrush> rarityColors = new Dictionary<ItemRarity, SolidColorBrush>() { 
             { ItemRarity.Common, new SolidColorBrush((Color)ColorConverter.ConvertFromString("#808080"))},
             { ItemRarity.Uncommon, new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3CB371")) },

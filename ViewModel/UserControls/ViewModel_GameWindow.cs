@@ -13,7 +13,16 @@ namespace MyriaRPG.ViewModel.UserControls
 {
     public class ViewModel_GameWindow : BaseViewModel
     {
-    public string Title { get; set; } = "Window";
+        private string _title = "Window";
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                _title = value;
+                OnPropertyChanged();
+            }
+        }
 
         private double _left, _top, _width = 400, _height = 600;
         private int _zIndex;

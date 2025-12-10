@@ -110,15 +110,22 @@
 
         <!-- EDGE EXITS: appear only if the exit exists -->
         <!-- NORTH (top center) -->
-        <Button Content="North" Command="{Binding MoveCommand}" CommandParameter="North"
+        <Button Content="North" Command="{Binding MoveCommand}" 
+                CommandParameter="North"
                 Visibility="{Binding HasNorth, Converter={StaticResource BoolToVis}}"
-                HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,8,0,0" Padding="8,4" Foreground="{DynamicResource Brush.Foreground}" Background="{DynamicResource Brush.Background}"/>
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Top" 
+                Margin="0,8,0,0" Padding="8,4" Foreground="{DynamicResource Brush.Foreground}" Background="{DynamicResource Brush.Background}"/>
 
 
         <!-- SOUTH (bottom center) -->
-        <Button Content="South" Command="{Binding MoveCommand}" CommandParameter="South"
-                Visibility="{Binding HasSouth, Converter={StaticResource BoolToVis}}"
-                HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,8" Padding="8,4" Foreground="{DynamicResource Brush.Foreground}" Background="{DynamicResource Brush.Background}"/>
+        <Button Content="South" 
+                Command="{Binding MoveCommand}" 
+                CommandParameter="South"
+                Visibility="{Binding HasNorth, Converter={StaticResource BoolToVis}}"
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Bottom" 
+                Margin="0,0,0,8" Padding="8,4" Foreground="{DynamicResource Brush.Foreground}" Background="{DynamicResource Brush.Background}"/>
 
 
         <!-- WEST (left center, vertical) -->
