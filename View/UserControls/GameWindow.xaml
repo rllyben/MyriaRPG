@@ -10,8 +10,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <!-- Bind state to VM -->
     <Grid Canvas.Left="{Binding Left}" Canvas.Top="{Binding Top}"
-        Width="{Binding Width}" Height="{Binding Height}"
-        Panel.ZIndex="{Binding ZIndex}">
+        Panel.ZIndex="{Binding ZIndex}" Name="Grid">
 
         <Border Background="{DynamicResource Brush.Background}" CornerRadius="8" BorderBrush="#607D8B" BorderThickness="1">
             <Grid>

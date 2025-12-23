@@ -15,6 +15,9 @@ namespace MyriaRPG.Services
         private static Frame PageNavigationFrame = new();
         private static Frame SettingsNavigationFrame = new();
         private static Frame IngameNavigationFrame = new();
+        private static Frame GameNavigationFrame = new();
+        private static Page GameRoomPage = new();
+        private static Page GameCombatPage = new();
 
         public static bool SetNavigationFrame(Frame navFrame, int frameType)
         {
@@ -24,6 +27,17 @@ namespace MyriaRPG.Services
                 case 1: PageNavigationFrame = navFrame; return true;
                 case 2: SettingsNavigationFrame = navFrame; return true;
                 case 3: IngameNavigationFrame = navFrame; return true;
+                case 4: GameNavigationFrame = navFrame; return true;
+                default: return false;
+            }
+
+        }
+        public static bool RegisterGamePage(Page page, int pageType)
+        {
+            switch (pageType)
+            {
+                case 0: GameRoomPage = page; return true;
+                case 1: GameCombatPage = page; return true;
                 default: return false;
             }
 
@@ -76,6 +90,36 @@ namespace MyriaRPG.Services
                 return false;
             }
             return true;
+        }
+        public static bool NavigateGamePage(Page page)
+        {
+            try
+            {
+                GameNavigationFrame.Navigate(page);
+            }
+            catch
+            { 
+                return false; 
+            }
+            return true;
+        }
+        public static bool NavigateGamePageToRegister(int id)
+        {
+            try
+            {
+                switch (id)
+                {
+                    case 0: GameNavigationFrame.Navigate(GameRoomPage); return true;
+                    case 1: GameNavigationFrame.Navigate(GameCombatPage); return true;
+                    default: return false;
+                }
+
+            }
+            catch 
+            { 
+                return false; 
+            }
+
         }
 
     }

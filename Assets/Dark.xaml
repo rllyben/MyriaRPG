@@ -8,7 +8,9 @@
     <Color x:Key="Color.Border">#33FFFFFF</Color>
     <Color x:Key="Color.Accent">#FF7AB4FF</Color>
     <Color x:Key="Color.Error">#FFCF6679</Color>
-    <Color x:Key="Color.TitleBackground">#FF222222</Color>
+    <Color x:Key="Color.Success">#7EB57E</Color>
+    <Color x:Key="Color.TileBackground">#181B28</Color>
+    <Color x:Key="Color.TitleBackground">#FF222222</Color> 
 
     <!-- Brushes -->
     <SolidColorBrush x:Key="Brush.TitleBackground"      Color="{StaticResource Color.TitleBackground}"/>
@@ -18,6 +20,9 @@
     <SolidColorBrush x:Key="Brush.Border"     Color="{StaticResource Color.Border}"/>
     <SolidColorBrush x:Key="Brush.Accent"     Color="{StaticResource Color.Accent}"/>
     <SolidColorBrush x:Key="Brush.Error"      Color="{StaticResource Color.Error}"/>
+    <SolidColorBrush x:Key="Brush.Success"      Color="{StaticResource Color.Success}"/>
+    <SolidColorBrush x:Key="Brush.TileBackground"      Color="{StaticResource Color.TileBackground}"/>
+    
 
     <!-- Same control styles as Light.xaml but using DynamicResource -->
     <Style TargetType="Window">

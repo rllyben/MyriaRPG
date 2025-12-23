@@ -212,7 +212,7 @@ namespace MyriaRPG.ViewModel.Pages
         }
         private void JoinAction()
         {
-            Navigation.NavigateMain(new Page_Room());
+            Navigation.NavigateMain(new Page_Game());
         }
         private bool IsSelected()
         {
@@ -220,7 +220,7 @@ namespace MyriaRPG.ViewModel.Pages
         }
         private void CreateAction()
         {
-
+            Navigation.NavigateMain(new Page_CharacterCreation());
         }
         private void DeleteAction()
         {

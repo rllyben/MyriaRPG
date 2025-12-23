@@ -1,9 +1,16 @@
-﻿using MyriaRPG.Utils;
+﻿using MyriaLib.Entities.NPCs;
+using MyriaLib.Entities.Players;
+using MyriaLib.Services;
+using MyriaLib.Services.Formatter;
+using MyriaLib.Services.Manager;
+using MyriaLib.Systems.Enums;
+using MyriaRPG.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -11,6 +18,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
 {
     public class QuestListPageViewModel : BaseViewModel
     {
+        private Player _player = UserAccoundService.CurrentCharacter;
         // Mode
         private bool _showActive = true;
         public bool ShowActive
@@ -55,9 +63,23 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
         public QuestListItemVm? SelectedQuest
         {
             get => _selectedQuest;
-            set { _selectedQuest = value; OnPropertyChanged(); }
-        }
+            set 
+            { 
+                _selectedQuest = value; 
+                if (_selectedQuest != null) 
+                    HasSelected = true; 
+                else 
+                    HasSelected = false; 
+                OnPropertyChanged(); 
+            }
 
+        }
+        private bool _hasSelected;
+        public bool HasSelected
+        {
+            get => _hasSelected;
+            set { _hasSelected = value; OnPropertyChanged(); }
+        }
         // Commands (logic later)
         public ICommand AcceptQuestCommand { get; }
         public ICommand AbandonQuestCommand { get; }
@@ -76,60 +98,61 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             // Default mode
             ShowActive = true;
 
-            // TEMP: demo quests (replace with real data later)
-            Quests.Add(new QuestListItemVm
+            foreach (Quest quest in _player.ActiveQuests)
             {
-                Id = "q_wolves",
-                Title = "Culling the Wolves",
-                Level = 5,
-                AreaName = "Cera Valley",
-                ShortDescription = "Thin the wolf packs near the valley entrance.",
-                Description = "The guards have complained about aggressive wolves attacking travelers. " +
-                              "Cull their numbers so the road becomes safer.",
-                ProgressText = "3 / 10 wolves slain",
-                Objectives = new[]
+                QuestListItemVm temp = new QuestListItemVm()
                 {
-                    "Defeat 10 Valley Wolves",
-                    "Return to Guard Captain Ren"
-                },
-                Rewards = new[]
+                    Id = quest.Id,
+                    Title = quest.Name,
+                    Level = quest.RequiredLevel,
+                    ShortDescription = quest.Description,
+                    Description = quest.Description,
+                    ProgressText = QuestFormatter.BuildProgressText(quest)
+                };
+                List<string> AllObjectives = new List<string>();
+                foreach(string line in QuestFormatter.BuildItemsObjectivesLine(quest))
                 {
-                    "250 EXP",
-                    "35 Silver",
-                    "Leather Vest"
+                    AllObjectives.Add(line);
                 }
-            });
-
-            Quests.Add(new QuestListItemVm
-            {
-                Id = "q_flowers",
-                Title = "Healing Petals",
-                Level = 4,
-                AreaName = "Lumina Fields",
-                ShortDescription = "Collect glowing petals for the healer.",
-                Description = "The healer in Lumina needs fresh glowing petals to brew a potent salve.",
-                ProgressText = "0 / 5 petals collected",
-                Objectives = new[]
+                foreach(string line in QuestFormatter.BuildKillsObjectiveLine(quest))
                 {
-                    "Collect 5 Glowing Petals",
-                    "Bring them to the Healer in Lumina"
-                },
-                Rewards = new[]
-                {
-                    "120 EXP",
-                    "Small Healing Potion x3"
+                    AllObjectives.Add(line);
                 }
-            });
-
+                temp.Objectives = AllObjectives;
+                temp.Rewards = QuestFormatter.BuildRewardsLine(quest);
+                Quests.Add(temp);
+            }
             SelectedQuest = Quests.FirstOrDefault();
         }
 
         private void UpdateMode()
         {
-            // TODO: later:
-            // - When ShowActive: load active quests from MyriaLib
-            // - When ShowAvailable: load available quests for the current area/player level
-            // For now, keep the same demo list.
+            Quests.Clear();
+
+            if (IsShowingActive)
+            {
+                foreach (var q in _player.ActiveQuests
+                             /*.Where(q => q.Status != QuestStatus.Completed)*/)
+                {
+                    Quests.Add(ToVm(q));
+                }
+
+            }
+            else
+            {
+                var all = QuestManager.GetAvailableForPlayer(_player);
+
+                var activeIds = new HashSet<string>(_player.ActiveQuests.Select(q => q.Id));
+                foreach (var q in all.Where(q => !activeIds.Contains(q.Id)))
+                {
+                    // later: filter by level/area/etc.
+                    Quests.Add(ToVm(q));
+                }
+
+            }
+
+            SelectedQuest = Quests.FirstOrDefault();
+            OnPropertyChanged(nameof(HeaderSuffix));
         }
 
         private void AcceptQuest(QuestListItemVm? quest)
@@ -149,6 +172,18 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             if (quest == null) return;
             // TODO: mark as 'tracked' so it can show in HUD/log
         }
+
+        private QuestListItemVm ToVm(Quest quest) => new QuestListItemVm
+        {
+            Id = quest.Id,
+            Title = quest.Name,
+            Level = quest.RequiredLevel,
+            AreaName = quest.GiverNpc ?? "Unknown",
+            ShortDescription = quest.Description,
+            Description = quest.Description,
+            ProgressText = QuestFormatter.BuildProgressText(quest)
+        };
+
     }
 
     public class QuestListItemVm : BaseViewModel

@@ -22,6 +22,7 @@ namespace MyriaRPG
             MyriaLib.Systems.Localization.Load(Settings.Current.LanguageSettings.Local);
             ThemeManager.Apply(Settings.Current.VisualSettings.DarkMode);
 
+            MonsterService.LoadMonsters();
             ItemFactory.LoadItems();
             RoomService.LoadRooms();
         }

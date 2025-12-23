@@ -47,10 +47,10 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             {
                 var (x, y, label) = kv.Key switch
                 {
-                    "north" => (0.50, 0.05, "North Exit"),
-                    "south" => (0.50, 0.95, "South Exit"),
-                    "west" => (0.05, 0.50, "West Exit"),
-                    "east" => (0.95, 0.50, "East Exit"),
+                    "north" => (0.50, 0.05, r.Exits["north"].Name),
+                    "south" => (0.50, 0.95, r.Exits["south"].Name),
+                    "west" => (0.05, 0.50, r.Exits["west"].Name),
+                    "east" => (0.95, 0.50, r.Exits["east"].Name),
                     _ => (0.90, 0.90, kv.Key)
                 };
                 exits.Add(new LocalExit(kv.Value.ToString(), label, x, y));

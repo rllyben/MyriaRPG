@@ -66,7 +66,9 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,8">
             <!-- Weapon slot -->
             <Border Style="{StaticResource EquipSlot}" AllowDrop="True"
-                    ToolTip="Weapon" Background="{DynamicResource Brush.Border}">
+                    ToolTip="Weapon" Background="{DynamicResource Brush.Border}"
+        BorderThickness="3"
+        BorderBrush="{Binding EquippedWeapon.Color}">
                 <i:Interaction.Behaviors>
                     <behaviors:DropToCommandBehavior DropCommand="{Binding EquipDropCommand}" Slot="Weapon"/>
                 </i:Interaction.Behaviors>
@@ -84,21 +86,43 @@
 
             <!-- Armor slot -->
             <Border Style="{StaticResource EquipSlot}" AllowDrop="True" Margin="12,0"
-ToolTip="Armor" Background="{DynamicResource Brush.Border}">
+ToolTip="Armor" Background="{DynamicResource Brush.Border}"
+        BorderThickness="3"
+        BorderBrush="{Binding EquippedArmor.Color}">
                 <i:Interaction.Behaviors>
-                    <behaviors:DropToCommandBehavior DropCommand="{Binding EquipDropCommand}" Slot="Armor"/>
+                    <behaviors:DropToCommandBehavior DropCommand="{Binding EquipDropCommand}" Slot="Weapon"/>
                 </i:Interaction.Behaviors>
-                <ContentPresenter Content="{Binding EquippedArmor}"/>
+                <ContentPresenter Content="{Binding EquippedArmor}">
+                    <ContentPresenter.ContentTemplate>
+                        <DataTemplate DataType="{x:Type vm:ItemVm}">
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding Icon}" FontSize="28" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding Name}" TextAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ContentPresenter.ContentTemplate>
+                </ContentPresenter>
             </Border>
 
 
             <!-- Accessory slot -->
             <Border Style="{StaticResource EquipSlot}" AllowDrop="True"
-ToolTip="Accessory" Background="{DynamicResource Brush.Border}">
+ToolTip="Accessory" Background="{DynamicResource Brush.Border}"
+        BorderThickness="3"
+        BorderBrush="{Binding EquippedAccessory.Color}">
                 <i:Interaction.Behaviors>
                     <behaviors:DropToCommandBehavior DropCommand="{Binding EquipDropCommand}" Slot="Accessory"/>
                 </i:Interaction.Behaviors>
-                <ContentPresenter Content="{Binding EquippedAccessory}"/>
+                <ContentPresenter Content="{Binding EquippedAccessory}">
+                    <ContentPresenter.ContentTemplate>
+                        <DataTemplate DataType="{x:Type vm:ItemVm}">
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding Icon}" FontSize="28" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding Name}" TextAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ContentPresenter.ContentTemplate>
+                </ContentPresenter>
             </Border>
         </StackPanel>
 

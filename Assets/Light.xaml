@@ -8,6 +8,8 @@
     <Color x:Key="Color.Border">#FFAFAFAF</Color>
     <Color x:Key="Color.Accent">#FF2D7FF9</Color>
     <Color x:Key="Color.Error">#FFB00020</Color>
+    <Color x:Key="Color.Success">#FF00CC00</Color>
+    <Color x:Key="Color.TileBackground">#282518</Color>
     <Color x:Key="Color.TitleBackground">#FFEFEFEF</Color>
 
     <!-- Brushes -->
@@ -18,6 +20,8 @@
     <SolidColorBrush x:Key="Brush.Border"               Color="{StaticResource Color.Border}"/>
     <SolidColorBrush x:Key="Brush.Accent"               Color="{StaticResource Color.Accent}"/>
     <SolidColorBrush x:Key="Brush.Error"                Color="{StaticResource Color.Error}"/>
+    <SolidColorBrush x:Key="Brush.Success"                Color="{StaticResource Color.Success}"/>
+    <SolidColorBrush x:Key="Brush.TileBackground"                Color="{StaticResource Color.TileBackground}"/>
 
     <!-- Common control styles use the brushes -->
     <Style TargetType="Window">

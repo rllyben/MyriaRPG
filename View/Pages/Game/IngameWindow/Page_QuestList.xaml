@@ -10,7 +10,7 @@
         <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
     </Page.Resources>
 
-    <Grid Margin="12" Background="#101013">
+    <Grid Margin="12" Background="{DynamicResource Brush.Background}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <!-- header -->
@@ -22,7 +22,7 @@
             <ColumnDefinition Width="350"/>
             <!-- quest list -->
             <ColumnDefinition Width="12"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" MinWidth="200"/>
             <!-- details -->
         </Grid.ColumnDefinitions>
 
@@ -31,9 +31,9 @@
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
                 <TextBlock Text="Quests"
                            FontSize="20" FontWeight="SemiBold"
-                           Foreground="#EFEFEF" Margin="0,0,12,0"/>
+                           Foreground="{DynamicResource Brush.Foreground}" Margin="0,0,12,0"/>
                 <TextBlock Text="{Binding HeaderSuffix}"
-                           FontSize="14" Foreground="#9A9AB5" VerticalAlignment="Bottom"/>
+                           FontSize="14" Foreground="{DynamicResource Brush.Border}" VerticalAlignment="Bottom"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" >
@@ -43,15 +43,15 @@
                               Margin="0,0,4,0" Padding="8,2">
                     <ToggleButton.Style>
                         <Style TargetType="ToggleButton">
-                            <Setter Property="Background" Value="#232532"/>
-                            <Setter Property="Foreground" Value="#CCCCDD"/>
-                            <Setter Property="BorderBrush" Value="#44475A"/>
+                            <Setter Property="Background" Value="{DynamicResource Brush.Background}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush.Border}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
                             <Setter Property="BorderThickness" Value="1"/>
                             <Setter Property="Cursor" Value="Hand"/>
                             <Style.Triggers>
                                 <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="Background" Value="#3D6BE5"/>
-                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="Background" Value="{DynamicResource Brush.Accent}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground}"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
@@ -64,15 +64,15 @@
                               Margin="4,0,0,0" Padding="8,2">
                     <ToggleButton.Style>
                         <Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
-                            <Setter Property="Background" Value="#232532"/>
-                            <Setter Property="Foreground" Value="#CCCCDD"/>
-                            <Setter Property="BorderBrush" Value="#44475A"/>
+                            <Setter Property="Background" Value="{DynamicResource Brush.Background}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush.Border}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
                             <Setter Property="BorderThickness" Value="1"/>
                             <Setter Property="Cursor" Value="Hand"/>
                             <Style.Triggers>
                                 <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="Background" Value="#3D6BE5"/>
-                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="Background" Value="{DynamicResource Brush.Accent}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground4}"/>
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
@@ -82,29 +82,30 @@
         </DockPanel>
 
         <!-- Quest list -->
-        <Border Grid.Row="2" Grid.Column="0" Background="#141723" CornerRadius="8" Padding="8">
+        <Border Grid.Row="2" Grid.Column="0" Background="{DynamicResource Brush.Background}" CornerRadius="8" Padding="8">
             <ListBox ItemsSource="{Binding Quests}"
                      SelectedItem="{Binding SelectedQuest}"
-                     BorderThickness="0">
+                     BorderThickness="0"
+                     Background="{DynamicResource Brush.Background}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border Padding="6" Margin="0,2"
-                                Background="#181B28">
+                                Background="{DynamicResource Brush.TileBackground}">
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding Title}"
                                                FontWeight="SemiBold"
-                                               Foreground="#EFEFEF"/>
-                                    <TextBlock Text="  •  " Foreground="#777"/>
-                                    <TextBlock Text="Lv. " Foreground="#999"/>
-                                    <TextBlock Text="{Binding Level}" Foreground="#DDD"/>
+                                               Foreground="{DynamicResource Brush.Foreground}"/>
+                                    <TextBlock Text="  •  " Foreground="{DynamicResource Brush.Border}"/>
+                                    <TextBlock Text="Lv. " Foreground="{DynamicResource Brush.Border}"/>
+                                    <TextBlock Text="{Binding Level}" Foreground="{DynamicResource Brush.Foreground}"/>
                                 </StackPanel>
                                 <TextBlock Text="{Binding ShortDescription}"
-                                           Foreground="#B4B4C5"
+                                           Foreground="{DynamicResource Brush.Surface}"
                                            TextTrimming="CharacterEllipsis"
                                            FontSize="12"/>
                                 <TextBlock Text="{Binding ProgressText}"
-                                           Foreground="#7EB57E"
+                                           Foreground="{DynamicResource Brush.Success}"
                                            FontSize="11" Margin="0,2,0,0"/>
                             </StackPanel>
                         </Border>
@@ -114,7 +115,7 @@
         </Border>
 
         <!-- Quest details -->
-        <Border Grid.Row="2" Grid.Column="2" Background="#141723" CornerRadius="8" Padding="10">
+        <Border Grid.Row="2" Grid.Column="2" Background="{DynamicResource Brush.Background}" CornerRadius="8" Padding="10">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -132,39 +133,39 @@
 
                 <!-- No selection text -->
                 <TextBlock Text="Select a quest to see details."
-                           Foreground="#777" HorizontalAlignment="Center"
+                           Foreground="{DynamicResource Brush.Foreground}" HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           Visibility="{Binding SelectedQuest, Converter={StaticResource BoolToVisibility}, ConverterParameter=Inverse}"/>
+                           Visibility="{Binding HasSelected, Converter={StaticResource BoolToVisibility}, ConverterParameter=Inverse}"/>
 
                 <!-- Title -->
                 <StackPanel Grid.Row="0"
-                            Visibility="{Binding SelectedQuest, Converter={StaticResource BoolToVisibility}}">
+                            Visibility="{Binding HasSelected, Converter={StaticResource BoolToVisibility}}">
                     <TextBlock Text="{Binding SelectedQuest.Title}"
-                               FontSize="18" FontWeight="SemiBold" Foreground="#EFEFEF"/>
+                               FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource Brush.Foreground}"/>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Lv. " Foreground="#999"/>
-                        <TextBlock Text="{Binding SelectedQuest.Level}" Foreground="#DDD"/>
-                        <TextBlock Text="  •  " Foreground="#777"/>
-                        <TextBlock Text="{Binding SelectedQuest.AreaName}" Foreground="#AAA"/>
+                        <TextBlock Text="Lv. " Foreground="{DynamicResource Brush.Foreground}"/>
+                        <TextBlock Text="{Binding SelectedQuest.Level}" Foreground="{DynamicResource Brush.Foreground}"/>
+                        <TextBlock Text="  •  " Foreground="{DynamicResource Brush.Border}"/>
+                        <TextBlock Text="{Binding SelectedQuest.AreaName}" Foreground="{DynamicResource Brush.Border}"/>
                     </StackPanel>
                 </StackPanel>
 
                 <!-- Description -->
                 <ScrollViewer Grid.Row="3"
-                              Visibility="{Binding SelectedQuest, Converter={StaticResource BoolToVisibility}}">
+                              Visibility="{Binding HasSelected, Converter={StaticResource BoolToVisibility}}">
                     <StackPanel>
-                        <TextBlock Text="Description" FontWeight="SemiBold" Foreground="#C7C7D6" Margin="0,0,0,4"/>
+                        <TextBlock Text="Description" FontWeight="SemiBold" Foreground="{DynamicResource Brush.Foreground}" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding SelectedQuest.Description}"
-                                   TextWrapping="Wrap" Foreground="#E0E0F0"
+                                   TextWrapping="Wrap" Foreground="{DynamicResource Brush.Foreground}"
                                    Margin="0,0,0,8"/>
 
-                        <TextBlock Text="Objectives" FontWeight="SemiBold" Foreground="#C7C7D6" Margin="0,4,0,2"/>
+                        <TextBlock Text="Objectives" FontWeight="SemiBold" Foreground="{DynamicResource Brush.Foreground}" Margin="0,4,0,2"/>
                         <ItemsControl ItemsSource="{Binding SelectedQuest.Objectives}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="• " Foreground="#999"/>
-                                        <TextBlock Text="{Binding}" Foreground="#D8D8E8"/>
+                                        <TextBlock Text="• " Foreground="{DynamicResource Brush.Border}"/>
+                                        <TextBlock Text="{Binding}" Foreground="{DynamicResource Brush.Foreground}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -174,15 +175,15 @@
 
                 <!-- Rewards -->
                 <StackPanel Grid.Row="4"
-                            Visibility="{Binding SelectedQuest, Converter={StaticResource BoolToVisibility}}"
+                            Visibility="{Binding HasSelected, Converter={StaticResource BoolToVisibility}}"
                             Margin="0,6,0,4">
-                    <TextBlock Text="Rewards" FontWeight="SemiBold" Foreground="#C7C7D6" Margin="0,0,0,2"/>
+                    <TextBlock Text="Rewards" FontWeight="SemiBold" Foreground="{DynamicResource Brush.Foreground}" Margin="0,0,0,2"/>
                     <ItemsControl ItemsSource="{Binding SelectedQuest.Rewards}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="• " Foreground="#999"/>
-                                    <TextBlock Text="{Binding}" Foreground="#E5E5FF"/>
+                                    <TextBlock Text="• " Foreground="{DynamicResource Brush.Border}"/>
+                                    <TextBlock Text="{Binding}" Foreground="{DynamicResource Brush.Foreground}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -191,7 +192,7 @@
 
                 <!-- Action buttons -->
                 <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right"
-                            Visibility="{Binding SelectedQuest, Converter={StaticResource BoolToVisibility}}">
+                            Visibility="{Binding HasSelected, Converter={StaticResource BoolToVisibility}}">
                     <!-- Active-mode buttons -->
                     <StackPanel Orientation="Horizontal"
                                 Visibility="{Binding IsShowingActive, Converter={StaticResource BoolToVisibility}}">

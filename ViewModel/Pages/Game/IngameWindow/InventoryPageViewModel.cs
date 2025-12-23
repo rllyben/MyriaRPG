@@ -75,6 +75,36 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
 
                 Backpack.Add(temp);
             }
+            if (character.WeaponSlot != null)
+            {
+                Item weapon = character.WeaponSlot;
+                ItemVm temp = new ItemVm();
+                temp.Name = weapon.Name;
+                temp.Type = (weapon as EquipmentItem).SlotType.ToString();
+                temp.Rarity = weapon.Rarity;
+                temp.Color = rarityColors[weapon.Rarity];
+                Swap(ref _ew, temp);
+            }
+            if (character.ArmorSlot != null)
+            {
+                Item armor = character.ArmorSlot;
+                ItemVm temp = new ItemVm();
+                temp.Name = armor.Name;
+                temp.Type = (armor as EquipmentItem).SlotType.ToString();
+                temp.Rarity = armor.Rarity;
+                temp.Color = rarityColors[armor.Rarity];
+                Swap(ref _ea, temp);
+            }
+            if (character.AccessorySlot != null)
+            {
+                Item accessory = character.AccessorySlot;
+                ItemVm temp = new ItemVm();
+                temp.Name = accessory.Name;
+                temp.Type = (accessory as EquipmentItem).SlotType.ToString();
+                temp.Rarity = accessory.Rarity;
+                temp.Color = rarityColors[accessory.Rarity];
+                Swap(ref _ex, temp);
+            }
             Bronze = character.Money.Coins.TotalBronze;
         }
 
