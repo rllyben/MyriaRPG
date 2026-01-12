@@ -98,6 +98,13 @@
                     <ToolTip Content="{Binding BtnMap}"/>
                 </Button.ToolTip>
             </Button>
+            <!-- Map (central concept; still opens text/map panel as needed) -->
+            <Button Style="{StaticResource IconButton}" Command="{Binding SettingsCommand}">
+                <TextBlock Text="⚙️" FontSize="18"/>
+                <Button.ToolTip>
+                    <ToolTip Content="{Binding BtnSettings}"/>
+                </Button.ToolTip>
+            </Button>
         </StackPanel>
     </Grid>
 </Page>

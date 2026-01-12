@@ -7,6 +7,9 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Page_CharacterSelection">
+    <Page.Background>
+        <ImageBrush ImageSource="/Data/images/fantasy-group-adventurers.jpg"/>
+    </Page.Background>
 
     <Grid>
         <Grid.ColumnDefinitions>

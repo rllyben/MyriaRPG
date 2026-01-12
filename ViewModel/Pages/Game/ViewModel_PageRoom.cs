@@ -6,6 +6,7 @@ using MyriaRPG.Utils;
 using MyriaRPG.View.Pages.Game;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,8 @@ namespace MyriaRPG.ViewModel.Pages.Game
         private string btn_North;
         private string btn_South;
         private string btn_West;
-        private string btn_East;
+        private string btn_East; 
+        private Visibility _hasNpcs;
         [LocalizedKey("game.exit.north")]
         public string BtnNorth
         {
@@ -64,6 +66,11 @@ namespace MyriaRPG.ViewModel.Pages.Game
             }
 
         }
+        public Visibility HasNpcs
+        {
+            get => _hasNpcs;
+            set { _hasNpcs = value; OnPropertyChanged(); }
+        }
         private Room currentRoom;
         private string _roomName = "Lumina's Rise";
         public string RoomName 
@@ -89,6 +96,8 @@ namespace MyriaRPG.ViewModel.Pages.Game
 
         [LocalizedKey("app.general.UI.fight")]
         public string BtnFight { get; set; }
+        [LocalizedKey("app.general.UI.npcs")]
+        public string BtnNpcs { get; set; }
 
         // Exit flags
         public bool HasNorth { get => _n; set { _n = value; OnPropertyChanged(); } }
@@ -117,18 +126,28 @@ namespace MyriaRPG.ViewModel.Pages.Game
             }
 
         }
-
+        public ObservableCollection<string> Npcs { get; set; }
         // Commands
         public ICommand MoveCommand { get; }
         public ICommand StartFightCommand { get; }
+        public ICommand OpenNpcsCommand { get; }
 
         public ViewModel_PageRoom()
         {
+            Npcs = new ObservableCollection<string>();
             MoveCommand = new RelayCommand<string>(Move);
             StartFightCommand = new RelayCommand(StartFight);
             currentRoom = RoomService.GetRoomById(UserAccoundService.CurrentCharacter.CurrentRoom.Id);
             RoomName = currentRoom.Name;
             RoomDescription = currentRoom.Description;
+            if (currentRoom.Npcs != null && currentRoom.Npcs.Count > 0)
+                HasNpcs = Visibility.Visible;
+            else
+                HasNpcs = Visibility.Hidden;
+            foreach(string npc in currentRoom.Npcs)
+            {
+                Npcs.Add(npc);
+            }
             RefreshRoomFlags();
         }
 

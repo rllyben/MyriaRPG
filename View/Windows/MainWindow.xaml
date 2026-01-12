@@ -8,9 +8,9 @@
         xmlns:view="clr-namespace:MyriaRPG.View.UserControls"
         mc:Ignorable="d"
         Title="Myria" Height="450" Width="800" Background="{x:Null}" Name="Root">
-    <Grid>
-        <Canvas Name="Canvas" Background="{DynamicResource Brush.Background}" Panel.ZIndex="999" Width="{Binding ActualWidth, ElementName=Root}" Height="{Binding ActualHeight, ElementName=Root}" Margin="0,0,0,50">
-            <Frame Name="Frame" NavigationUIVisibility="Hidden" Width="{Binding ActualWidth, ElementName=Root}" Height="{Binding ActualHeight, ElementName=Root}" Margin="0,0,0,50"/>
+    <Grid Name="WindowGrid">
+        <Canvas Name="Canvas" Background="{DynamicResource Brush.Background}" Panel.ZIndex="999" Width="{Binding ActualWidth, ElementName=WindowGrid}" Height="{Binding ActualHeight, ElementName=WindowGrid}" Grid.ColumnSpan="3">
+            <Frame Name="Frame" NavigationUIVisibility="Hidden" Width="{Binding ActualWidth, ElementName=Canvas}" Height="{Binding ActualHeight, ElementName=Canvas}"/>
         </Canvas>
     </Grid>
 </Window>

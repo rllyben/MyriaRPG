@@ -34,17 +34,63 @@
     </Page.Resources>
 
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Data/images/rooms/Luminas_rise_center.jpg"/>
+        </Grid.Background>
         <!-- CENTER: Map / main content (text-only placeholder for now) -->
         <Border Margin="72" Padding="16" CornerRadius="12" Background="{DynamicResource Brush.Background}">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <TextBlock Text="{Binding RoomName}" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource Brush.Foreground}"/>
                     <TextBlock Text="{Binding RoomDescription}" Margin="0,8,0,0" TextWrapping="Wrap" Foreground="{DynamicResource Brush.Foreground}"/>
-                    <TextBlock Margin="0,16,0,0" FontStyle="Italic" Opacity="0.7" Text="[Map area placeholder — will render text map for now]" Foreground="{DynamicResource Brush.Foreground}"/>
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Center">
                         <Button Content="{Binding BtnFight}"  Command="{Binding StartFightCommand}"
-                                Visibility="{Binding BtnFightVisibility}"/>
+                                Visibility="{Binding BtnFightVisibility}" Margin="5,0,5,0"/>
                     </StackPanel>
+                    <!-- NPC interaction panel -->
+                    <Border Margin="0,12,0,0"
+                            Background="{DynamicResource Brush.Surface}"
+                            BorderBrush="{DynamicResource Brush.Border}"
+                            BorderThickness="1"
+                            CornerRadius="{StaticResource Radius.Panel}"
+                            Padding="10"
+                            Visibility="{Binding HasNpcs}">
+
+                        <StackPanel>
+                            <TextBlock Text="{Binding NpcsHeaderText}" FontWeight="SemiBold" Opacity="0.9"/>
+
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- NPC list -->
+                                <ListBox Grid.Column="0"
+                                         ItemsSource="{Binding Npcs}"
+                                         SelectedItem="{Binding SelectedNpc}"
+                                         MinHeight="120"/>
+
+                                <!-- NPC details -->
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="{Binding SelectedNpc.Name}" FontSize="16" FontWeight="SemiBold"/>
+                                    <TextBlock Text="{Binding SelectedNpc.ShortDescription}"
+                                               Margin="0,4,0,8"
+                                               TextWrapping="Wrap"
+                                               Opacity="0.85"/>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="{Binding BtnTalk}"
+                                                Command="{Binding TalkNpcCommand}"
+                                                CommandParameter="{Binding SelectedNpc}"
+                                                Margin="10,0,8,0"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
                 </StackPanel>
             </ScrollViewer>
         </Border>

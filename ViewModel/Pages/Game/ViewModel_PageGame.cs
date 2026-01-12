@@ -24,6 +24,17 @@ namespace MyriaRPG.ViewModel.Pages.Game
         private string btn_Skills;
         private string btn_Quests;
         private string btn_Map;
+        private string btn_Settings;
+        [LocalizedKey("app.general.UI.settings")]
+        public string BtnSettings
+        {
+            get { return btn_Settings; }
+            set 
+            { 
+                btn_Settings = value; 
+                OnPropertyChanged();
+            }
+        }
         [LocalizedKey("pg.inventory.title")]
         public string BtnInventory
         {
@@ -84,6 +95,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
 
         // Commands
         public ICommand MapCommand { get; }
+        public ICommand SettingsCommand { get; }
         public ICommand OpenInventoryCommand { get; }
         public ICommand OpenCharacterCommand { get; }
         public ICommand OpenSkillsCommand { get; }
@@ -95,6 +107,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
             Page_Room roomPage = new();
             Navigation.RegisterGamePage(roomPage, 0);
             MapCommand = new RelayCommand(OpenMap);
+            SettingsCommand = new RelayCommand(OpenSettings);
             OpenInventoryCommand = new RelayCommand(OpenInventory);
             OpenCharacterCommand = new RelayCommand(OpenCharacter);
             OpenSkillsCommand = new RelayCommand(OpenSkills);
@@ -123,6 +136,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
         {
             MainWindow.Instance.gameWindow.Visibility = Visibility.Visible; /* open character popup */
             Page_Character character = new Page_Character();
+            ((MainWindow.Instance.gameWindow.DataContext) as ViewModel_GameWindow).Title = ((character.DataContext) as CharacterPageViewModel).WindowTitle;
             Navigation.NavigateIngameWindow(character);
         }
         private void OpenSkills()
@@ -135,13 +149,22 @@ namespace MyriaRPG.ViewModel.Pages.Game
                 DataContext = new SkillPageViewModel(player, skills)
             };
             MainWindow.Instance.gameWindow.Visibility = Visibility.Visible;/* open skills popup */
+            ((MainWindow.Instance.gameWindow.DataContext) as ViewModel_GameWindow).Title = ((page.DataContext) as SkillPageViewModel).WindowTitle;
             Navigation.NavigateIngameWindow(page);
         }
         private void OpenQuests()
         {
             MainWindow.Instance.gameWindow.Visibility = Visibility.Visible; /* open quests popup */
-            Page_QuestList list = new Page_QuestList();
-            Navigation.NavigateIngameWindow(list);
+            Page_QuestList page = new Page_QuestList();
+            ((MainWindow.Instance.gameWindow.DataContext) as ViewModel_GameWindow).Title = ((page.DataContext) as QuestListPageViewModel).WindowTitle;
+            Navigation.NavigateIngameWindow(page);
+        }
+        private void OpenSettings()
+        {
+            MainWindow.Instance.gameWindow.Visibility = Visibility.Visible; /* open quests popup */
+            Page_Settings page = new Page_Settings();
+            ((MainWindow.Instance.gameWindow.DataContext) as ViewModel_GameWindow).Title = ((page.DataContext) as IngameWindow.ViewModel_SettingsPage).WindowTitle;
+            Navigation.NavigateIngameWindow(page);
         }
 
     }

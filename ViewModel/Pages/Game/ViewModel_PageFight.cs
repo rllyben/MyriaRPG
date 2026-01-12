@@ -113,6 +113,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
                 var entry = log[_lastLogIndex++];
                 LogLines.Add(Localization.T(entry.Key, entry.Args));
             }
+
         }
 
         private void RaiseAll()
@@ -126,6 +127,8 @@ namespace MyriaRPG.ViewModel.Pages.Game
             OnPropertyChanged(nameof(EnemyHpMax));
             OnPropertyChanged(nameof(CanAct));
             CharacterHeaderVm.Refresh();
+            if (EnemyHp < 1)
+                Navigation.NavigateGamePageToRegister(0);
         }
 
     }

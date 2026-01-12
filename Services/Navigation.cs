@@ -16,6 +16,8 @@ namespace MyriaRPG.Services
         private static Frame SettingsNavigationFrame = new();
         private static Frame IngameNavigationFrame = new();
         private static Frame GameNavigationFrame = new();
+        private static Frame IngameMenueNavigationFrame = new();
+        private static Frame IngameSettingsNavigationFrame = new();
         private static Page GameRoomPage = new();
         private static Page GameCombatPage = new();
 
@@ -28,6 +30,8 @@ namespace MyriaRPG.Services
                 case 2: SettingsNavigationFrame = navFrame; return true;
                 case 3: IngameNavigationFrame = navFrame; return true;
                 case 4: GameNavigationFrame = navFrame; return true;
+                case 5: IngameMenueNavigationFrame = navFrame; return true;
+                case 6: IngameSettingsNavigationFrame = navFrame; return true;
                 default: return false;
             }
 
@@ -100,6 +104,30 @@ namespace MyriaRPG.Services
             catch
             { 
                 return false; 
+            }
+            return true;
+        }
+        public static bool NavigateIngameMenue(Page page)
+        {
+            try
+            {
+                IngameMenueNavigationFrame.Navigate(page);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool NavigateIngameSettings(Page page)
+        {
+            try
+            {
+                IngameSettingsNavigationFrame.Navigate(page);
+            }
+            catch
+            {
+                return false;
             }
             return true;
         }

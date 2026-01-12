@@ -13,6 +13,8 @@ namespace MyriaRPG.ViewModel.UserControls
 {
     public class ViewModel_GameWindow : BaseViewModel
     {
+        private static double _oldLeft = 100;
+        private static double _oldTop = 100;
         private string _title = "Window";
         public string Title
         {
@@ -42,27 +44,32 @@ namespace MyriaRPG.ViewModel.UserControls
 
         public ViewModel_GameWindow()
         {
-            CloseCommand = new RelayCommand(() => MainWindow.Instance.gameWindow.Visibility = Visibility.Hidden);
+            CloseCommand = new RelayCommand(Close);
             //FocusCommand = new RelayCommand(() => ZIndex = WindowManager.BringToFront(this));
 
             // The parameter will be a small DTO we define below (DragDeltaArgs / ResizeDeltaArgs)
             DragDeltaCommand = new RelayCommand<DragDeltaArgs>(OnDragDelta);
             ResizeDeltaCommand = new RelayCommand<ResizeDeltaArgs>(OnResizeDelta);
 
-            Left = 100;
-            Top = 100;
+            Left = _oldLeft;
+            Top = _oldTop;
         }
-
+        private void Close()
+        {
+            _oldLeft = Left;
+            _oldTop = Top;
+            MainWindow.Instance.gameWindow.Visibility = Visibility.Hidden;
+        }
         private void OnDragDelta(DragDeltaArgs a)
         {
             Left += a.HorizontalChange;
             Top += a.VerticalChange;
 
             // optional: clamp inside parent bounds if supplied
-            if (Left < 0 - (Width - 60)) Left = 0-(Width - 60);
+            if (Left < -40) Left = -40;
             if (Top < 0) Top = 0;
-            if (Left > 800) Left = 800;
-            if (Top > 450) Top = 450;
+            if (Left > MainWindow.Instance.WindowGrid.ActualWidth - 20) Left = MainWindow.Instance.WindowGrid.ActualWidth - 20;
+            if (Top > MainWindow.Instance.WindowGrid.ActualHeight - 20) Top = MainWindow.Instance.WindowGrid.ActualHeight - 20;
 
             MainWindow.Instance.gameWindow.Margin = new Thickness(Left, Top, 0, 0);
         }

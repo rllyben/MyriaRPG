@@ -4,6 +4,7 @@ using MyriaLib.Models.Settings;
 using MyriaRPG.Services;
 using MyriaRPG.View.UserControls;
 using MyriaRPG.ViewModel.UserControls;
+using MyriaRPG.ViewModel.Windows;
 
 namespace MyriaRPG.View.Windows
 {

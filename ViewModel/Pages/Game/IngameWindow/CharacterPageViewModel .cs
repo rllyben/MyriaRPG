@@ -260,7 +260,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             get => _windowTitle;
             set { _windowTitle = value; OnPropertyChanged(); }
         }
-        private string _windowTitle = Localization.T("pg.character.info.title");
+        private string _windowTitle = Localization.T("app.general.UI.character");
 
         public CharacterPageViewModel(Player player) // pass your real models
         {
