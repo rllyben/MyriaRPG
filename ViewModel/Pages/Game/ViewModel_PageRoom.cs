@@ -1,17 +1,69 @@
 ﻿using MyriaLib.Entities.Maps;
 using MyriaLib.Services;
+using MyriaRPG.Model;
+using MyriaRPG.Services;
 using MyriaRPG.Utils;
+using MyriaRPG.View.Pages.Game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace MyriaRPG.ViewModel.Pages.Game
 {
     public class ViewModel_PageRoom : BaseViewModel
     {
+        private string btn_North;
+        private string btn_South;
+        private string btn_West;
+        private string btn_East;
+        [LocalizedKey("game.exit.north")]
+        public string BtnNorth
+        {
+            get { return btn_North; }
+            set
+            {
+                btn_North = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("game.exit.south")]
+        public string BtnSouth
+        {
+            get { return btn_South; }
+            set
+            {
+                btn_South = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("game.exit.west")]
+        public string BtnWest
+        {
+            get { return btn_West; }
+            set
+            {
+                btn_West = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("game.exit.east")]
+        public string BtnEast
+        {
+            get { return btn_East; }
+            set
+            {
+                btn_East = value;
+                OnPropertyChanged();
+            }
+
+        }
         private Room currentRoom;
         private string _roomName = "Lumina's Rise";
         public string RoomName 
@@ -35,6 +87,9 @@ namespace MyriaRPG.ViewModel.Pages.Game
 
         }
 
+        [LocalizedKey("app.general.UI.fight")]
+        public string BtnFight { get; set; }
+
         // Exit flags
         public bool HasNorth { get => _n; set { _n = value; OnPropertyChanged(); } }
         private bool _n;
@@ -44,20 +99,45 @@ namespace MyriaRPG.ViewModel.Pages.Game
         private bool _s;
         public bool HasWest { get => _w; set { _w = value; OnPropertyChanged(); } }
         private bool _w;
+        private Visibility btnFightVisibility;
+        public Visibility BtnFightVisibility { get => btnFightVisibility; set { btnFightVisibility = value; OnPropertyChanged(); } }
+        private bool _hasMonsters;
+        public bool HasMonsters
+        {
+            get => _hasMonsters;
+            set 
+            { 
+                _hasMonsters = value;
+                if (value == true)
+                    BtnFightVisibility = Visibility.Visible;
+                else
+                    BtnFightVisibility = Visibility.Hidden;
 
+                OnPropertyChanged(); 
+            }
+
+        }
 
         // Commands
         public ICommand MoveCommand { get; }
+        public ICommand StartFightCommand { get; }
 
         public ViewModel_PageRoom()
         {
             MoveCommand = new RelayCommand<string>(Move);
+            StartFightCommand = new RelayCommand(StartFight);
             currentRoom = RoomService.GetRoomById(UserAccoundService.CurrentCharacter.CurrentRoom.Id);
             RoomName = currentRoom.Name;
             RoomDescription = currentRoom.Description;
-            GetDirections();
+            RefreshRoomFlags();
         }
 
+        private void RefreshRoomFlags()
+        {
+            GetDirections();
+            HasMonsters = currentRoom.HasMonsters && !currentRoom.IsCleared
+                         && (currentRoom.Monsters.Count > 0 || currentRoom.CurrentMonsters.Count > 0);
+        }
         private void GetDirections()
         {
             HasNorth = false; HasEast = false; HasSouth = false; HasWest = false;
@@ -74,6 +154,10 @@ namespace MyriaRPG.ViewModel.Pages.Game
             }
 
         }
+        private void StartFight()
+        {
+            Navigation.NavigateGamePage(new Page_Fight());
+        }
         private void Move(string? dir)
         {
             if (string.IsNullOrWhiteSpace(dir)) return;
@@ -87,6 +171,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
             RoomName = currentRoom.Name;
             RoomDescription = currentRoom.Description;
             GetDirections();
+            RefreshRoomFlags();
         }
 
     }

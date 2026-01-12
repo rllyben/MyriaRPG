@@ -5,19 +5,120 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MyriaRPG.View.Pages.Game"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Page_Fight">
-    <Grid>
-        <Border Background="#1B1E2A" CornerRadius="8" Padding="12">
-            <StackPanel>
-                <TextBlock Text="Combat" FontSize="18" FontWeight="SemiBold" Foreground="#EFEFEF"/>
-                <TextBlock Text="{Binding ActiveMonsterName}" Foreground="#D0D0E8" Margin="0,6,0,0"/>
+      Background="{DynamicResource Brush.Background}">
 
-                <StackPanel Orientation="Horizontal" Margin="0,12,0,0" HorizontalAlignment="Right">
-                    <Button Content="Attack" IsEnabled="False" Padding="10,2" Margin="0,0,6,0"/>
-                    <Button Content="Run" Command="{Binding CloseCombatCommand}" Padding="10,2"/>
-                </StackPanel>
-            </StackPanel>
-        </Border>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid Margin="12" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Border Grid.Row="0"
+                Background="{DynamicResource Brush.Surface}"
+                BorderBrush="{DynamicResource Brush.Border}"
+                BorderThickness="1"
+                CornerRadius="{StaticResource Radius.Panel}"
+                Padding="12">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel>
+                        <TextBlock Text="{Binding Title}" Foreground="{DynamicResource Brush.Foreground}" FontSize="18" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding ActiveMonsterName}" Opacity="0.8" Foreground="{DynamicResource Brush.Foreground}" Margin="0,4,0,0"/>
+                        <TextBlock Text="{Binding EnemyHp, StringFormat=Enemy HP: {0}}"
+                               Opacity="0.7" Margin="0,4,0,0" Foreground="{DynamicResource Brush.Foreground}"/>
+                        <TextBlock Text="{Binding PlayerHp, StringFormat=Your HP: {0}}"
+                               Opacity="0.7" Foreground="{DynamicResource Brush.Foreground}"/>
+                        <TextBlock Text="{Binding PlayerMp, StringFormat=Your MP: {0}}"
+                               Opacity="0.7" Foreground="{DynamicResource Brush.Foreground}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
+                        <Button Content="{Binding BtnAttack}"
+                            Command="{Binding AttackCommand}"
+                            IsEnabled="{Binding CanAct}"
+                            Margin="0,0,8,0" Foreground="{DynamicResource Brush.Foreground}"/>
+                        <Button Content="{Binding BtnRun}"
+                            Command="{Binding RunCommand}" Foreground="{DynamicResource Brush.Foreground}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Log -->
+            <Border Grid.Row="1"
+                Margin="0,10,0,10"
+                Background="{DynamicResource Brush.Surface}"
+                BorderBrush="{DynamicResource Brush.Border}"
+                BorderThickness="1"
+                CornerRadius="{StaticResource Radius.Panel}"
+                Padding="8">
+                <ListBox ItemsSource="{Binding LogLines}"
+                     Background="Transparent"
+                     BorderThickness="0"
+                     Foreground="{DynamicResource Brush.Foreground}"/>
+            </Border>
+
+            <!-- Skill bar (icons) -->
+            <Border Grid.Row="2"
+                Background="{DynamicResource Brush.Surface}"
+                BorderBrush="{DynamicResource Brush.Border}"
+                BorderThickness="1"
+                CornerRadius="{StaticResource Radius.Panel}"
+                Padding="8">
+
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Left"
+                           Text="{Binding SkillsLabel}"
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0"
+                           Opacity="0.8"
+                           Foreground="{DynamicResource Brush.Foreground}"/>
+
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                              VerticalScrollBarVisibility="Disabled">
+                        <ItemsControl ItemsSource="{Binding Skills}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Width="44" Height="44"
+                                        Margin="4,0"
+                                        Command="{Binding DataContext.CastSkillCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                        CommandParameter="{Binding}" Foreground="{DynamicResource Brush.Foreground}">
+                                        <Button.ToolTip>
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" Foreground="{DynamicResource Brush.Foreground}"/>
+                                                <TextBlock Text="{Binding Description}" TextWrapping="Wrap" MaxWidth="220" Opacity="0.8" Foreground="{DynamicResource Brush.Foreground}"/>
+                                                <TextBlock Text="{Binding ManaCost, StringFormat=Mana: {0}}" Opacity="0.8" Foreground="{DynamicResource Brush.Foreground}"/>
+                                            </StackPanel>
+                                        </Button.ToolTip>
+
+                                        <!-- Placeholder icon: first letter -->
+                                        <TextBlock Text="{Binding Name, ConverterCulture=en-US}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontWeight="Bold" Foreground="{DynamicResource Brush.Foreground}"/>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+        </Grid>
     </Grid>
 </Page>

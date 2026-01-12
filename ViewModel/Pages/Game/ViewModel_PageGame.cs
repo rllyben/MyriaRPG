@@ -1,22 +1,84 @@
-﻿using MyriaLib.Entities.Players;
-using MyriaLib.Services;
-using MyriaRPG.View.Windows;
-using MyriaRPG.Utils;
-using MyriaRPG.Services;
-using MyriaRPG.View.Pages.Game.IngameWindow;
-using System.Windows;
-using System.Windows.Input;
-using MyriaRPG.ViewModel.Pages.Game.IngameWindow;
-using MyriaLib.Entities.Maps;
-using MyriaRPG.ViewModel.UserControls;
+﻿using MyriaLib.Entities.Maps;
+using MyriaLib.Entities.Players;
 using MyriaLib.Entities.Skills;
-using System.Windows.Controls;
+using MyriaLib.Services;
+using MyriaRPG.Model;
+using MyriaRPG.Services;
+using MyriaRPG.Utils;
 using MyriaRPG.View.Pages.Game;
+using MyriaRPG.View.Pages.Game.IngameWindow;
+using MyriaRPG.View.Windows;
+using MyriaRPG.ViewModel.Pages.Game.IngameWindow;
+using MyriaRPG.ViewModel.UserControls;
+using System.Security.Cryptography;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace MyriaRPG.ViewModel.Pages.Game
 {
     public class ViewModel_PageGame : BaseViewModel
     {
+        private string btn_Inventory;
+        private string btn_Character;
+        private string btn_Skills;
+        private string btn_Quests;
+        private string btn_Map;
+        [LocalizedKey("pg.inventory.title")]
+        public string BtnInventory
+        {
+            get { return btn_Inventory; }
+            set
+            {
+                btn_Inventory = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.character.info.title")]
+        public string BtnCharacter
+        {
+            get { return btn_Character; }
+            set
+            {
+                btn_Character = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.skills.title")]
+        public string BtnSkills
+        {
+            get { return btn_Skills; }
+            set
+            {
+                btn_Skills = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.quests.title")]
+        public string BtnQuests
+        {
+            get { return btn_Quests; }
+            set
+            {
+                btn_Quests = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("game.map.title")]
+        public string BtnMap
+        {
+            get { return btn_Map; }
+            set
+            {
+                btn_Map = value;
+                OnPropertyChanged();
+            }
+
+        }
         // Character (name-only for header)
         public CharacterHeaderVm Char { get; } = new();
 
@@ -31,9 +93,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
         public ViewModel_PageGame()
         {
             Page_Room roomPage = new();
-            Page_Fight combatPage = new();
             Navigation.RegisterGamePage(roomPage, 0);
-            Navigation.RegisterGamePage(combatPage, 1);
             MapCommand = new RelayCommand(OpenMap);
             OpenInventoryCommand = new RelayCommand(OpenInventory);
             OpenCharacterCommand = new RelayCommand(OpenCharacter);
@@ -89,13 +149,14 @@ namespace MyriaRPG.ViewModel.Pages.Game
 
     public class CharacterHeaderVm : BaseViewModel
     {
+        private static CharacterHeaderVm instance;
         private string _name = string.Empty;
         public string Name
         {
             get { return _name; }
             set 
             { 
-                _name = value;
+                _name = UserAccoundService.CurrentCharacter.Name;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(NameAndLevel));
             }
@@ -108,7 +169,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
             get { return _level; }
             set 
             { 
-                _level = value;
+                _level = UserAccoundService.CurrentCharacter.Level;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(NameAndLevel));
             } 
@@ -121,9 +182,9 @@ namespace MyriaRPG.ViewModel.Pages.Game
             get { return _xp; }
             set 
             { 
-                _xp = value;
+                _xp = UserAccoundService.CurrentCharacter.Experience;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(XpPercent));
+                XpPercent++;
             } 
 
         }
@@ -134,9 +195,9 @@ namespace MyriaRPG.ViewModel.Pages.Game
             get { return _xpToNext; }
             set 
             { 
-                _xpToNext = value <= 0 ? 1 : value;
+                _xpToNext = UserAccoundService.CurrentCharacter.ExpForNextLvl;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(XpPercent));
+                XpPercent++;
             }
         
         }
@@ -147,8 +208,8 @@ namespace MyriaRPG.ViewModel.Pages.Game
             get { return _hp; }
             set 
             { 
-                _hp = value; OnPropertyChanged();
-                OnPropertyChanged(nameof(HpDisplay));
+                _hp = UserAccoundService.CurrentCharacter.CurrentHealth; OnPropertyChanged();
+                HpDisplay = "";
             }
         
         }
@@ -159,9 +220,9 @@ namespace MyriaRPG.ViewModel.Pages.Game
             get { return _hpMax; }
             set 
             {
-                _hpMax = value <= 0 ? 1 : value;
+                _hpMax = UserAccoundService.CurrentCharacter.MaxHealth;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(HpDisplay));
+                HpDisplay = "";
             }
         
         }
@@ -172,9 +233,9 @@ namespace MyriaRPG.ViewModel.Pages.Game
             get { return _mp; }
             set 
             { 
-                _mp = value;
+                _mp = UserAccoundService.CurrentCharacter.CurrentMana;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(ManaDisplay));
+                ManaDisplay = "";
             }
         
         }
@@ -185,17 +246,46 @@ namespace MyriaRPG.ViewModel.Pages.Game
             get { return _mpMax; }
             set 
             { 
-                _mpMax = value <= 0 ? 1 : value;
+                _mpMax = UserAccoundService.CurrentCharacter.MaxMana;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(ManaDisplay));
+                ManaDisplay = "";
             }
         
         }
-
         public string NameAndLevel { get; set; }
-        public int XpPercent { get; set; }
-        public string HpDisplay { get; set; }
-        public string ManaDisplay { get; set; }
+        private int xpPercent;
+        public int XpPercent 
+        {
+            get => xpPercent;
+            set
+            {
+                xpPercent = (int)Math.Round(100.0 * CurrentXp / Math.Max(1, XpToNext));
+                OnPropertyChanged();
+            }
+
+        }
+        private string hpDisplay;
+        public string HpDisplay 
+        {
+            get => hpDisplay;
+            set
+            {
+                hpDisplay = $"{Hp}/{MaxHp}";
+                OnPropertyChanged();
+            }
+
+        }
+        private string manaDisplay;
+        public string ManaDisplay 
+        {
+            get => manaDisplay;
+            set
+            {
+                manaDisplay = $"{Mana}/{MaxMana}";
+                OnPropertyChanged();
+            }
+
+        }
 
         public CharacterHeaderVm()
         {
@@ -206,8 +296,18 @@ namespace MyriaRPG.ViewModel.Pages.Game
             XpPercent = (int)Math.Round(100.0 * CurrentXp / Math.Max(1, XpToNext));
             HpDisplay = $"{Hp}/{MaxHp}";
             ManaDisplay = $"{Mana}/{MaxMana}";
+            instance = this;
         }
-
+        public static void Refresh()
+        {
+            instance.Hp++;
+            instance.MaxHp++;
+            instance.Mana++;
+            instance.MaxMana++;
+            instance.CurrentXp++;
+            instance.XpToNext++;
+            instance.XpPercent++;
+        }
         public void Set(string name, int level, long currentXp, long xpToNext, int hp, int maxHp, int mana, int maxMana)
         {
             Name = name; Level = level; CurrentXp = currentXp; XpToNext = xpToNext;

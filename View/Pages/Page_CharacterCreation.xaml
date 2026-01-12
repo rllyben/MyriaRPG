@@ -41,7 +41,7 @@
 
         <!-- Header -->
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Create Character" FontSize="22" FontWeight="SemiBold" Foreground="{DynamicResource Brush.Foreground}"/>
+            <TextBlock Text="{Binding TblTitle}" FontSize="22" FontWeight="SemiBold" Foreground="{DynamicResource Brush.Foreground}"/>
             <TextBlock Text="Choose a class and a name. You can change UI later, this is the functional version."
                        Opacity="0.75" Margin="0,4,0,0" Foreground="{DynamicResource Brush.Foreground}"/>
         </StackPanel>
@@ -57,7 +57,7 @@
             <!-- Left: inputs -->
             <Border Grid.Column="0" Padding="12" CornerRadius="10" Background="{DynamicResource Brush.Background}">
                 <StackPanel>
-                    <TextBlock Text="Name" FontWeight="SemiBold" Margin="0,0,0,6" Foreground="{DynamicResource Brush.Foreground}"/>
+                    <TextBlock Text="{Binding TblName}" FontWeight="SemiBold" Margin="0,0,0,6" Foreground="{DynamicResource Brush.Foreground}"/>
                     <TextBox Text="{Binding CharacterName, UpdateSourceTrigger=PropertyChanged}"
                              MaxLength="16"
                              Background="{DynamicResource Brush.Border}"
@@ -65,7 +65,7 @@
                              Padding="8"
                              Margin="0,0,0,10"/>
 
-                    <TextBlock Text="Class" FontWeight="SemiBold" Margin="0,0,0,6" Foreground="{DynamicResource Brush.Foreground}"/>
+                    <TextBlock Text="{Binding TblClass}" FontWeight="SemiBold" Margin="0,0,0,6" Foreground="{DynamicResource Brush.Foreground}"/>
                     <ListBox ItemsSource="{Binding Classes}"
                              SelectedItem="{Binding SelectedClass}"
                              Background="{DynamicResource Brush.Border}"
@@ -87,15 +87,15 @@
             <!-- Right: preview -->
             <Border Grid.Column="2" Padding="12" CornerRadius="10" Background="{DynamicResource Brush.Background}">
                 <StackPanel>
-                    <TextBlock Text="Preview" FontWeight="SemiBold" Margin="0,0,0,10" Foreground="{DynamicResource Brush.Foreground}"/>
+                    <TextBlock Text="{Binding TblPreview}" FontWeight="SemiBold" Margin="0,0,0,10" Foreground="{DynamicResource Brush.Foreground}"/>
 
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-                        <TextBlock Text="Name: " Opacity="0.7" Foreground="{DynamicResource Brush.Foreground}"/>
+                        <TextBlock Text="{Binding TblShowName}" Opacity="0.7" Foreground="{DynamicResource Brush.Foreground}"/>
                         <TextBlock Text="{Binding CharacterName}" FontWeight="SemiBold"  Foreground="{DynamicResource Brush.Foreground}"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-                        <TextBlock Text="Class: " Opacity="0.7" Foreground="{DynamicResource Brush.Foreground}"/>
+                        <TextBlock Text="{Binding TblShowClass}" Opacity="0.7" Foreground="{DynamicResource Brush.Foreground}"/>
                         <TextBlock Text="{Binding SelectedClass}" FontWeight="SemiBold" Foreground="{DynamicResource Brush.Foreground}"/>
                     </StackPanel>
 
@@ -112,12 +112,11 @@
 
         <!-- Buttons -->
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
-            <Button Content="Back" Command="{Binding BackCommand}"
-                    Style="{StaticResource IconButton}" Padding="14,6" Margin="0,0,8,0"/>
-            <Button Content="Create"
+            <Button Content="{Binding BtnBack}" Command="{Binding BackCommand}"
+                    Padding="14,6" Margin="0,0,8,0"/>
+            <Button Content="{Binding BtnCreate}"
                     Command="{Binding CreateCommand}"
                     Padding="14,6"
-                    Style="{StaticResource IconButton}"
                     IsEnabled="{Binding CanCreate}"/>
         </StackPanel>
     </Grid>

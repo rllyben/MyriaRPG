@@ -67,35 +67,35 @@
             <Button Style="{StaticResource IconButton}" Command="{Binding OpenInventoryCommand}">
                 <TextBlock Text="🎒" FontSize="18"/>
                 <Button.ToolTip>
-                    <ToolTip Content="Inventory"/>
+                    <ToolTip Content="{Binding BtnInventory}"/>
                 </Button.ToolTip>
             </Button>
             <!-- Character -->
             <Button Style="{StaticResource IconButton}" Command="{Binding OpenCharacterCommand}">
                 <TextBlock Text="🧍" FontSize="18"/>
                 <Button.ToolTip>
-                    <ToolTip Content="Character"/>
+                    <ToolTip Content="{Binding BtnCharacter}"/>
                 </Button.ToolTip>
             </Button>
             <!-- Skills -->
             <Button Style="{StaticResource IconButton}" Command="{Binding OpenSkillsCommand}">
                 <TextBlock Text="✨" FontSize="18"/>
                 <Button.ToolTip>
-                    <ToolTip Content="Skills"/>
+                    <ToolTip Content="{Binding BtnSkills}"/>
                 </Button.ToolTip>
             </Button>
             <!-- Quests -->
             <Button Style="{StaticResource IconButton}" Command="{Binding OpenQuestsCommand}">
                 <TextBlock Text="📜" FontSize="18"/>
                 <Button.ToolTip>
-                    <ToolTip Content="Quests"/>
+                    <ToolTip Content="{Binding BtnQuests}"/>
                 </Button.ToolTip>
             </Button>
             <!-- Map (central concept; still opens text/map panel as needed) -->
             <Button Style="{StaticResource IconButton}" Command="{Binding MapCommand}">
                 <TextBlock Text="🗺️" FontSize="18"/>
                 <Button.ToolTip>
-                    <ToolTip Content="Map"/>
+                    <ToolTip Content="{Binding BtnMap}"/>
                 </Button.ToolTip>
             </Button>
         </StackPanel>

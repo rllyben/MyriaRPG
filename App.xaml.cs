@@ -1,6 +1,8 @@
 ﻿using MyriaLib.Models.Settings;
 using MyriaLib.Services;
 using MyriaLib.Services.Builder;
+using MyriaLib.Services.Manager;
+using MyriaLib.Entities.Monsters;
 using MyriaLib.Systems.Enums;
 using MyriaRPG.Services;
 using System.Configuration;
@@ -22,9 +24,11 @@ namespace MyriaRPG
             MyriaLib.Systems.Localization.Load(Settings.Current.LanguageSettings.Local);
             ThemeManager.Apply(Settings.Current.VisualSettings.DarkMode);
 
-            MonsterService.LoadMonsters();
+            List<Monster> mobs = MonsterService.LoadMonsters();
+            QuestManager.LoadQuests();
             ItemFactory.LoadItems();
             RoomService.LoadRooms();
+            RoomService.ConnectMonsterRooms(mobs, RoomService.AllRooms);
         }
 
     }

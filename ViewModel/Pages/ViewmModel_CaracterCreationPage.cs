@@ -2,7 +2,9 @@
 using MyriaLib.Entities.Players;
 using MyriaLib.Models;
 using MyriaLib.Services;
+using MyriaLib.Systems;
 using MyriaLib.Systems.Enums;
+using MyriaRPG.Model;
 using MyriaRPG.Services;
 using MyriaRPG.Utils;
 using MyriaRPG.View.Pages;
@@ -20,6 +22,102 @@ namespace MyriaRPG.ViewModel.Pages
 {
     class ViewmModel_CaracterCreationPage : BaseViewModel
     {
+        private string tbl_Name;
+        private string tbl_Class;
+        private string tbl_ShowName;
+        private string tbl_ShowClass;
+        private string tbl_Preview;
+        private string tbl_Title;
+        private string btn_Back;
+        private string btn_Create;
+        [LocalizedKey("app.general.UI.name")]
+        public string TblName
+        {
+            get { return tbl_Name; }
+            private set
+            {
+                tbl_Name = value;
+                OnPropertyChanged(nameof(TblName));
+            }
+
+        }
+        [LocalizedKey("app.general.UI.name")]
+        public string TblShowName
+        {
+            get { return tbl_ShowName; }
+            private set
+            {
+                tbl_ShowName = value + ": ";
+                OnPropertyChanged(nameof(TblShowName));
+            }
+
+        }
+        [LocalizedKey("pg.character.create.class")]
+        public string TblClass
+        {
+            get { return tbl_Class; }
+            private set
+            {
+                tbl_Class = value;
+                OnPropertyChanged(nameof(TblClass));
+            }
+
+        }
+        [LocalizedKey("pg.character.create.class")]
+        public string TblShowClass
+        {
+            get { return tbl_ShowClass; }
+            private set
+            {
+                tbl_Class = value + ": ";
+                OnPropertyChanged(nameof(TblShowClass));
+            }
+
+        }
+        [LocalizedKey("pg.character.create.preview")]
+        public string TblPreview
+        {
+            get { return tbl_Preview; }
+            private set
+            {
+                tbl_Preview = value;
+                OnPropertyChanged(nameof(TblPreview));
+            }
+
+        }
+        [LocalizedKey("pg.character.create.title")]
+        public string TblTitle
+        {
+            get { return tbl_Title; }
+            private set
+            {
+                tbl_Title = value;
+                OnPropertyChanged(nameof(TblTitle));
+            }
+
+        }
+        [LocalizedKey("app.general.UI.back")]
+        public string BtnBack
+        {
+            get { return btn_Back; }
+            private set
+            {
+                btn_Back = value;
+                OnPropertyChanged(nameof(BtnBack));
+            }
+
+        }
+        [LocalizedKey("app.general.UI.create")]
+        public string BtnCreate
+        {
+            get { return btn_Create; }
+            private set
+            {
+                btn_Create = value;
+                OnPropertyChanged(nameof(BtnCreate));
+            }
+
+        }
         public ObservableCollection<PlayerClass> Classes { get; } =
             new(Enum.GetValues(typeof(PlayerClass)).Cast<PlayerClass>());
 
@@ -74,11 +172,11 @@ namespace MyriaRPG.ViewModel.Pages
             var name = (CharacterName ?? "").Trim();
 
             if (name.Length < 2)
-                ValidationText = "Name must be at least 2 characters.";
+                ValidationText = Localization.T("pg.character.create.validation.name.short");
             else if (name.Any(ch => !char.IsLetterOrDigit(ch) && ch != '_' && ch != '-'))
-                ValidationText = "Name may only contain letters, numbers, '_' or '-'.";
+                ValidationText = Localization.T("pg.character.create.validation.name.invalid");
             else if (SelectedClass is null)
-                ValidationText = "Please choose a class.";
+                ValidationText = Localization.T("pg.character.create.validation.class.missing");
 
             CanCreate = string.IsNullOrWhiteSpace(ValidationText);
         }

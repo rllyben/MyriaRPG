@@ -1,8 +1,10 @@
 ﻿using MyriaLib.Entities.Players;
 using MyriaLib.Entities.Skills;
+using MyriaLib.Systems;
+using MyriaRPG.Model;
 using MyriaRPG.Utils;
-using MyriaRPG.ViewModel.Windows;
 using MyriaRPG.View.Windows;
+using MyriaRPG.ViewModel.Windows;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -10,11 +12,29 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
 {
     public class SkillPageViewModel : BaseViewModel
     {
+        private string tbl_Title;
+        [LocalizedKey("pg.skills.title")]
+        public string TblTitle
+        {
+            get { return tbl_Title; }
+            set
+            {
+                tbl_Title = value;
+                OnPropertyChanged();
+            }
+
+        }
+
         public ObservableCollection<SkillVm> Skills { get; } = new();
 
         public ICommand OpenDetailsCommand { get; }
 
-        public string WindowTitle => "Skills";
+        public string WindowTitle
+        {
+            get => _windowTitle;
+            set { _windowTitle = value; OnPropertyChanged(); }
+        }
+        private string _windowTitle = Localization.T("pg.skills.title");
 
         public string HeaderText => $"{Skills.Count} learned";
 

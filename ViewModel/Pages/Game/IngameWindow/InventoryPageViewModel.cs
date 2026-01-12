@@ -1,6 +1,7 @@
 ﻿using MyriaLib.Entities.Items;
 using MyriaLib.Entities.Players;
 using MyriaLib.Services;
+using MyriaLib.Systems;
 using MyriaLib.Systems.Enums;
 using MyriaRPG.Model;
 using MyriaRPG.Model.Behaviors;
@@ -18,7 +19,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             get => _windowTitle;
             set { _windowTitle = value; OnPropertyChanged(); }
         }
-        private string _windowTitle = "Inventory";
+        private string _windowTitle = Localization.T("pg.inventory.title");
         private Dictionary<ItemRarity, SolidColorBrush> rarityColors = new Dictionary<ItemRarity, SolidColorBrush>() { 
             { ItemRarity.Common, new SolidColorBrush((Color)ColorConverter.ConvertFromString("#808080"))},
             { ItemRarity.Uncommon, new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3CB371")) },

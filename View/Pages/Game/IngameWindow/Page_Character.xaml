@@ -29,7 +29,7 @@
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.ColumnSpan="3" VerticalAlignment="Center" Margin="0,0,0,6">
             <TextBlock Text="{Binding CharacterName}" FontSize="20" FontWeight="SemiBold" Foreground="#EFEFEF" />
             <TextBlock Text="  •  " Foreground="#7E7E8A" FontSize="16" Margin="4,0"/>
-            <TextBlock Text="Level " Foreground="#AFAFBA" FontSize="16"/>
+            <TextBlock Text="{Binding TblLevel}" Foreground="#AFAFBA" FontSize="16"/>
             <TextBlock Text="{Binding Level}" Foreground="#EFEFEF" FontSize="16" FontWeight="SemiBold"/>
         </StackPanel>
 
@@ -49,13 +49,13 @@
         <!-- Base stats (left) -->
         <Border Grid.Row="3" Grid.Column="0" Padding="12" Background="#141723" CornerRadius="8">
             <StackPanel>
-                <TextBlock Text="Base Stats" Foreground="#C7C7D6" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                <TextBlock Text="{Binding TblBase}" Foreground="#C7C7D6" FontWeight="SemiBold" Margin="0,0,0,8"/>
 
                 <!-- 4 columns: Label | [-] | Value | [+] -->
                 <UniformGrid Columns="4" HorizontalAlignment="Stretch">
 
                     <!-- STR -->
-                    <TextBlock Text="STR" Foreground="#889" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding TblSTR}" Foreground="#889" VerticalAlignment="Center"/>
                     <Button Content="−"
               Command="{Binding DecreaseStatCommand}"
               CommandParameter="STR"
@@ -69,7 +69,7 @@
               Padding="0" />
 
                     <!-- DEX -->
-                    <TextBlock Text="DEX" Foreground="#889" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding TblDEX}" Foreground="#889" VerticalAlignment="Center"/>
                     <Button Content="−"
               Command="{Binding DecreaseStatCommand}"
               CommandParameter="DEX"
@@ -83,7 +83,7 @@
               Padding="0" />
 
                     <!-- END -->
-                    <TextBlock Text="END" Foreground="#889" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding TblEND}" Foreground="#889" VerticalAlignment="Center"/>
                     <Button Content="−"
               Command="{Binding DecreaseStatCommand}"
               CommandParameter="END"
@@ -97,7 +97,7 @@
               Padding="0" />
 
                     <!-- INT -->
-                    <TextBlock Text="INT" Foreground="#889" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding TblINT}" Foreground="#889" VerticalAlignment="Center"/>
                     <Button Content="−"
               Command="{Binding DecreaseStatCommand}"
               CommandParameter="INT"
@@ -111,7 +111,7 @@
               Padding="0" />
 
                     <!-- SPR -->
-                    <TextBlock Text="SPR" Foreground="#889" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding TblSPR}" Foreground="#889" VerticalAlignment="Center"/>
                     <Button Content="−"
               Command="{Binding DecreaseStatCommand}"
               CommandParameter="SPR"
@@ -125,7 +125,7 @@
               Padding="0" />
 
                     <!-- Unspent (no buttons) -->
-                    <TextBlock Text="Unspent" Foreground="#889" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding TblUnspent}" Foreground="#889" VerticalAlignment="Center"/>
                     <TextBlock Text="" />
                     <!-- spacer -->
                     <TextBlock Text="{Binding Base.Unspent}" Foreground="#EEF" TextAlignment="Center" VerticalAlignment="Center"/>
@@ -138,18 +138,18 @@
         <!-- Derived stats (right) -->
         <Border Grid.Row="5" Padding="12" Background="#141723" CornerRadius="8">
             <StackPanel>
-                <TextBlock Text="Derived Stats" Foreground="#C7C7D6" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                <TextBlock Text="{Binding TblDerived}" Foreground="#C7C7D6" FontWeight="SemiBold" Margin="0,0,0,8"/>
 
                 <!-- HP/MP row -->
                 <DockPanel LastChildFill="False" Margin="0,0,0,6">
                     <StackPanel Orientation="Horizontal" Margin="0,0,12,0">
-                        <TextBlock Text="HP " Foreground="#889"/>
+                        <TextBlock Text="{Binding TblHP}" Foreground="#889"/>
                         <TextBlock Text="{Binding Derived.HP}" Foreground="#EEF" FontWeight="SemiBold"/>
                         <TextBlock Text="/" Foreground="#667" Margin="4,0"/>
                         <TextBlock Text="{Binding Derived.MaxHP}" Foreground="#EEF"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="MP " Foreground="#889"/>
+                        <TextBlock Text="{Binding TblMP}" Foreground="#889"/>
                         <TextBlock Text="{Binding Derived.MP}" Foreground="#EEF" FontWeight="SemiBold"/>
                         <TextBlock Text="/" Foreground="#667" Margin="4,0"/>
                         <TextBlock Text="{Binding Derived.MaxMP}" Foreground="#EEF"/>
@@ -157,24 +157,24 @@
                 </DockPanel>
 
                 <UniformGrid Columns="4" Rows="4" HorizontalAlignment="Stretch">
-                    <TextBlock Text="ATK" Foreground="#889"/>
+                    <TextBlock Text="{Binding TblATK}" Foreground="#889"/>
                     <TextBlock Text="{Binding Derived.ATK}" Foreground="#EEF" TextAlignment="Right"/>
-                    <TextBlock Text="DEF" Foreground="#889"/>
+                    <TextBlock Text="{Binding TblDEF}" Foreground="#889"/>
                     <TextBlock Text="{Binding Derived.DEF}" Foreground="#EEF" TextAlignment="Right"/>
 
-                    <TextBlock Text="MATK" Foreground="#889"/>
+                    <TextBlock Text="{Binding TblMATK}" Foreground="#889"/>
                     <TextBlock Text="{Binding Derived.MATK}" Foreground="#EEF" TextAlignment="Right"/>
-                    <TextBlock Text="MDEF" Foreground="#889"/>
+                    <TextBlock Text="{Binding TblMDEF}" Foreground="#889"/>
                     <TextBlock Text="{Binding Derived.MDEF}" Foreground="#EEF" TextAlignment="Right"/>
 
-                    <TextBlock Text="Aim" Foreground="#889"/>
+                    <TextBlock Text="{Binding TblAim}" Foreground="#889"/>
                     <TextBlock Text="{Binding Derived.Aim}" Foreground="#EEF" TextAlignment="Right"/>
-                    <TextBlock Text="Evasion" Foreground="#889"/>
+                    <TextBlock Text="{Binding TblEvasion}" Foreground="#889"/>
                     <TextBlock Text="{Binding Derived.Evasion}" Foreground="#EEF" TextAlignment="Right"/>
 
-                    <TextBlock Text="Crit" Foreground="#889"/>
+                    <TextBlock Text="{Binding TblCrit}" Foreground="#889"/>
                     <TextBlock Text="{Binding Derived.CritPercent}" Foreground="#EEF" TextAlignment="Right"/>
-                    <TextBlock Text="Block" Foreground="#889"/>
+                    <TextBlock Text="{Binding TblBlock}" Foreground="#889"/>
                     <TextBlock Text="{Binding Derived.BlockPercent}" Foreground="#EEF" TextAlignment="Right"/>
                 </UniformGrid>
             </StackPanel>

@@ -2,44 +2,23 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- Base Colors -->
-    <Color x:Key="Color.Background">#FFFFFFFF</Color>
-    <Color x:Key="Color.Foreground">#FF111111</Color>
-    <Color x:Key="Color.Surface">#FFF6F6F6</Color>
-    <Color x:Key="Color.Border">#FFAFAFAF</Color>
-    <Color x:Key="Color.Accent">#FF2D7FF9</Color>
+    <Color x:Key="Color.Background">#FFF5F5F7</Color>
+    <Color x:Key="Color.Foreground">#FF1C1C1E</Color>
+    <Color x:Key="Color.Surface">#FFFFFFFF</Color>
+    <Color x:Key="Color.Border">#22000000</Color>
+    <Color x:Key="Color.Accent">#FF2F6FED</Color>
     <Color x:Key="Color.Error">#FFB00020</Color>
-    <Color x:Key="Color.Success">#FF00CC00</Color>
-    <Color x:Key="Color.TileBackground">#282518</Color>
-    <Color x:Key="Color.TitleBackground">#FFEFEFEF</Color>
+    <Color x:Key="Color.Success">#FF2E7D32</Color>
+    <Color x:Key="Color.TileBackground">#FFF0F1F6</Color>
+    <Color x:Key="Color.TitleBackground">#FFEDEDED</Color>
 
-    <!-- Brushes -->
-    <SolidColorBrush x:Key="Brush.TitleBackground"      Color="{StaticResource Color.TitleBackground}"/>
-    <SolidColorBrush x:Key="Brush.Background"           Color="{StaticResource Color.Background}"/>
-    <SolidColorBrush x:Key="Brush.Foreground"           Color="{StaticResource Color.Foreground}"/>
-    <SolidColorBrush x:Key="Brush.Surface"              Color="{StaticResource Color.Surface}"/>
-    <SolidColorBrush x:Key="Brush.Border"               Color="{StaticResource Color.Border}"/>
-    <SolidColorBrush x:Key="Brush.Accent"               Color="{StaticResource Color.Accent}"/>
-    <SolidColorBrush x:Key="Brush.Error"                Color="{StaticResource Color.Error}"/>
-    <SolidColorBrush x:Key="Brush.Success"                Color="{StaticResource Color.Success}"/>
-    <SolidColorBrush x:Key="Brush.TileBackground"                Color="{StaticResource Color.TileBackground}"/>
-
-    <!-- Common control styles use the brushes -->
-    <Style TargetType="Window">
-        <Setter Property="Background" Value="{DynamicResource Brush.Background}"/>
-        <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground}"/>
-    </Style>
-
-    <Style TargetType="Button">
-        <Setter Property="Background" Value="{DynamicResource Brush.Surface}"/>
-        <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Padding" Value="8,4"/>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource Brush.Accent}"/>
-                <Setter Property="Foreground" Value="White"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
+    <SolidColorBrush x:Key="Brush.Background" Color="{StaticResource Color.Background}"/>
+    <SolidColorBrush x:Key="Brush.Foreground" Color="{StaticResource Color.Foreground}"/>
+    <SolidColorBrush x:Key="Brush.Surface" Color="{StaticResource Color.Surface}"/>
+    <SolidColorBrush x:Key="Brush.Border" Color="{StaticResource Color.Border}"/>
+    <SolidColorBrush x:Key="Brush.Accent" Color="{StaticResource Color.Accent}"/>
+    <SolidColorBrush x:Key="Brush.Error" Color="{StaticResource Color.Error}"/>
+    <SolidColorBrush x:Key="Brush.Success" Color="{StaticResource Color.Success}"/>
+    <SolidColorBrush x:Key="Brush.TileBackground" Color="{StaticResource Color.TileBackground}"/>
+    <SolidColorBrush x:Key="Brush.TitleBackground" Color="{StaticResource Color.TitleBackground}"/>
 </ResourceDictionary>

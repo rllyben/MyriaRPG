@@ -36,7 +36,7 @@ namespace MyriaRPG.ViewModel.Pages
 
         }
 
-        [LocalizedKey("pg.character.select.btn.create")]
+        [LocalizedKey("app.general.UI.create")]
         public string btnCreate 
         {
             get { return _btnCreate; }
@@ -48,7 +48,7 @@ namespace MyriaRPG.ViewModel.Pages
             
         }
 
-        [LocalizedKey("pg.character.select.btn.delete")]
+        [LocalizedKey("app.general.UI.delete")]
         public string btnDelete 
         {
             get { return _btnDelete; }

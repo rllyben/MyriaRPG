@@ -3,8 +3,10 @@ using MyriaLib.Entities.Players;
 using MyriaLib.Services;
 using MyriaLib.Services.Formatter;
 using MyriaLib.Services.Manager;
-using MyriaLib.Systems.Enums;
+using MyriaLib.Systems;
+using MyriaRPG.Model;
 using MyriaRPG.Utils;
+using MyriaRPG.View.Pages.Game.IngameWindow;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,12 +14,145 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
 {
     public class QuestListPageViewModel : BaseViewModel
     {
+        private string tbl_Title;
+        private string tbl_Info;
+        private string tbl_Level;
+        private string tbl_Description;
+        private string tbl_Objectives;
+        private string tbl_Rewards;
+        private string btn_Track;
+        private string btn_Abandon;
+        private string btn_Accept;
+        private string btn_Active;
+        private string btn_Available;
+        [LocalizedKey("pg.quests.title")]
+        public string TblTitle
+        {
+            get { return tbl_Title; }
+            set
+            {
+                tbl_Title = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.quests.details.selecthint")]
+        public string TblInfo
+        {
+            get { return tbl_Info; }
+            set
+            {
+                tbl_Info = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.character.info.level")]
+        public string TblLevel
+        {
+            get { return tbl_Level; }
+            set
+            {
+                tbl_Level = value + " ";
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.quests.section.description")]
+        public string TblDescription
+        {
+            get { return tbl_Description; }
+            set
+            {
+                tbl_Description = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.quests.section.objectives")]
+        public string TblObjectives
+        {
+            get { return tbl_Objectives; }
+            set
+            {
+                tbl_Objectives = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.quests.section.rewards")]
+        public string TblRewards
+        {
+            get { return tbl_Rewards; }
+            set
+            {
+                tbl_Rewards = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.quests.btn.track")]
+        public string BtnTrack
+        {
+            get { return btn_Track; }
+            set
+            {
+                btn_Track = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.quests.btn.abandon")]
+        public string BtnAbandon
+        {
+            get { return btn_Abandon; }
+            set
+            {
+                btn_Abandon = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.quests.btn.accept")]
+        public string BtnAccept
+        {
+            get { return btn_Accept; }
+            set
+            {
+                btn_Accept = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.quests.tab.active")]
+        public string BtnActive
+        {
+            get { return btn_Active; }
+            set
+            {
+                btn_Active = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.quests.tab.available")]
+        public string BtnAvailable
+        {
+            get { return btn_Available; }
+            set
+            {
+                btn_Available = value;
+                OnPropertyChanged();
+            }
+
+        }
         private Player _player = UserAccoundService.CurrentCharacter;
         // Mode
         private bool _showActive = true;
@@ -55,7 +190,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
         public bool IsShowingActive => ShowActive;
         public bool IsShowingAvailable => ShowAvailable;
 
-        public string HeaderSuffix => IsShowingActive ? "(Active)" : "(Available)";
+        public string HeaderSuffix => IsShowingActive ? $"({MyriaLib.Systems.Localization.T("pg.quests.tab.active")})" : $"({MyriaLib.Systems.Localization.T("pg.quests.tab.available")})";
 
         // Data
         public ObservableCollection<QuestListItemVm> Quests { get; } = new();
@@ -67,18 +202,18 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             { 
                 _selectedQuest = value; 
                 if (_selectedQuest != null) 
-                    HasSelected = true; 
+                    HasSelected = Visibility.Visible; 
                 else 
-                    HasSelected = false; 
+                    HasSelected = Visibility.Hidden; 
                 OnPropertyChanged(); 
             }
 
         }
-        private bool _hasSelected;
-        public bool HasSelected
+        private Visibility _hasSelected = Visibility.Visible;
+        public Visibility HasSelected
         {
             get => _hasSelected;
-            set { _hasSelected = value; OnPropertyChanged(); }
+            set {_hasSelected = value; OnPropertyChanged(); }
         }
         // Commands (logic later)
         public ICommand AcceptQuestCommand { get; }
@@ -86,7 +221,12 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
         public ICommand TrackQuestCommand { get; }
 
         // Optional: used by your in-game window title binding
-        public string WindowTitle => "Quests";
+        public string WindowTitle
+        {
+            get => _windowTitle;
+            set { _windowTitle = value; OnPropertyChanged(); }
+        }
+        private string _windowTitle = MyriaLib.Systems.Localization.T("pg.quests.title");
 
         public QuestListPageViewModel()
         {

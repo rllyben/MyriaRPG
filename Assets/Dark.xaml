@@ -10,37 +10,16 @@
     <Color x:Key="Color.Error">#FFCF6679</Color>
     <Color x:Key="Color.Success">#7EB57E</Color>
     <Color x:Key="Color.TileBackground">#181B28</Color>
-    <Color x:Key="Color.TitleBackground">#FF222222</Color> 
+    <Color x:Key="Color.TitleBackground">#FF222222</Color>
 
     <!-- Brushes -->
-    <SolidColorBrush x:Key="Brush.TitleBackground"      Color="{StaticResource Color.TitleBackground}"/>
     <SolidColorBrush x:Key="Brush.Background" Color="{StaticResource Color.Background}"/>
     <SolidColorBrush x:Key="Brush.Foreground" Color="{StaticResource Color.Foreground}"/>
-    <SolidColorBrush x:Key="Brush.Surface"    Color="{StaticResource Color.Surface}"/>
-    <SolidColorBrush x:Key="Brush.Border"     Color="{StaticResource Color.Border}"/>
-    <SolidColorBrush x:Key="Brush.Accent"     Color="{StaticResource Color.Accent}"/>
-    <SolidColorBrush x:Key="Brush.Error"      Color="{StaticResource Color.Error}"/>
-    <SolidColorBrush x:Key="Brush.Success"      Color="{StaticResource Color.Success}"/>
-    <SolidColorBrush x:Key="Brush.TileBackground"      Color="{StaticResource Color.TileBackground}"/>
-    
-
-    <!-- Same control styles as Light.xaml but using DynamicResource -->
-    <Style TargetType="Window">
-        <Setter Property="Background" Value="{DynamicResource Brush.Background}"/>
-        <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground}"/>
-    </Style>
-
-    <Style TargetType="Button">
-        <Setter Property="Background" Value="{DynamicResource Brush.Surface}"/>
-        <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Padding" Value="8,4"/>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource Brush.Accent}"/>
-                <Setter Property="Foreground" Value="Black"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
+    <SolidColorBrush x:Key="Brush.Surface" Color="{StaticResource Color.Surface}"/>
+    <SolidColorBrush x:Key="Brush.Border" Color="{StaticResource Color.Border}"/>
+    <SolidColorBrush x:Key="Brush.Accent" Color="{StaticResource Color.Accent}"/>
+    <SolidColorBrush x:Key="Brush.Error" Color="{StaticResource Color.Error}"/>
+    <SolidColorBrush x:Key="Brush.Success" Color="{StaticResource Color.Success}"/>
+    <SolidColorBrush x:Key="Brush.TileBackground" Color="{StaticResource Color.TileBackground}"/>
+    <SolidColorBrush x:Key="Brush.TitleBackground" Color="{StaticResource Color.TitleBackground}"/>
 </ResourceDictionary>

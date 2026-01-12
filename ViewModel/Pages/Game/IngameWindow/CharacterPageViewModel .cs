@@ -1,4 +1,6 @@
 ﻿using MyriaLib.Entities.Players;
+using MyriaLib.Systems;
+using MyriaRPG.Model;
 using MyriaRPG.Utils;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,234 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
 {
     public class CharacterPageViewModel : BaseViewModel
     {
+        private string tbl_Level;
+        private string tbl_Base;
+        private string tbl_STR;
+        private string tbl_DEX;
+        private string tbl_END;
+        private string tbl_INT;
+        private string tbl_SPR;
+        private string tblUnspent;
+        private string tbl_Derived;
+        private string tbl_HP;
+        private string tbl_MP;
+        private string tbl_ATK;
+        private string tbl_DEF;
+        private string tbl_MATK;
+        private string tbl_MDEF;
+        private string tbl_Aim;
+        private string tbl_Crit;
+        private string tbl_Evasion;
+        private string tbl_Block;
+        [LocalizedKey("pg.character.info.level")]
+        public string TblLevel
+        {
+            get { return tbl_Level; }
+            private set
+            {
+                tbl_Level = value + " ";
+                OnPropertyChanged(nameof(TblLevel));
+            }
+
+        }
+        [LocalizedKey("pg.character.info.base")]
+        public string TblBase
+        {
+            get { return tbl_Base; }
+            private set
+            {
+                tbl_Base = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.character.info.str")]
+        public string TblSTR
+        {
+            get { return tbl_STR; }
+            private set
+            {
+                tbl_STR = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.character.info.dex")]
+        public string TblDEX
+        {
+            get { return tbl_DEX; }
+            private set
+            {
+                tbl_DEX = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.character.info.end")]
+        public string TblEND
+        {
+            get { return tbl_END; }
+            private set
+            {
+                tbl_END = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.character.info.int")]
+        public string TblINT
+        {
+            get { return tbl_INT; }
+            private set
+            {
+                tbl_INT = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.character.info.spr")]
+        public string TblSPR
+        {
+            get { return tbl_SPR; }
+            private set
+            {
+                tbl_SPR = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.character.info.hp")]
+        public string TblHP
+        {
+            get { return tbl_HP; }
+            private set
+            {
+                tbl_HP = value + " ";
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.character.info.mp")]
+        public string TblMP
+        {
+            get { return tbl_MP; }
+            private set
+            {
+                tbl_MP = value + " ";
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.character.info.atk")]
+        public string TblATK
+        {
+            get { return tbl_ATK; }
+            private set
+            {
+                tbl_ATK = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.character.info.def")]
+        public string TblDEF
+        {
+            get { return tbl_DEF; }
+            private set
+            {
+                tbl_DEF = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.character.info.matk")]
+        public string TblMATK
+        {
+            get { return tbl_MATK; }
+            private set
+            {
+                tbl_MATK = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.character.info.mdef")]
+        public string TblMDEF
+        {
+            get { return tbl_MDEF; }
+            private set
+            {
+                tbl_MDEF = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.character.info.aim")]
+        public string TblAim
+        {
+            get { return tbl_Aim; }
+            private set
+            {
+                tbl_Aim = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.character.info.eva")]
+        public string TblEvasion
+        {
+            get { return tbl_Evasion; }
+            private set
+            {
+                tbl_Evasion = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.character.info.crit")]
+        public string TblCrit
+        {
+            get { return tbl_Crit; }
+            private set
+            {
+                tbl_Crit = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.character.info.block")]
+        public string TblBlock
+        {
+            get { return tbl_Block; }
+            private set
+            {
+                tbl_Block = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.character.info.unspent")]
+        public string TblUnspent
+        {
+            get { return tblUnspent; }
+            private set
+            {
+                tblUnspent = value;
+                OnPropertyChanged();
+            }
+
+        }
+        [LocalizedKey("pg.character.info.derived")]
+        public string TblDerived
+        {
+            get { return tbl_Derived; }
+            private set
+            {
+                tbl_Derived = value;
+                OnPropertyChanged();
+            }
+
+        }
         public string CharacterName { get; set; }
         public int Level { get; set; }
         public long XpCurrent { get; set; }
@@ -25,7 +255,12 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
         public ICommand DecreaseStatCommand { get; }
 
         // Optional: expose a title so your window label can bind to it (like other pages)
-        public string WindowTitle => $"{CharacterName} — Level {Level}";
+        public string WindowTitle
+        {
+            get => _windowTitle;
+            set { _windowTitle = value; OnPropertyChanged(); }
+        }
+        private string _windowTitle = Localization.T("pg.character.info.title");
 
         public CharacterPageViewModel(Player player) // pass your real models
         {

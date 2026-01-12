@@ -41,13 +41,17 @@
                     <TextBlock Text="{Binding RoomName}" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource Brush.Foreground}"/>
                     <TextBlock Text="{Binding RoomDescription}" Margin="0,8,0,0" TextWrapping="Wrap" Foreground="{DynamicResource Brush.Foreground}"/>
                     <TextBlock Margin="0,16,0,0" FontStyle="Italic" Opacity="0.7" Text="[Map area placeholder — will render text map for now]" Foreground="{DynamicResource Brush.Foreground}"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Center">
+                        <Button Content="{Binding BtnFight}"  Command="{Binding StartFightCommand}"
+                                Visibility="{Binding BtnFightVisibility}"/>
+                    </StackPanel>
                 </StackPanel>
             </ScrollViewer>
         </Border>
 
         <!-- EDGE EXITS: appear only if the exit exists -->
         <!-- NORTH (top center) -->
-        <Button Content="North" Command="{Binding MoveCommand}" 
+        <Button Content="{Binding BtnNorth}" Command="{Binding MoveCommand}" 
                 CommandParameter="North"
                 Visibility="{Binding HasNorth, Converter={StaticResource BoolToVis}}"
                 HorizontalAlignment="Center" 
@@ -55,7 +59,7 @@
                 Margin="0,8,0,0" Padding="8,4" Foreground="{DynamicResource Brush.Foreground}" Background="{DynamicResource Brush.Background}"/>
 
         <!-- SOUTH (bottom center) -->
-        <Button Content="South" 
+        <Button Content="{Binding BtnSouth}" 
                 Command="{Binding MoveCommand}" 
                 CommandParameter="South"
                 Visibility="{Binding HasSouth, Converter={StaticResource BoolToVis}}"
@@ -65,13 +69,13 @@
 
         <!-- WEST (left center, vertical) -->
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8" >
-            <Button Content="West" Command="{Binding MoveCommand}" CommandParameter="West"
+            <Button Content="{Binding BtnWest}" Command="{Binding MoveCommand}" CommandParameter="West"
                     Visibility="{Binding HasWest, Converter={StaticResource BoolToVis}}" Padding="8,4" Foreground="{DynamicResource Brush.Foreground}" Background="{DynamicResource Brush.Background}"/>
         </StackPanel>
 
         <!-- EAST (right center, vertical) -->
         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="8">
-            <Button Content="East" Command="{Binding MoveCommand}" CommandParameter="East"
+            <Button Content="{Binding BtnEast}" Command="{Binding MoveCommand}" CommandParameter="East"
                     Visibility="{Binding HasEast, Converter={StaticResource BoolToVis}}" Padding="8,4"/>
         </StackPanel>
     </Grid>
