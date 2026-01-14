@@ -146,7 +146,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
 
             var page = new Page_Skills()
             {
-                DataContext = new SkillPageViewModel(player, skills)
+                DataContext = new SkillPageViewModel()
             };
             MainWindow.Instance.gameWindow.Visibility = Visibility.Visible;/* open skills popup */
             ((MainWindow.Instance.gameWindow.DataContext) as ViewModel_GameWindow).Title = ((page.DataContext) as SkillPageViewModel).WindowTitle;

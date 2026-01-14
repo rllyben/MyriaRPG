@@ -1,5 +1,6 @@
 ﻿using MyriaLib.Entities.Players;
 using MyriaLib.Services;
+using MyriaLib.Services.Builder;
 using MyriaRPG.Model;
 using MyriaRPG.Services;
 using MyriaRPG.Utils;
@@ -212,6 +213,8 @@ namespace MyriaRPG.ViewModel.Pages
         }
         private void JoinAction()
         {
+            var skills = SkillFactory.GetSkillsFor(UserAccoundService.CurrentCharacter);
+            SkillFactory.UpdateSkills(UserAccoundService.CurrentCharacter);
             Navigation.NavigateMain(new Page_Game());
         }
         private bool IsSelected()

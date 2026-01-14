@@ -4,6 +4,7 @@ using MyriaLib.Services;
 using MyriaLib.Services.Formatter;
 using MyriaLib.Services.Manager;
 using MyriaLib.Systems;
+using MyriaLib.Systems.Enums;
 using MyriaRPG.Model;
 using MyriaRPG.Utils;
 using MyriaRPG.View.Pages.Game.IngameWindow;
@@ -98,7 +99,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             }
 
         }
-        [LocalizedKey("pg.quests.btn.track")]
+        [LocalizedKey("pg.quests.btn.return")]
         public string BtnTrack
         {
             get { return btn_Track; }
@@ -218,7 +219,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
         // Commands (logic later)
         public ICommand AcceptQuestCommand { get; }
         public ICommand AbandonQuestCommand { get; }
-        public ICommand TrackQuestCommand { get; }
+        public ICommand CompleteQuestCommand { get; }
 
         // Optional: used by your in-game window title binding
         public string WindowTitle
@@ -233,13 +234,14 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             // Commands: for now, no real logic; just stubs
             AcceptQuestCommand = new RelayCommand<QuestListItemVm?>(AcceptQuest);
             AbandonQuestCommand = new RelayCommand<QuestListItemVm?>(AbandonQuest);
-            TrackQuestCommand = new RelayCommand<QuestListItemVm?>(TrackQuest);
 
             // Default mode
             ShowActive = true;
 
             foreach (Quest quest in _player.ActiveQuests)
             {
+                if (quest.Status == QuestStatus.Returned)
+                    continue;
                 QuestListItemVm temp = new QuestListItemVm()
                 {
                     Id = quest.Id,
@@ -263,6 +265,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
                 Quests.Add(temp);
             }
             SelectedQuest = Quests.FirstOrDefault();
+            CompleteQuestCommand = new RelayCommand<QuestListItemVm?>(CompleteQuest, a => CanReturnSelectedQuest());
         }
 
         private void UpdateMode()
@@ -294,23 +297,44 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             SelectedQuest = Quests.FirstOrDefault();
             OnPropertyChanged(nameof(HeaderSuffix));
         }
-
+        private bool CanReturnSelectedQuest()
+        {
+            if (SelectedQuest == null)
+                return false;
+            else if (!IsShowingActive)
+                return false;
+            return _player.ActiveQuests.Where(b => b.Id == SelectedQuest.Id).First().Status == QuestStatus.Completed;
+        }
         private void AcceptQuest(QuestListItemVm? quest)
         {
-            if (quest == null) return;
-            // TODO: call into MyriaLib quest system to accept
+            if (quest == null) 
+                return;
+            if (_player.ActiveQuests.Any(a => a.Id == quest.Id))
+                return;
+            _player.ActiveQuests.Add(QuestManager.GetQuestById(quest.Id));
+            Quests.Remove(quest);
         }
 
         private void AbandonQuest(QuestListItemVm? quest)
         {
-            if (quest == null) return;
-            // TODO: call into MyriaLib quest system to abandon/remove
+            if (quest == null) 
+                return;
+            if (_player.ActiveQuests.Any(a => a.Id != quest.Id))
+                return;
+            Quest playQuest = _player.ActiveQuests.Where(a => a.Id == quest.Id).First();
+            _player.ActiveQuests.Remove(playQuest);
+            Quests.Remove(quest);
         }
 
-        private void TrackQuest(QuestListItemVm? quest)
+        private void CompleteQuest(QuestListItemVm? quest)
         {
             if (quest == null) return;
-            // TODO: mark as 'tracked' so it can show in HUD/log
+            Quest playQuest = _player.ActiveQuests.Where(a => a.Id == quest.Id).First();
+            playQuest.GrantRewards(_player);
+            playQuest.Status = QuestStatus.Returned;
+            _player.CompletedQuests.Add(playQuest);
+            _player.ActiveQuests.Remove(playQuest);
+            Quests.Remove(quest);
         }
 
         private QuestListItemVm ToVm(Quest quest) => new QuestListItemVm
@@ -332,7 +356,6 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
         public string Title { get; set; } = "";
         public int Level { get; set; }
         public string AreaName { get; set; } = "";
-
         public string ShortDescription { get; set; } = "";
         public string Description { get; set; } = "";
         public string ProgressText { get; set; } = "";

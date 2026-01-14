@@ -79,8 +79,7 @@
                                             <TextBlock Text="{Binding TargetText}" Foreground="#DDE" FontSize="11"/>
                                         </Border>
                                         <!-- Healing -->
-                                        <Border Background="#305735" CornerRadius="4" Padding="4,1" Margin="0,0,4,0"
-                                                Visibility="{Binding IsHealing, Converter={StaticResource BoolToVisibility}}">
+                                        <Border Background="#305735" CornerRadius="4" Padding="4,1" Margin="0,0,4,0">
                                             <TextBlock Text="Healing" Foreground="#D9FDD9" FontSize="11"/>
                                         </Border>
                                         <!-- Level -->

@@ -24,6 +24,7 @@ namespace MyriaRPG
             MyriaLib.Systems.Localization.Load(Settings.Current.LanguageSettings.Local);
             ThemeManager.Apply(Settings.Current.VisualSettings.DarkMode);
 
+            SkillFactory.LoadSkills();
             List<Monster> mobs = MonsterService.LoadMonsters();
             QuestManager.LoadQuests();
             ItemFactory.LoadItems();

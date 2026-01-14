@@ -4,6 +4,7 @@ using MyriaLib.Systems;
 using MyriaLib.Systems.Enums;
 using MyriaRPG.Model;
 using MyriaRPG.Utils;
+using MyriaRPG.ViewModel.Pages.Game;
 
 namespace MyriaRPG.ViewModel.Pages
 {
@@ -31,6 +32,7 @@ namespace MyriaRPG.ViewModel.Pages
                 Settings.Current.LanguageSettings.Local = value;
                 SettingsService.Save();
                 Localization.Load(Settings.Current.LanguageSettings.Local);
+                ViewModel_PageRoom.RefreshLocalisation();
             }
 
         }

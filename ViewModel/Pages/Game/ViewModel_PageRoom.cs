@@ -17,6 +17,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
 {
     public class ViewModel_PageRoom : BaseViewModel
     {
+        private static ViewModel_PageRoom _instantce;
         private string btn_North;
         private string btn_South;
         private string btn_West;
@@ -72,7 +73,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
             set { _hasNpcs = value; OnPropertyChanged(); }
         }
         private Room currentRoom;
-        private string _roomName = "Lumina's Rise";
+        private string _roomName;
         public string RoomName 
         { 
             get { return _roomName; }
@@ -138,7 +139,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
             MoveCommand = new RelayCommand<string>(Move);
             StartFightCommand = new RelayCommand(StartFight);
             currentRoom = RoomService.GetRoomById(UserAccoundService.CurrentCharacter.CurrentRoom.Id);
-            RoomName = currentRoom.Name;
+            RoomName = MyriaLib.Systems.Localization.T(currentRoom.Name);
             RoomDescription = currentRoom.Description;
             if (currentRoom.Npcs != null && currentRoom.Npcs.Count > 0)
                 HasNpcs = Visibility.Visible;
@@ -149,8 +150,14 @@ namespace MyriaRPG.ViewModel.Pages.Game
                 Npcs.Add(npc);
             }
             RefreshRoomFlags();
+            _instantce = this;
         }
-
+        public static void RefreshLocalisation()
+        {
+            if (_instantce == null || _instantce.currentRoom == null)
+                return;
+            _instantce.RoomName = MyriaLib.Systems.Localization.T(_instantce.currentRoom.Name);
+        }
         private void RefreshRoomFlags()
         {
             GetDirections();
@@ -187,7 +194,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
 
             currentRoom = RoomService.GetRoomById(currentRoom.Exits[dir.ToLower()].Id);
             UserAccoundService.CurrentCharacter.CurrentRoom = currentRoom;
-            RoomName = currentRoom.Name;
+            RoomName = MyriaLib.Systems.Localization.T(currentRoom.Name);
             RoomDescription = currentRoom.Description;
             GetDirections();
             RefreshRoomFlags();

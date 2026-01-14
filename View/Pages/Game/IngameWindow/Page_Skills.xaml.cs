@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MyriaRPG.ViewModel.Pages.Game.IngameWindow;
 
 namespace MyriaRPG.View.Pages.Game.IngameWindow
 {
@@ -23,6 +24,7 @@ namespace MyriaRPG.View.Pages.Game.IngameWindow
         public Page_Skills()
         {
             InitializeComponent();
+            this.DataContext = new SkillPageViewModel();
         }
     }
 }

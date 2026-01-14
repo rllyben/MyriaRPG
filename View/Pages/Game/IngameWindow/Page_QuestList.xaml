@@ -191,7 +191,7 @@
                     <StackPanel Orientation="Horizontal"
                                 Visibility="{Binding IsShowingActive, Converter={StaticResource BoolToVisibility}}">
                         <Button Content="{Binding BtnTrack}"
-                                Command="{Binding TrackQuestCommand}"
+                                Command="{Binding CompleteQuestCommand}"
                                 CommandParameter="{Binding SelectedQuest}"
                                 Margin="0,4,4,0" Padding="10,2"/>
                         <Button Content="{Binding BtnAbandon}"

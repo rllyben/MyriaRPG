@@ -1,6 +1,7 @@
 ﻿using MyriaLib.Entities.Players;
 using MyriaLib.Entities.Skills;
 using MyriaLib.Systems;
+using MyriaLib.Services;
 using MyriaRPG.Model;
 using MyriaRPG.Utils;
 using MyriaRPG.View.Windows;
@@ -38,9 +39,9 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
 
         public string HeaderText => $"{Skills.Count} learned";
 
-        public SkillPageViewModel(Player player, IEnumerable<Skill> skills)
+        public SkillPageViewModel()
         {
-            foreach (var s in skills)
+            foreach (var s in UserAccoundService.CurrentCharacter.Skills)
             {
                 Skills.Add(new SkillVm(s));
             }
@@ -60,6 +61,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             win.Owner = System.Windows.Application.Current.MainWindow;
             win.ShowDialog();
         }
+
     }
 
     public class SkillVm : BaseViewModel
@@ -104,9 +106,11 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
                 if (_skill.CastTime == 0 && _skill.RecoveryTime > 0) return $"Recovery: {_skill.RecoveryTime}t";
                 return $"Cast: {_skill.CastTime}t, Rec: {_skill.RecoveryTime}t";
             }
+
         }
 
         public float ScalingFactor => _skill.ScalingFactor;
         public string StatToScaleFrom => _skill.StatToScaleFrom;
     }
+
 }

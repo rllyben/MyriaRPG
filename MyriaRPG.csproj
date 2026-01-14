@@ -17,6 +17,7 @@
     <None Remove="Data\common\monsters.json" />
     <None Remove="Data\common\quests.json" />
     <None Remove="Data\common\rooms.json" />
+    <None Remove="Data\common\skills.json" />
     <None Remove="Data\images\fantasy-group-adventurers.jpg" />
     <None Remove="Data\images\rooms\Ceralith_center.jpg" />
     <None Remove="Data\images\rooms\Ceralith_eastern_gate.jpg" />
@@ -73,6 +74,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\common\rooms.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\common\skills.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\images\fantasy-group-adventurers.jpg">
