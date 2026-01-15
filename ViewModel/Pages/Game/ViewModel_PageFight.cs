@@ -57,17 +57,17 @@ namespace MyriaRPG.ViewModel.Pages.Game
         public ICommand AttackCommand { get; }
         public ICommand RunCommand { get; }
         public ICommand CastSkillCommand { get; }
-
+        private Monster _monster;
         public ViewModel_PageFight()
         {
-            Monster monster = MonsterService.GetMonsterById(1);
+            _monster = MonsterService.GetMonsterById(1);
             if (UserAccoundService.CurrentCharacter.CurrentRoom.HasMonsters)
             {
-                monster = MonsterService.PickMonsterForFight(UserAccoundService.CurrentCharacter.CurrentRoom.Monsters, UserAccoundService.CurrentCharacter.CurrentRoom.EncounterableMonsters);
-                _encounter = new CombatEncounter(UserAccoundService.CurrentCharacter, monster);
+                _monster = MonsterService.PickMonsterForFight(UserAccoundService.CurrentCharacter.CurrentRoom.Monsters, UserAccoundService.CurrentCharacter.CurrentRoom.EncounterableMonsters);
+                _encounter = new CombatEncounter(UserAccoundService.CurrentCharacter, _monster);
             }
             else
-                _encounter = new CombatEncounter(UserAccoundService.CurrentCharacter, monster);
+                _encounter = new CombatEncounter(UserAccoundService.CurrentCharacter, _monster);
             // load skills from player
             foreach (var s in UserAccoundService.CurrentCharacter.Skills)
                 Skills.Add(s);
@@ -101,6 +101,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
 
         private void Run()
         {
+            ViewModel_PageRoom.WriteLog(Localization.T("msg.fight.run.success"));
             Navigation.NavigateGamePageToRegister(0);
         }
 
@@ -128,7 +129,17 @@ namespace MyriaRPG.ViewModel.Pages.Game
             OnPropertyChanged(nameof(CanAct));
             CharacterHeaderVm.Refresh();
             if (EnemyHp < 1)
+            {
+                ViewModel_PageRoom.WriteLog($"{_monster.Name} {Localization.T("msg.fight.won")}");
+                foreach ( var entry in _encounter.GetDropNames())
+                {
+                    ViewModel_PageRoom.WriteLog($"{Localization.T("msg.fight.recieved")} {Localization.T(entry.Key)} [{_encounter.GetDropNames()[entry.Key]}]");
+                }
+                ViewModel_PageRoom.WriteLog($"{Localization.T("msg.fight.gainxp")} {_monster.Exp}{Localization.T("app.general.xp")}");
+
                 Navigation.NavigateGamePageToRegister(0);
+            }
+
         }
 
     }

@@ -26,6 +26,7 @@
   "app.accounting.UI.password": "Password",
   "app.accounting.UI.login": "Login",
   "app.accounting.UI.register": "Register",
+  "app.general.xp": "EXP",
   "game.map.title": "Map",
   "game.map.local.title": "Local Map",
   "game.map.world.title": "World Map",
@@ -160,5 +161,8 @@
   "room.elorium.south.district": "Elor Southern District",
   "room.elorium.south.manufacturers": "Elor Manufacturers",
   "room.elorium.center.academy": "Elorium Academy",
-  "room.elorium.palace": "Elorium Palace"
+  "room.elorium.palace": "Elorium Palace",
+  "msg.fight.won": "Killed",
+  "msg.fight.recieved": "Recieved:",
+  "msg.fight.gainxp": "Gained"
 }

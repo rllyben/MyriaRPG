@@ -65,7 +65,8 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="220"/>
                                     <ColumnDefinition Width="10"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="3*"/>
                                 </Grid.ColumnDefinitions>
 
                                 <!-- NPC list -->
@@ -89,6 +90,9 @@
                                                 Margin="10,0,8,0"/>
                                     </StackPanel>
                                 </StackPanel>
+                                <ListBox Grid.Column="3"
+                                         ItemsSource="{Binding Log}"
+                                         MinHeight="120"/>
                             </Grid>
                         </StackPanel>
                     </Border>
