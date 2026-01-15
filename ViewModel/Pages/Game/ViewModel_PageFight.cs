@@ -1,5 +1,4 @@
 ﻿using MyriaLib.Entities.Monsters;
-using MyriaLib.Entities.Players;
 using MyriaLib.Entities.Skills;
 using MyriaLib.Services;
 using MyriaLib.Systems;
@@ -7,13 +6,7 @@ using MyriaLib.Systems.Enums;
 using MyriaRPG.Model;
 using MyriaRPG.Services;
 using MyriaRPG.Utils;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MyriaRPG.ViewModel.Pages.Game

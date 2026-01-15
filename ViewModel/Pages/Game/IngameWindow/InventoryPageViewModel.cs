@@ -1,4 +1,5 @@
-﻿using MyriaLib.Entities.Items;
+﻿using ConsoleWorldRPG.Utils;
+using MyriaLib.Entities.Items;
 using MyriaLib.Entities.Players;
 using MyriaLib.Services;
 using MyriaLib.Systems;
@@ -111,16 +112,72 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
 
         private void OnEquipDropped(EquipDropArgs a)
         {
+            
             if (a is null) return;
             var item = a.Item as ItemVm; // cast payload
             if (item is null) return;
             if (!IsCompatible(a.Slot, item)) return;
 
+            Player player = UserAccoundService.CurrentCharacter;
+
             switch (a.Slot)
             {
-                case "Weapon": Swap(ref _ew, item); break;
-                case "Armor": Swap(ref _ea, item); break;
-                case "Accessory": Swap(ref _ex, item); break;
+                case "Weapon":
+                    if (player.WeaponSlot != null)
+                    {
+                        EquipmentItem equipedItem = player.WeaponSlot;
+                        if (player.Inventory.AddItem(equipedItem, player))
+                        {
+                            player.WeaponSlot = null;
+                            Swap(ref _ew, item);
+                            player.Equip(player.Inventory.Items.Where(a => a.Name == item.Name).FirstOrDefault() as EquipmentItem);
+                            player.Inventory.RemoveItem(InventoryUtils.ResolveInventoryItem(item.Name, player));
+                            break;
+                        }
+
+                    }
+                    player.Equip(player.Inventory.Items.Where(a => a.Name == item.Name).FirstOrDefault() as EquipmentItem);
+                    player.Inventory.RemoveItem(InventoryUtils.ResolveInventoryItem(item.Name, player));
+                    Swap(ref _ew, item);
+                    break;
+                case "Armor": Swap(ref _ea, item);
+                    player = UserAccoundService.CurrentCharacter;
+                    if (player.ArmorSlot != null)
+                    {
+                        EquipmentItem equipedItem = player.ArmorSlot;
+                        if (player.Inventory.AddItem(equipedItem, player))
+                        {
+                            player.ArmorSlot = null;
+                            Swap(ref _ew, item);
+                            player.Equip(player.Inventory.Items.Where(a => a.Name == item.Name).FirstOrDefault() as EquipmentItem);
+                            player.Inventory.RemoveItem(InventoryUtils.ResolveInventoryItem(item.Name, player));
+                            break;
+                        }
+
+                    }
+                    player.Equip(player.Inventory.Items.Where(a => a.Name == item.Name).FirstOrDefault() as EquipmentItem);
+                    player.Inventory.RemoveItem(InventoryUtils.ResolveInventoryItem(item.Name, player));
+                    Swap(ref _ew, item);
+                    break;
+                case "Accessory": Swap(ref _ex, item);
+                    player = UserAccoundService.CurrentCharacter;
+                    if (player.AccessorySlot != null)
+                    {
+                        EquipmentItem equipedItem = player.AccessorySlot;
+                        if (player.Inventory.AddItem(equipedItem, player))
+                        {
+                            player.AccessorySlot = null;
+                            Swap(ref _ew, item);
+                            player.Equip(player.Inventory.Items.Where(a => a.Name == item.Name).FirstOrDefault() as EquipmentItem);
+                            player.Inventory.RemoveItem(InventoryUtils.ResolveInventoryItem(item.Name, player));
+                            break;
+                        }
+
+                    }
+                    player.Equip(player.Inventory.Items.Where(a => a.Name == item.Name).FirstOrDefault() as EquipmentItem);
+                    player.Inventory.RemoveItem(InventoryUtils.ResolveInventoryItem(item.Name, player));
+                    Swap(ref _ew, item);
+                    break;
             }
         }
 

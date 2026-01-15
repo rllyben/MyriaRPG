@@ -311,7 +311,9 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
                 return;
             if (_player.ActiveQuests.Any(a => a.Id == quest.Id))
                 return;
-            _player.ActiveQuests.Add(QuestManager.GetQuestById(quest.Id));
+            Quest newQuest = QuestManager.GetQuestById(quest.Id);
+            newQuest.Status = QuestStatus.InProgress;
+            _player.ActiveQuests.Add(newQuest);
             Quests.Remove(quest);
         }
 

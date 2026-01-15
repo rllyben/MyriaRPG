@@ -160,5 +160,6 @@
   "room.elorium.south.district": "Elorium südlicher Distrikt",
   "room.elorium.south.manufacturers": "Elorium Manufakturen",
   "room.elorium.center.academy": "Elorium Akademie",
-  "room.elorium.palace": "Schlosshof Elorium"
+  "room.elorium.palace": "Schlosshof Elorium",
+  "pg.room.UI.talk": "Mit Npc sprechen"
 }

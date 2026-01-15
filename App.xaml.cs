@@ -8,6 +8,8 @@ using MyriaRPG.Services;
 using System.Configuration;
 using System.Data;
 using System.Windows;
+using MyriaLib.Entities.Items;
+using MyriaLib.Systems;
 
 namespace MyriaRPG
 {

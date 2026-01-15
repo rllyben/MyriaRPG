@@ -34,11 +34,16 @@
     </Page.Resources>
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
         <Grid.Background>
-            <ImageBrush ImageSource="/Data/images/rooms/Luminas_rise_center.jpg"/>
+            <ImageBrush />
         </Grid.Background>
+        <Image Source="{Binding ImageSource}" Stretch="Fill" ></Image>
         <!-- CENTER: Map / main content (text-only placeholder for now) -->
-        <Border Margin="72" Padding="16" CornerRadius="12" Background="{DynamicResource Brush.Background}">
+        <Border Background="{DynamicResource Brush.Background}" Grid.Row="1">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <TextBlock Text="{Binding RoomName}" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource Brush.Foreground}"/>
@@ -70,6 +75,7 @@
                                 <ListBox Grid.Column="0"
                                          ItemsSource="{Binding Npcs}"
                                          SelectedItem="{Binding SelectedNpc}"
+                                         Visibility="{Binding HasNpcs}"
                                          MinHeight="120"/>
 
                                 <!-- NPC details -->
@@ -82,8 +88,7 @@
 
                                     <StackPanel Orientation="Horizontal">
                                         <Button Content="{Binding BtnTalk}"
-                                                Command="{Binding TalkNpcCommand}"
-                                                CommandParameter="{Binding SelectedNpc}"
+                                                Command="{Binding TalkCommand}"
                                                 Margin="10,0,8,0"/>
                                     </StackPanel>
                                 </StackPanel>

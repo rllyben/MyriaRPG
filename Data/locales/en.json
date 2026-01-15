@@ -160,5 +160,6 @@
   "room.elorium.south.district": "Elor Southern District",
   "room.elorium.south.manufacturers": "Elor Manufacturers",
   "room.elorium.center.academy": "Elorium Academy",
-  "room.elorium.palace": "Elorium Palace"
+  "room.elorium.palace": "Elorium Palace",
+  "pg.room.UI.talk": "Talk to Npc"
 }

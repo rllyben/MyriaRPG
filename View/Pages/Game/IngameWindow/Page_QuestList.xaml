@@ -8,6 +8,105 @@
 
     <Page.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+        <Style x:Key="SegmentToggleBase"
+       TargetType="ToggleButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="Bd"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Bd"
+                                Property="Background"
+                                Value="{DynamicResource Brush.Accent}"/>
+                                <Setter Property="Foreground"
+                                Value="{DynamicResource Brush.Background}"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                            </Trigger>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd"
+                                Property="Background"
+                                Value="{DynamicResource Brush.TileBackground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SegmentLeft"
+       TargetType="ToggleButton"
+       BasedOn="{StaticResource SegmentToggleBase}">
+        <Setter Property="BorderThickness" Value="1,1,0,1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border x:Name="Bd"
+                        CornerRadius="12,0,0,12"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Bd"
+                                Property="Background"
+                                Value="{DynamicResource Brush.Accent}"/>
+                            <Setter Property="Foreground"
+                                Value="{DynamicResource Brush.Background}"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        </Style>
+
+        <Style x:Key="SegmentRight"
+       TargetType="ToggleButton"
+       BasedOn="{StaticResource SegmentToggleBase}">
+            <Setter Property="BorderThickness" Value="0,1,1,1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="Bd"
+                        CornerRadius="0,12,12,0"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Bd"
+                                Property="Background"
+                                Value="{DynamicResource Brush.Accent}"/>
+                                <Setter Property="Foreground"
+                                Value="{DynamicResource Brush.Background}"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
 
     <Grid Margin="12" Background="{DynamicResource Brush.Background}">
@@ -32,53 +131,21 @@
                 <TextBlock Text="{Binding TblTitle}"
                            FontSize="20" FontWeight="SemiBold"
                            Foreground="{DynamicResource Brush.Foreground}" Margin="0,0,12,0"/>
-                <TextBlock Text="{Binding HeaderSuffix}"
-                           FontSize="14" Foreground="{DynamicResource Brush.Border}" VerticalAlignment="Bottom"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" >
                 <!-- Active -->
                 <ToggleButton Content="{Binding BtnActive}"
-                              IsChecked="{Binding ShowActive, Mode=TwoWay}"
-                              Margin="0,0,4,0" Padding="8,2">
-                    <ToggleButton.Style>
-                        <Style TargetType="ToggleButton">
-                            <Setter Property="Background" Value="{DynamicResource Brush.Background}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource Brush.Border}"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
-                            <Setter Property="BorderThickness" Value="1"/>
-                            <Setter Property="Cursor" Value="Hand"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="Background" Value="{DynamicResource Brush.Accent}"/>
-                                    <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground}"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ToggleButton.Style>
-                </ToggleButton>
+                      IsChecked="{Binding ShowActive, Mode=TwoWay}"
+                      Style="{StaticResource SegmentLeft}"/>
 
                 <!-- Available -->
                 <ToggleButton Content="{Binding BtnAvailable}"
-                              IsChecked="{Binding ShowAvailable, Mode=TwoWay}"
-                              Margin="4,0,0,0" Padding="8,2">
-                    <ToggleButton.Style>
-                        <Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
-                            <Setter Property="Background" Value="{DynamicResource Brush.Background}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource Brush.Border}"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
-                            <Setter Property="BorderThickness" Value="1"/>
-                            <Setter Property="Cursor" Value="Hand"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsChecked" Value="True">
-                                    <Setter Property="Background" Value="{DynamicResource Brush.Accent}"/>
-                                    <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground4}"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ToggleButton.Style>
-                </ToggleButton>
+                      IsChecked="{Binding ShowAvailable, Mode=TwoWay}"
+                      Style="{StaticResource SegmentRight}"/>
             </StackPanel>
+            <TextBlock Text="{Binding HeaderSuffix}"
+                           FontSize="14" Foreground="{DynamicResource Brush.Border}" VerticalAlignment="Bottom"/>
         </DockPanel>
 
         <!-- Quest list -->

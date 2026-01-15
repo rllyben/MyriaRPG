@@ -1,4 +1,5 @@
 ﻿using MyriaLib.Entities.Maps;
+using MyriaLib.Entities.Players;
 using MyriaLib.Services;
 using MyriaRPG.Model;
 using MyriaRPG.Services;
@@ -7,11 +8,15 @@ using MyriaRPG.View.Pages.Game;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace MyriaRPG.ViewModel.Pages.Game
 {
@@ -99,6 +104,8 @@ namespace MyriaRPG.ViewModel.Pages.Game
         public string BtnFight { get; set; }
         [LocalizedKey("app.general.UI.npcs")]
         public string BtnNpcs { get; set; }
+        [LocalizedKey("pg.room.UI.talk")]
+        public string BtnTalk { get; set; }
 
         // Exit flags
         public bool HasNorth { get => _n; set { _n = value; OnPropertyChanged(); } }
@@ -128,19 +135,32 @@ namespace MyriaRPG.ViewModel.Pages.Game
 
         }
         public ObservableCollection<string> Npcs { get; set; }
+        public string SelectedNpc { get; set; }
+        private string _imageSource;
+        public string ImageSource
+        {
+            get => _imageSource;
+            set
+            {
+                _imageSource = value; OnPropertyChanged();
+            }
+
+        }
         // Commands
         public ICommand MoveCommand { get; }
         public ICommand StartFightCommand { get; }
         public ICommand OpenNpcsCommand { get; }
-
+        public ICommand TalkCommand { get; }
         public ViewModel_PageRoom()
         {
             Npcs = new ObservableCollection<string>();
             MoveCommand = new RelayCommand<string>(Move);
             StartFightCommand = new RelayCommand(StartFight);
+            TalkCommand = new RelayCommand(TalkNpc);
             currentRoom = RoomService.GetRoomById(UserAccoundService.CurrentCharacter.CurrentRoom.Id);
             RoomName = MyriaLib.Systems.Localization.T(currentRoom.Name);
             RoomDescription = currentRoom.Description;
+            ImageSource = "/Data/images/rooms/" + currentRoom.Name + ".jpg";
             if (currentRoom.Npcs != null && currentRoom.Npcs.Count > 0)
                 HasNpcs = Visibility.Visible;
             else
@@ -151,6 +171,12 @@ namespace MyriaRPG.ViewModel.Pages.Game
             }
             RefreshRoomFlags();
             _instantce = this;
+        }
+        private void TalkNpc()
+        {
+            if (SelectedNpc == "Healer")
+                UserAccoundService.CurrentCharacter.CurrentHealth = UserAccoundService.CurrentCharacter.MaxHealth;
+            CharacterHeaderVm.Refresh();
         }
         public static void RefreshLocalisation()
         {
@@ -196,6 +222,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
             UserAccoundService.CurrentCharacter.CurrentRoom = currentRoom;
             RoomName = MyriaLib.Systems.Localization.T(currentRoom.Name);
             RoomDescription = currentRoom.Description;
+            ImageSource = "/Data/images/rooms/" + currentRoom.Name + ".jpg";
             GetDirections();
             RefreshRoomFlags();
         }

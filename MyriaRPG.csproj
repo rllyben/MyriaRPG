@@ -19,35 +19,6 @@
     <None Remove="Data\common\rooms.json" />
     <None Remove="Data\common\skills.json" />
     <None Remove="Data\images\fantasy-group-adventurers.jpg" />
-    <None Remove="Data\images\rooms\Ceralith_center.jpg" />
-    <None Remove="Data\images\rooms\Ceralith_eastern_gate.jpg" />
-    <None Remove="Data\images\rooms\Ceralith_outskirts.jpg" />
-    <None Remove="Data\images\rooms\Ceralith_valley.jpg" />
-    <None Remove="Data\images\rooms\chamber_of_echoes.jpg" />
-    <None Remove="Data\images\rooms\Chamber_of_the_hollow_crypt.jpg" />
-    <None Remove="Data\images\rooms\Dark_passage.jpg" />
-    <None Remove="Data\images\rooms\Elorium_cathedral.jpg" />
-    <None Remove="Data\images\rooms\Elorium_center.jpg" />
-    <None Remove="Data\images\rooms\Elorium_eastern_district.jpg" />
-    <None Remove="Data\images\rooms\Elorium_eastern_gate.jpg" />
-    <None Remove="Data\images\rooms\Elorium_market.jpg" />
-    <None Remove="Data\images\rooms\Elorium_northern_district.jpg" />
-    <None Remove="Data\images\rooms\Elorium_northern_gate.jpg" />
-    <None Remove="Data\images\rooms\Elorium_smithy.jpg" />
-    <None Remove="Data\images\rooms\Elorium_southern_district.jpg" />
-    <None Remove="Data\images\rooms\Elorium_speellbound_street.jpg" />
-    <None Remove="Data\images\rooms\Elor_plateau.jpg" />
-    <None Remove="Data\images\rooms\Farmland_trail.jpg" />
-    <None Remove="Data\images\rooms\Forest_edge.jpg" />
-    <None Remove="Data\images\rooms\Luminas_eastern_gate.jpg" />
-    <None Remove="Data\images\rooms\Luminas_lumbermill.jpg" />
-    <None Remove="Data\images\rooms\Luminas_northern_gate.jpg" />
-    <None Remove="Data\images\rooms\Luminas_rise_center.jpg" />
-    <None Remove="Data\images\rooms\Ridgewatch_hill.jpg" />
-    <None Remove="Data\images\rooms\River_crossing.jpg" />
-    <None Remove="Data\images\rooms\Shaded_hollow.jpg" />
-    <None Remove="Data\images\rooms\Starting_room.jpg" />
-    <None Remove="Data\images\rooms\sunstone_pass.jpg" />
     <None Remove="Data\locales\de.json" />
   </ItemGroup>
 
@@ -82,91 +53,91 @@
     <Content Include="Data\images\fantasy-group-adventurers.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Ceralith_center.jpg">
+    <Content Include="Data\images\rooms\room.ceralith.center.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Ceralith_eastern_gate.jpg">
+    <Content Include="Data\images\rooms\room.ceralith.east.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Ceralith_outskirts.jpg">
+    <Content Include="Data\images\rooms\room.ceralith.outskirts.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Ceralith_valley.jpg">
+    <Content Include="Data\images\rooms\room.cera.valley.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\chamber_of_echoes.jpg">
+    <Content Include="Data\images\rooms\room.luminacaves.chamber.echoes.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Chamber_of_the_hollow_crypt.jpg">
+    <Content Include="Data\images\rooms\room.luminacaves.chamber.hollowcrypt.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Dark_passage.jpg">
+    <Content Include="Data\images\rooms\room.luminacaves.passage.dark.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Elorium_cathedral.jpg">
+    <Content Include="Data\images\rooms\room.elorium.center.cathedral.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Elorium_center.jpg">
+    <Content Include="Data\images\rooms\room.elorium.center.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Elorium_eastern_district.jpg">
+    <Content Include="Data\images\rooms\room.elorium.east.district.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Elorium_eastern_gate.jpg">
+    <Content Include="Data\images\rooms\room.elorium.east.gate.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Elorium_market.jpg">
+    <Content Include="Data\images\rooms\room.elorium.center.market.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Elorium_northern_district.jpg">
+    <Content Include="Data\images\rooms\room.elorium.north.district.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Elorium_northern_gate.jpg">
+    <Content Include="Data\images\rooms\room.elorium.north.gate.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Elorium_smithy.jpg">
+    <Content Include="Data\images\rooms\room.elorium.north.smithy.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Elorium_southern_district.jpg">
+    <Content Include="Data\images\rooms\room.elorium.south.district.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Elorium_speellbound_street.jpg">
+    <Content Include="Data\images\rooms\room.elorium.center.spellbound.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Elor_plateau.jpg">
+    <Content Include="Data\images\rooms\room.elor.plateau.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Farmland_trail.jpg">
+    <Content Include="Data\images\rooms\room.cera.farmland.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Forest_edge.jpg">
+    <Content Include="Data\images\rooms\room.whisperingwoods.edge.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Luminas_eastern_gate.jpg">
+    <Content Include="Data\images\rooms\room.lumina.east.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Luminas_lumbermill.jpg">
+    <Content Include="Data\images\rooms\room.whisperingwoods.lumina.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Luminas_northern_gate.jpg">
+    <Content Include="Data\images\rooms\room.lumina.north.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Luminas_rise_center.jpg">
+    <Content Include="Data\images\rooms\room.lumina.center.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Ridgewatch_hill.jpg">
+    <Content Include="Data\images\rooms\room.cera.hill.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\River_crossing.jpg">
+    <Content Include="Data\images\rooms\room.cera.river.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Shaded_hollow.jpg">
+    <Content Include="Data\images\rooms\room.whisperingwoods.hollow.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\Starting_room.jpg">
+    <Content Include="Data\images\rooms\room.luminacaves.start.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\images\rooms\sunstone_pass.jpg">
+    <Content Include="Data\images\rooms\room.sunstone.pass.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\locales\de.json">
