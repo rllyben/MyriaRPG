@@ -34,11 +34,13 @@
     </Page.Resources>
 
     <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="/Data/images/rooms/Luminas_rise_center.jpg"/>
-        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Image Source="/Data/images/rooms/room.ceralith.outskirts.jpg" Stretch="Fill"/>
         <!-- CENTER: Map / main content (text-only placeholder for now) -->
-        <Border Margin="72" Padding="16" CornerRadius="12" Background="{DynamicResource Brush.Background}">
+        <Border Grid.Row="1" Background="{DynamicResource Brush.Background}">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
                     <TextBlock Text="{Binding RoomName}" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource Brush.Foreground}"/>

@@ -127,6 +127,17 @@ namespace MyriaRPG.ViewModel.Pages.Game
             }
 
         }
+        private string _imageSource;
+        public string ImageSource
+        {
+            get => _imageSource;
+            set
+            {
+                _imageSource = value;
+                OnPropertyChanged();
+            }
+
+        }
         public ObservableCollection<string> Npcs { get; set; }
         // Commands
         public ICommand MoveCommand { get; }
@@ -141,6 +152,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
             currentRoom = RoomService.GetRoomById(UserAccoundService.CurrentCharacter.CurrentRoom.Id);
             RoomName = MyriaLib.Systems.Localization.T(currentRoom.Name);
             RoomDescription = currentRoom.Description;
+            ImageSource = $"Data/images/rooms/{currentRoom.Name}.jpg";
             if (currentRoom.Npcs != null && currentRoom.Npcs.Count > 0)
                 HasNpcs = Visibility.Visible;
             else
@@ -196,6 +208,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
             UserAccoundService.CurrentCharacter.CurrentRoom = currentRoom;
             RoomName = MyriaLib.Systems.Localization.T(currentRoom.Name);
             RoomDescription = currentRoom.Description;
+            ImageSource = $"Data/images/rooms/{currentRoom.Name}.jpg";
             GetDirections();
             RefreshRoomFlags();
         }
