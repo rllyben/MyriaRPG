@@ -116,6 +116,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
         private bool _s;
         public bool HasWest { get => _w; set { _w = value; OnPropertyChanged(); } }
         private bool _w;
+        public ObservableCollection<string> Log { get; set; }
         private Visibility btnFightVisibility;
         public Visibility BtnFightVisibility { get => btnFightVisibility; set { btnFightVisibility = value; OnPropertyChanged(); } }
         private bool _hasMonsters;
@@ -131,6 +132,17 @@ namespace MyriaRPG.ViewModel.Pages.Game
                     BtnFightVisibility = Visibility.Hidden;
 
                 OnPropertyChanged(); 
+            }
+
+        }
+        private string _imageSource;
+        public string ImageSource
+        {
+            get => _imageSource;
+            set
+            {
+                _imageSource = value;
+                OnPropertyChanged();
             }
 
         }
@@ -161,6 +173,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
             RoomName = MyriaLib.Systems.Localization.T(currentRoom.Name);
             RoomDescription = currentRoom.Description;
             ImageSource = "/Data/images/rooms/" + currentRoom.Name + ".jpg";
+            Log = new ObservableCollection<string>();
             if (currentRoom.Npcs != null && currentRoom.Npcs.Count > 0)
                 HasNpcs = Visibility.Visible;
             else
@@ -171,6 +184,10 @@ namespace MyriaRPG.ViewModel.Pages.Game
             }
             RefreshRoomFlags();
             _instantce = this;
+        }
+        public static void WriteLog(string msg)
+        {
+            _instantce.Log.Add(msg);
         }
         private void TalkNpc()
         {

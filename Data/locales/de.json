@@ -22,6 +22,7 @@
   "app.general.UI.menue.main": "Hauptmenü",
   "app.general.UI.quit": "Beenden",
   "app.general.UI.quit.save": "Speichern und Beenden",
+  "app.general.xp": "EXP Erhalten",
   "app.accounting.UI.username": "Benutzername",
   "app.accounting.UI.password": "Password",
   "app.accounting.UI.login": "Anmelden",
@@ -160,6 +161,10 @@
   "room.elorium.south.district": "Elorium südlicher Distrikt",
   "room.elorium.south.manufacturers": "Elorium Manufakturen",
   "room.elorium.center.academy": "Elorium Akademie",
+  "room.elorium.palace": "Schlosshof Elorium",
+  "msg.fight.won": "Getötet",
+  "msg.fight.recieved": "Erhielt:",
+  "msg.fight.gainxp": ""
   "room.elorium.palace": "Schlosshof Elorium",
   "pg.room.UI.talk": "Mit Npc sprechen"
 }

@@ -15,6 +15,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
 {
     public class InventoryPageViewModel : BaseViewModel
     {
+        private Player _player;
         public string WindowTitle
         {
             get => _windowTitle;
@@ -59,8 +60,8 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             EquipDropCommand = new RelayCommand<EquipDropArgs>(OnEquipDropped);
 
 
-            Player character = UserAccoundService.CurrentCharacter;
-            foreach (Item item in character.Inventory.Items)
+            _player = UserAccoundService.CurrentCharacter;
+            foreach (Item item in _player.Inventory.Items)
             {
                 ItemVm temp = new ItemVm();
                 temp.Name = item.Name;
@@ -77,9 +78,9 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
 
                 Backpack.Add(temp);
             }
-            if (character.WeaponSlot != null)
+            if (_player.WeaponSlot != null)
             {
-                Item weapon = character.WeaponSlot;
+                Item weapon = _player.WeaponSlot;
                 ItemVm temp = new ItemVm();
                 temp.Name = weapon.Name;
                 temp.Type = (weapon as EquipmentItem).SlotType.ToString();
@@ -87,9 +88,9 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
                 temp.Color = rarityColors[weapon.Rarity];
                 Swap(ref _ew, temp);
             }
-            if (character.ArmorSlot != null)
+            if (_player.ArmorSlot != null)
             {
-                Item armor = character.ArmorSlot;
+                Item armor = _player.ArmorSlot;
                 ItemVm temp = new ItemVm();
                 temp.Name = armor.Name;
                 temp.Type = (armor as EquipmentItem).SlotType.ToString();
@@ -97,9 +98,9 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
                 temp.Color = rarityColors[armor.Rarity];
                 Swap(ref _ea, temp);
             }
-            if (character.AccessorySlot != null)
+            if (_player.AccessorySlot != null)
             {
-                Item accessory = character.AccessorySlot;
+                Item accessory = _player.AccessorySlot;
                 ItemVm temp = new ItemVm();
                 temp.Name = accessory.Name;
                 temp.Type = (accessory as EquipmentItem).SlotType.ToString();
@@ -107,7 +108,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
                 temp.Color = rarityColors[accessory.Rarity];
                 Swap(ref _ex, temp);
             }
-            Bronze = character.Money.Coins.TotalBronze;
+            Bronze = _player.Money.Coins.TotalBronze;
         }
 
         private void OnEquipDropped(EquipDropArgs a)
@@ -122,63 +123,20 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
 
             switch (a.Slot)
             {
-                case "Weapon":
-                    if (player.WeaponSlot != null)
-                    {
-                        EquipmentItem equipedItem = player.WeaponSlot;
-                        if (player.Inventory.AddItem(equipedItem, player))
-                        {
-                            player.WeaponSlot = null;
-                            Swap(ref _ew, item);
-                            player.Equip(player.Inventory.Items.Where(a => a.Name == item.Name).FirstOrDefault() as EquipmentItem);
-                            player.Inventory.RemoveItem(InventoryUtils.ResolveInventoryItem(item.Name, player));
-                            break;
-                        }
-
-                    }
-                    player.Equip(player.Inventory.Items.Where(a => a.Name == item.Name).FirstOrDefault() as EquipmentItem);
-                    player.Inventory.RemoveItem(InventoryUtils.ResolveInventoryItem(item.Name, player));
-                    Swap(ref _ew, item);
+                case "Weapon": 
+                    if (_player.Inventory.SwapEquipment(item.Name, _player))
+                        Swap(ref _ew, item);
                     break;
-                case "Armor": Swap(ref _ea, item);
-                    player = UserAccoundService.CurrentCharacter;
-                    if (player.ArmorSlot != null)
-                    {
-                        EquipmentItem equipedItem = player.ArmorSlot;
-                        if (player.Inventory.AddItem(equipedItem, player))
-                        {
-                            player.ArmorSlot = null;
-                            Swap(ref _ew, item);
-                            player.Equip(player.Inventory.Items.Where(a => a.Name == item.Name).FirstOrDefault() as EquipmentItem);
-                            player.Inventory.RemoveItem(InventoryUtils.ResolveInventoryItem(item.Name, player));
-                            break;
-                        }
-
-                    }
-                    player.Equip(player.Inventory.Items.Where(a => a.Name == item.Name).FirstOrDefault() as EquipmentItem);
-                    player.Inventory.RemoveItem(InventoryUtils.ResolveInventoryItem(item.Name, player));
-                    Swap(ref _ew, item);
+                case "Armor": 
+                    if (_player.Inventory.SwapEquipment(item.Name, _player)) 
+                        Swap(ref _ea, item); 
                     break;
-                case "Accessory": Swap(ref _ex, item);
-                    player = UserAccoundService.CurrentCharacter;
-                    if (player.AccessorySlot != null)
-                    {
-                        EquipmentItem equipedItem = player.AccessorySlot;
-                        if (player.Inventory.AddItem(equipedItem, player))
-                        {
-                            player.AccessorySlot = null;
-                            Swap(ref _ew, item);
-                            player.Equip(player.Inventory.Items.Where(a => a.Name == item.Name).FirstOrDefault() as EquipmentItem);
-                            player.Inventory.RemoveItem(InventoryUtils.ResolveInventoryItem(item.Name, player));
-                            break;
-                        }
-
-                    }
-                    player.Equip(player.Inventory.Items.Where(a => a.Name == item.Name).FirstOrDefault() as EquipmentItem);
-                    player.Inventory.RemoveItem(InventoryUtils.ResolveInventoryItem(item.Name, player));
-                    Swap(ref _ew, item);
+                case "Accessory": 
+                    if (_player.Inventory.SwapEquipment(item.Name, _player))
+                        Swap(ref _ex, item);
                     break;
             }
+
         }
 
         private bool IsCompatible(string slot, ItemVm item)
