@@ -126,7 +126,10 @@ namespace MyriaRPG.ViewModel.Pages.Game
                 ViewModel_PageRoom.WriteLog($"{_monster.Name} {Localization.T("msg.fight.won")}");
                 foreach ( var entry in _encounter.GetDropNames())
                 {
-                    ViewModel_PageRoom.WriteLog($"{Localization.T("msg.fight.recieved")} {Localization.T(entry.Key)} [{_encounter.GetDropNames()[entry.Key]}]");
+                    if (_encounter.InventoryFull)
+                        ViewModel_PageRoom.WriteLog($"{Localization.T("msg.general.inventory.full")}");
+                    else
+                        ViewModel_PageRoom.WriteLog($"{Localization.T("msg.fight.recieved")} {Localization.T(entry.Key)} [{_encounter.GetDropNames()[entry.Key]}]");
                 }
                 ViewModel_PageRoom.WriteLog($"{Localization.T("msg.fight.gainxp")} {_monster.Exp}{Localization.T("app.general.xp")}");
 

@@ -148,16 +148,6 @@ namespace MyriaRPG.ViewModel.Pages.Game
         }
         public ObservableCollection<string> Npcs { get; set; }
         public string SelectedNpc { get; set; }
-        private string _imageSource;
-        public string ImageSource
-        {
-            get => _imageSource;
-            set
-            {
-                _imageSource = value; OnPropertyChanged();
-            }
-
-        }
         // Commands
         public ICommand MoveCommand { get; }
         public ICommand StartFightCommand { get; }
@@ -188,6 +178,8 @@ namespace MyriaRPG.ViewModel.Pages.Game
         public static void WriteLog(string msg)
         {
             _instantce.Log.Add(msg);
+            if (_instantce.Log.Count > 5)
+                _instantce.Log.Remove(_instantce.Log[0]);
         }
         private void TalkNpc()
         {

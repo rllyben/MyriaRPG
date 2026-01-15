@@ -164,7 +164,7 @@
   "room.elorium.palace": "Elorium Palace",
   "msg.fight.won": "Killed",
   "msg.fight.recieved": "Recieved:",
-  "msg.fight.gainxp": "Gained"
-  "room.elorium.palace": "Elorium Palace",
-  "pg.room.UI.talk": "Talk to Npc"
+  "msg.fight.gainxp": "Gained",
+  "pg.room.UI.talk": "Talk to Npc",
+  "msg.general.inventory.full": "Inventory was full!"
 }

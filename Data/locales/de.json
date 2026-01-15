@@ -164,7 +164,7 @@
   "room.elorium.palace": "Schlosshof Elorium",
   "msg.fight.won": "Getötet",
   "msg.fight.recieved": "Erhielt:",
-  "msg.fight.gainxp": ""
-  "room.elorium.palace": "Schlosshof Elorium",
-  "pg.room.UI.talk": "Mit Npc sprechen"
+  "msg.fight.gainxp": "",
+  "pg.room.UI.talk": "Mit Npc sprechen",
+  "msg.general.inventory.full": "Inventar war voll!"
 }
