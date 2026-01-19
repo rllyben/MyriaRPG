@@ -10,6 +10,7 @@ using System.Data;
 using System.Windows;
 using MyriaLib.Entities.Items;
 using MyriaLib.Systems;
+using MyriaLib.Utils;
 
 namespace MyriaRPG
 {
@@ -25,13 +26,8 @@ namespace MyriaRPG
             SettingsService.Load();
             MyriaLib.Systems.Localization.Load(Settings.Current.LanguageSettings.Local);
             ThemeManager.Apply(Settings.Current.VisualSettings.DarkMode);
-
-            SkillFactory.LoadSkills();
-            List<Monster> mobs = MonsterService.LoadMonsters();
-            QuestManager.LoadQuests();
-            ItemFactory.LoadItems();
-            RoomService.LoadRooms();
-            RoomService.ConnectMonsterRooms(mobs, RoomService.AllRooms);
+            TestingClass.TestSaveNpc();
+            GameService.InitializeGame();
         }
 
     }

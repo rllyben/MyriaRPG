@@ -50,6 +50,8 @@
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Center">
                     <Button Content="{Binding BtnFight}"  Command="{Binding StartFightCommand}"
                                 Visibility="{Binding BtnFightVisibility}" Margin="5,0,5,0"/>
+                    <Button Content="{Binding BtnGather}"  Command="{Binding StartGatheringCommand}"
+                                Visibility="{Binding BtnGatherVisibility}" Margin="5,0,5,0"/>
                 </StackPanel>
                 <!-- NPC interaction panel -->
                 <Border Margin="0,12,0,0"
@@ -74,7 +76,7 @@
                             <ListBox Grid.Column="0"
                                          ItemsSource="{Binding Npcs}"
                                          SelectedItem="{Binding SelectedNpc}"
-                                         Visibility="{Binding HasNpcs}"
+                                         Visibility="{Binding HasNpcsVisibility}"
                                          MinHeight="120"/>
 
                             <!-- NPC details -->
@@ -89,7 +91,7 @@
                                     <Button Content="{Binding BtnTalk}"
                                                 Command="{Binding TalkCommand}"
                                                 Margin="10,0,8,0"
-                                                Visibility="{Binding HasNpcs}"/>
+                                                Visibility="{Binding HasNpcsVisibility}"/>
                                 </StackPanel>
                             </StackPanel>
                             <ListBox Grid.Column="3"

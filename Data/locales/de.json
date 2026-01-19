@@ -166,5 +166,15 @@
   "msg.fight.recieved": "Erhielt:",
   "msg.fight.gainxp": "",
   "pg.room.UI.talk": "Mit Npc sprechen",
-  "msg.general.inventory.full": "Inventar war voll!"
+  "msg.general.inventory.full": "Inventar war voll!",
+  "pg.room.UI.gather": "Sammeln",
+  "game.npc.healer.default.name": "Heiler",
+  "game.npc.healer.default.desc": "Stellt deine Gesundheit gegen eine kleine Gebühr wieder her.",
+  "game.npc.smith.default.name": "Schmied",
+  "game.npc.smith.default.desc": "Verkauft Ausrüstung und kann Ausrüstung verbessern oder herstellen.",
+  "game.npc.trader.default.name": "Händler",
+  "game.npc.trader.default.desc": "Kauft und verkauft Waren. Gut, um Beute loszuwerden.",
+  "game.npc.villager.default.name": "Dorfbewohner",
+  "game.npc.villager.default.desc": "Sieht so aus, als hätte er etwas zu sagen."
+
 }

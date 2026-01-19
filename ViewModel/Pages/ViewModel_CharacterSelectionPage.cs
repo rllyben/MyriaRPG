@@ -213,6 +213,7 @@ namespace MyriaRPG.ViewModel.Pages
         }
         private void JoinAction()
         {
+            UserAccoundService.CurrentCharacter.CurrentRoom = RoomService.GetRoomById(UserAccoundService.CurrentCharacter.CurrentRoomId);
             var skills = SkillFactory.GetSkillsFor(UserAccoundService.CurrentCharacter);
             SkillFactory.UpdateSkills(UserAccoundService.CurrentCharacter);
             Navigation.NavigateMain(new Page_Game());

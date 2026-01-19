@@ -166,5 +166,15 @@
   "msg.fight.recieved": "Recieved:",
   "msg.fight.gainxp": "Gained",
   "pg.room.UI.talk": "Talk to Npc",
-  "msg.general.inventory.full": "Inventory was full!"
+  "msg.general.inventory.full": "Inventory was full!",
+  "pg.room.UI.gather": "Gather",
+  "game.npc.healer.default.name": "Healer",
+  "game.npc.healer.default.desc": "Restores your health for a small fee.",
+  "game.npc.smith.default.name": "Smith",
+  "game.npc.smith.default.desc": "Sells equipment and can upgrade or craft gear.",
+  "game.npc.trader.default.name": "Trader",
+  "game.npc.trader.default.desc": "Buys and sells goods. A decent place to unload loot.",
+  "game.npc.villager.default.name": "Villager",
+  "game.npc.villager.default.desc": "Looks like they might have something to say."
+
 }
