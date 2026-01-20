@@ -231,12 +231,7 @@
   "item.pickaxe": "Pickaxe",
   "item.woodcutter_axe": "Woodcutter Axe",
   "item.iron_ore": "Iron Ore",
-  "item.sunleaf": "Sunleaf Herb"
-  "msg.fight.won": "Killed",
-  "msg.fight.recieved": "Recieved:",
-  "msg.fight.gainxp": "Gained",
-  "pg.room.UI.talk": "Talk to Npc",
-  "msg.general.inventory.full": "Inventory was full!",
+  "item.sunleaf": "Sunleaf Herb",
   "msg.fight.gain.lvl": "Leveled up, now Level",
   "log.skill.learned": "You learned {0}.",
   "log.item.received": "You received {0}x {1}.",
@@ -245,13 +240,5 @@
   "log.hp.lost": "You took {0} damage.",
   "log.hp.gained": "You healed {0} HP.",
   "log.mp.spent": "You spent {0} MP.",
-  "log.mp.gained": "You restored {0} MP.",
-  "game.npc.healer.default.name": "Healer",
-  "game.npc.healer.default.desc": "Restores your health for a small fee.",
-  "game.npc.smith.default.name": "Smith",
-  "game.npc.smith.default.desc": "Sells equipment and can upgrade or craft gear.",
-  "game.npc.trader.default.name": "Trader",
-  "game.npc.trader.default.desc": "Buys and sells goods. A decent place to unload loot.",
-  "game.npc.villager.default.name": "Villager",
-  "game.npc.villager.default.desc": "Looks like they might have something to say."
+  "log.mp.gained": "You restored {0} MP."
 }
