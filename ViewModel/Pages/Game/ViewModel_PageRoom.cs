@@ -7,7 +7,6 @@ using MyriaRPG.Model;
 using MyriaRPG.Services;
 using MyriaRPG.Utils;
 using MyriaRPG.View.Pages.Game;
-using System.Windows.Visibility;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -33,9 +32,9 @@ namespace MyriaRPG.ViewModel.Pages.Game
         private string _roomDescription;
         private string _imageSource;
 
-        private Visibility btnFightVisibility;
-        private Visibility btnGatherVisibility;
-        private Visibility _hasNpcsVisibility;
+        private System.Windows.Visibility btnFightVisibility;
+        private System.Windows.Visibility btnGatherVisibility;
+        private System.Windows.Visibility _hasNpcsVisibility;
 
         private bool _hasMonsters;
         private bool _canGather;
@@ -132,16 +131,16 @@ namespace MyriaRPG.ViewModel.Pages.Game
         public bool HasSouth { get => _hasSouth; set { _hasSouth = value; OnPropertyChanged(); } }
         public bool HasWest { get => _hasWest; set { _hasWest = value; OnPropertyChanged(); } }
 
-        public Visibility BtnFightVisibility { get => btnFightVisibility; set { btnFightVisibility = value; OnPropertyChanged(); } }
-        public Visibility BtnGatherVisibility { get => btnGatherVisibility; set { btnGatherVisibility = value; OnPropertyChanged(); } }
-        public Visibility HasNpcsVisibility { get => _hasNpcsVisibility; set { _hasNpcsVisibility = value; OnPropertyChanged(); } }
+        public System.Windows.Visibility BtnFightVisibility { get => btnFightVisibility; set { btnFightVisibility = value; OnPropertyChanged(); } }
+        public System.Windows.Visibility BtnGatherVisibility { get => btnGatherVisibility; set { btnGatherVisibility = value; OnPropertyChanged(); } }
+        public System.Windows.Visibility HasNpcsVisibility { get => _hasNpcsVisibility; set { _hasNpcsVisibility = value; OnPropertyChanged(); } }
         public bool HasMonsters {
             get => _hasMonsters;
             set 
             { 
                 _hasMonsters = value;
                 if (value)
-                    BtnFightVisibility = Visibility.Visible;
+                    BtnFightVisibility = System.Windows.Visibility.Visible;
                 else
                     BtnFightVisibility = System.Windows.Visibility.Hidden;
 
@@ -156,9 +155,9 @@ namespace MyriaRPG.ViewModel.Pages.Game
             {
                 _canGather = value;
                 if (value)
-                    BtnGatherVisibility = Visibility.Visible;
+                    BtnGatherVisibility = System.Windows.Visibility.Visible;
                 else
-                    BtnGatherVisibility = Visibility.Hidden;
+                    BtnGatherVisibility = System.Windows.Visibility.Hidden;
 
                 OnPropertyChanged();
             }
@@ -171,9 +170,9 @@ namespace MyriaRPG.ViewModel.Pages.Game
             {
                 _hasNpcs = value;
                 if (value)
-                    HasNpcsVisibility = Visibility.Visible;
+                    HasNpcsVisibility = System.Windows.Visibility.Visible;
                 else
-                    HasNpcsVisibility = Visibility.Hidden;
+                    HasNpcsVisibility = System.Windows.Visibility.Hidden;
 
                 OnPropertyChanged();
             }
