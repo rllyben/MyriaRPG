@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
 using System.Windows.Threading;
-using Microsoft.Win32;
 using MyriaLib.Systems;
 using MyriaRPG.Model;
 

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyriaRPG.Systems.MapNode.MapEdge
+﻿namespace MyriaRPG.Systems.MapNode.MapEdge
 {
     // Local map snapshot (for one room/area)
     public enum PoiKind { Smith, Healer, Vendor, QuestGiver, Trainer, Inn, Crafting, Portal, Entrance, Other }

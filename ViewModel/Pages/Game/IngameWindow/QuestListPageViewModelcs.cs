@@ -3,18 +3,10 @@ using MyriaLib.Entities.Players;
 using MyriaLib.Services;
 using MyriaLib.Services.Formatter;
 using MyriaLib.Services.Manager;
-using MyriaLib.Systems;
 using MyriaLib.Systems.Enums;
 using MyriaRPG.Model;
 using MyriaRPG.Utils;
-using MyriaRPG.View.Pages.Game.IngameWindow;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 

@@ -1,7 +1,7 @@
 [
-    {
-        "Id": "whispering_woods",
-        "Name": "Whispering Woods",
-        "RoomIds": [21, 22, 23, 24, 25]
-    }
+  {
+    "Id": "whispering_woods",
+    "Name": "woods.wispering",
+    "RoomIds": [ 21, 22, 23, 24, 25 ]
+  }
 ]

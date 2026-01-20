@@ -9,13 +9,7 @@ using MyriaRPG.Services;
 using MyriaRPG.Utils;
 using MyriaRPG.View.Pages;
 using MyriaRPG.View.Pages.Game;
-using MyriaRPG.View.Pages.Game.IngameWindow;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MyriaRPG.ViewModel.Pages

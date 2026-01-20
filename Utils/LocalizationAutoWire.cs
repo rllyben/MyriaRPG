@@ -1,8 +1,6 @@
 ﻿using MyriaRPG.Model;
 using System.Reflection;
 using System.Windows;
-using MyriaLib.Systems;
-using MyriaRPG.ViewModel;
 
 namespace MyriaRPG.Utils
 {

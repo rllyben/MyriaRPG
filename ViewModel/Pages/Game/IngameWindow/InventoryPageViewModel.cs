@@ -1,5 +1,4 @@
-﻿using ConsoleWorldRPG.Utils;
-using MyriaLib.Entities.Items;
+﻿using MyriaLib.Entities.Items;
 using MyriaLib.Entities.Players;
 using MyriaLib.Services;
 using MyriaLib.Systems;
@@ -64,7 +63,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             foreach (Item item in _player.Inventory.Items)
             {
                 ItemVm temp = new ItemVm();
-                temp.Name = item.Name;
+                temp.Name = Localization.T(item.Name);
                 string itemType = "";
                 if (item is EquipmentItem eq)
                     itemType = $"{eq.SlotType}";

@@ -2,7 +2,6 @@
 using MyriaLib.Entities.NPCs;
 using MyriaLib.Entities.Players;
 using MyriaLib.Services;
-using MyriaLib.Systems;
 using MyriaLib.Systems.Enums;
 using MyriaRPG.Model;
 using MyriaRPG.Services;
@@ -229,7 +228,10 @@ namespace MyriaRPG.ViewModel.Pages.Game
         private void TalkNpc()
         {
             if (SelectedNpc.Type == NpcType.Healer)
+            {
                 player.CurrentHealth = player.MaxHealth;
+                player.CurrentMana = player.MaxMana;
+            }
             CharacterHeaderVm.Refresh();
         }
         public static void RefreshLocalisation()

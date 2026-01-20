@@ -7,23 +7,27 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Page_Settings">
-
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Button Content="{Binding btnLanugage}" FontSize="18" Command="{Binding Language}" FontWeight="Bold"/>
-            <Button Content="{Binding btnVisuals}" Grid.Row="1" FontSize="18" FontWeight="Bold" Command="{Binding Visuals}"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.ColumnSpan="2" CornerRadius="20" Background="{DynamicResource Brush.Background}" Margin="0,0,0,250">
+            <Border.OpacityMask>
+                <SolidColorBrush Color="#B2F5F5F7"/>
+            </Border.OpacityMask>
+        </Border>
+        <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button Content="{Binding btnLanugage}" FontSize="18" Command="{Binding Language}" FontWeight="Bold"/>
+                <Button Content="{Binding btnVisuals}" Grid.Row="1" FontSize="18" FontWeight="Bold" Command="{Binding Visuals}"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Frame Name="frm_NavigationFrame" NavigationUIVisibility="Hidden"/>
+            </Grid>
         </Grid>
-        <Grid Grid.Column="1">
-            <Frame Name="frm_NavigationFrame" NavigationUIVisibility="Hidden"/>
-        </Grid>
-    </Grid>
 </Page>

@@ -1,6 +1,4 @@
-﻿using MyriaLib.Services;
-using MyriaRPG.ViewModel.Pages.Game.IngameWindow;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace MyriaRPG.View.Pages.Game.IngameWindow
 {

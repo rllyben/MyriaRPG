@@ -3,28 +3,28 @@
     "id": "healer_default",
     "nameKey": "game.npc.healer.default.name",
     "descriptionKey": "game.npc.healer.default.desc",
-    "type": "Healer",
+    "type": 0,
     "services": [ "heal" ]
   },
   {
     "id": "smith_default",
     "nameKey": "game.npc.smith.default.name",
     "descriptionKey": "game.npc.smith.default.desc",
-    "type": "Smith",
+    "type": 2,
     "services": [ "shop_equipment", "upgrade", "craft" ]
   },
   {
     "id": "trader_default",
     "nameKey": "game.npc.trader.default.name",
     "descriptionKey": "game.npc.trader.default.desc",
-    "type": "Trader",
+    "type": 1,
     "services": [ "buy_items", "sell_items", "shop_general" ]
   },
   {
     "id": "villager_default",
     "nameKey": "game.npc.villager.default.name",
     "descriptionKey": "game.npc.villager.default.desc",
-    "type": "Villager",
+    "type": 4,
     "services": [ "talk" ]
   }
 ]
