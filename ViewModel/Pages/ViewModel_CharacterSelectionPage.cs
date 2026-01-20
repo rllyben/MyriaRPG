@@ -213,7 +213,6 @@ namespace MyriaRPG.ViewModel.Pages
         }
         private void JoinAction()
         {
-            var skills = SkillFactory.GetSkillsFor(UserAccoundService.CurrentCharacter);
             SkillFactory.UpdateSkills(UserAccoundService.CurrentCharacter);
             Navigation.NavigateMain(new Page_Game());
         }

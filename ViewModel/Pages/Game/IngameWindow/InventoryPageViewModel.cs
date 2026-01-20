@@ -75,6 +75,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
                 temp.Type = itemType;
                 temp.Rarity = item.Rarity;
                 temp.Color = rarityColors[item.Rarity];
+                temp.Quantity = item.StackSize;
 
                 Backpack.Add(temp);
             }

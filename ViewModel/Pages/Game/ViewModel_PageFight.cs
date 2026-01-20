@@ -51,9 +51,11 @@ namespace MyriaRPG.ViewModel.Pages.Game
         public ICommand RunCommand { get; }
         public ICommand CastSkillCommand { get; }
         private Monster _monster;
+        private int _playerLevel;
         public ViewModel_PageFight()
         {
             _monster = MonsterService.GetMonsterById(1);
+            _playerLevel = UserAccoundService.CurrentCharacter.Level;
             if (UserAccoundService.CurrentCharacter.CurrentRoom.HasMonsters)
             {
                 _monster = MonsterService.PickMonsterForFight(UserAccoundService.CurrentCharacter.CurrentRoom.Monsters, UserAccoundService.CurrentCharacter.CurrentRoom.EncounterableMonsters);
@@ -120,19 +122,9 @@ namespace MyriaRPG.ViewModel.Pages.Game
             OnPropertyChanged(nameof(EnemyHp));
             OnPropertyChanged(nameof(EnemyHpMax));
             OnPropertyChanged(nameof(CanAct));
-            CharacterHeaderVm.Refresh();
             if (EnemyHp < 1)
             {
                 ViewModel_PageRoom.WriteLog($"{_monster.Name} {Localization.T("msg.fight.won")}");
-                foreach ( var entry in _encounter.GetDropNames())
-                {
-                    if (_encounter.InventoryFull)
-                        ViewModel_PageRoom.WriteLog($"{Localization.T("msg.general.inventory.full")}");
-                    else
-                        ViewModel_PageRoom.WriteLog($"{Localization.T("msg.fight.recieved")} {Localization.T(entry.Key)} [{_encounter.GetDropNames()[entry.Key]}]");
-                }
-                ViewModel_PageRoom.WriteLog($"{Localization.T("msg.fight.gainxp")} {_monster.Exp}{Localization.T("app.general.xp")}");
-
                 Navigation.NavigateGamePageToRegister(0);
             }
 

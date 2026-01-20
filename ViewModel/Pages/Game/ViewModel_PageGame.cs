@@ -2,6 +2,7 @@
 using MyriaLib.Entities.Players;
 using MyriaLib.Entities.Skills;
 using MyriaLib.Services;
+using MyriaLib.Systems.Events;
 using MyriaRPG.Model;
 using MyriaRPG.Services;
 using MyriaRPG.Utils;
@@ -10,6 +11,7 @@ using MyriaRPG.View.Pages.Game.IngameWindow;
 using MyriaRPG.View.Windows;
 using MyriaRPG.ViewModel.Pages.Game.IngameWindow;
 using MyriaRPG.ViewModel.UserControls;
+using System.Numerics;
 using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Controls;
@@ -116,7 +118,6 @@ namespace MyriaRPG.ViewModel.Pages.Game
                 UserAccoundService.CurrentCharacter.CurrentRoom = RoomService.GetRoomById(UserAccoundService.CurrentCharacter.CurrentRoomId);
             Navigation.NavigateGamePageToRegister(0);
         }
-
         private void OpenMap()
         {
             MainWindow.Instance.gameWindow.Visibility = Visibility.Visible; /* open inventory popup */
@@ -320,8 +321,16 @@ namespace MyriaRPG.ViewModel.Pages.Game
             HpDisplay = $"{Hp}/{MaxHp}";
             ManaDisplay = $"{Mana}/{MaxMana}";
             instance = this;
+            character.XpGained += OnXpUpdateEvent;
+            character.LeveledUp += OnXpUpdateEvent;
+            character.HealthChanged += (s, e) => { Refresh(); };
+            character.ManaChanged += (s, e) => { Refresh(); };
         }
-        public static void Refresh()
+        private void OnXpUpdateEvent(object? sender, EventArgs e)
+        {
+            Refresh();
+        }
+        private void Refresh()
         {
             instance.Hp++;
             instance.MaxHp++;
@@ -330,6 +339,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
             instance.CurrentXp++;
             instance.XpToNext++;
             instance.XpPercent++;
+            instance.Level++;
         }
         public void Set(string name, int level, long currentXp, long xpToNext, int hp, int maxHp, int mana, int maxMana)
         {

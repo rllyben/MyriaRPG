@@ -45,7 +45,7 @@
     "Target": "SingleEnemy",
     "ScalingFactor": 1.8,
     "StatToScaleFrom": "DEX",
-    "MinLevel": 12
+    "MinLevel": 7
   },
   {
     "Id": "fire_burst",

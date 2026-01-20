@@ -166,5 +166,22 @@
   "msg.fight.recieved": "Erhielt:",
   "msg.fight.gainxp": "",
   "pg.room.UI.talk": "Mit Npc sprechen",
-  "msg.general.inventory.full": "Inventar war voll!"
+  "msg.general.inventory.full": "Inventar war voll!",
+  "msg.fight.gain.lvl": "Neues Level erreicht: Level",
+  "log.skill.learned": "Du hast {0} gelernt.",
+  "log.item.received": "Du hast {0}x {1} erhalten.",
+  "log.xp.gained": "Du hast {0} XP erhalten.",
+  "log.level.up": "Levelaufstieg! Du bist jetzt Level {0}.",
+  "log.hp.lost": "Du hast {0} Schaden erlitten.",
+  "log.hp.gained": "Du hast {0} HP geheilt.",
+  "log.mp.spent": "Du hast {0} MP verbraucht.",
+  "log.mp.gained": "Du hast {0} MP wiederhergestellt.",
+  "game.npc.healer.default.name": "Heiler",
+  "game.npc.healer.default.desc": "Stellt deine Gesundheit gegen eine kleine Gebühr wieder her.",
+  "game.npc.smith.default.name": "Schmied",
+  "game.npc.smith.default.desc": "Verkauft Ausrüstung und kann Ausrüstung verbessern oder herstellen.",
+  "game.npc.trader.default.name": "Händler",
+  "game.npc.trader.default.desc": "Kauft und verkauft Waren. Gut, um Beute loszuwerden.",
+  "game.npc.villager.default.name": "Dorfbewohner",
+  "game.npc.villager.default.desc": "Sieht so aus, als hätte er etwas zu sagen."
 }

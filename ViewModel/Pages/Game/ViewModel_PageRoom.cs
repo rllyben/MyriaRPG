@@ -1,22 +1,14 @@
 ﻿using MyriaLib.Entities.Maps;
 using MyriaLib.Entities.Players;
 using MyriaLib.Services;
+using MyriaLib.Systems;
+using MyriaLib.Systems.Events;
 using MyriaRPG.Model;
 using MyriaRPG.Services;
 using MyriaRPG.Utils;
 using MyriaRPG.View.Pages.Game;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace MyriaRPG.ViewModel.Pages.Game
 {
@@ -27,7 +19,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
         private string btn_South;
         private string btn_West;
         private string btn_East; 
-        private Visibility _hasNpcs;
+        private System.Windows.Visibility _hasNpcs;
         [LocalizedKey("game.exit.north")]
         public string BtnNorth
         {
@@ -72,7 +64,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
             }
 
         }
-        public Visibility HasNpcs
+        public System.Windows.Visibility HasNpcs
         {
             get => _hasNpcs;
             set { _hasNpcs = value; OnPropertyChanged(); }
@@ -117,8 +109,8 @@ namespace MyriaRPG.ViewModel.Pages.Game
         public bool HasWest { get => _w; set { _w = value; OnPropertyChanged(); } }
         private bool _w;
         public ObservableCollection<string> Log { get; set; }
-        private Visibility btnFightVisibility;
-        public Visibility BtnFightVisibility { get => btnFightVisibility; set { btnFightVisibility = value; OnPropertyChanged(); } }
+        private System.Windows.Visibility btnFightVisibility;
+        public System.Windows.Visibility BtnFightVisibility { get => btnFightVisibility; set { btnFightVisibility = value; OnPropertyChanged(); } }
         private bool _hasMonsters;
         public bool HasMonsters
         {
@@ -127,9 +119,9 @@ namespace MyriaRPG.ViewModel.Pages.Game
             { 
                 _hasMonsters = value;
                 if (value == true)
-                    BtnFightVisibility = Visibility.Visible;
+                    BtnFightVisibility = System.Windows.Visibility.Visible;
                 else
-                    BtnFightVisibility = Visibility.Hidden;
+                    BtnFightVisibility = System.Windows.Visibility.Hidden;
 
                 OnPropertyChanged(); 
             }
@@ -155,25 +147,47 @@ namespace MyriaRPG.ViewModel.Pages.Game
         public ICommand TalkCommand { get; }
         public ViewModel_PageRoom()
         {
+            Player player = UserAccoundService.CurrentCharacter;
             Npcs = new ObservableCollection<string>();
             MoveCommand = new RelayCommand<string>(Move);
             StartFightCommand = new RelayCommand(StartFight);
             TalkCommand = new RelayCommand(TalkNpc);
-            currentRoom = RoomService.GetRoomById(UserAccoundService.CurrentCharacter.CurrentRoom.Id);
-            RoomName = MyriaLib.Systems.Localization.T(currentRoom.Name);
+            currentRoom = RoomService.GetRoomById(player.CurrentRoom.Id);
+            RoomName = Localization.T(currentRoom.Name);
             RoomDescription = currentRoom.Description;
             ImageSource = "/Data/images/rooms/" + currentRoom.Name + ".jpg";
             Log = new ObservableCollection<string>();
             if (currentRoom.Npcs != null && currentRoom.Npcs.Count > 0)
-                HasNpcs = Visibility.Visible;
+                HasNpcs = System.Windows.Visibility.Visible;
             else
-                HasNpcs = Visibility.Hidden;
+                HasNpcs = System.Windows.Visibility.Hidden;
             foreach(string npc in currentRoom.Npcs)
             {
                 Npcs.Add(npc);
             }
             RefreshRoomFlags();
             _instantce = this;
+
+            player.SkillLearned += OnPlayerSkillLearned;
+            player.Inventory.ItemReceived += OnItemReceived;
+            player.XpGained += OnXpGained;
+            player.LeveledUp += OnLeveledUp;
+        }
+        private void OnXpGained(object? sender, XpGainedEventArgs e)
+        {
+            WriteLog(Localization.T("log.xp.gained", e.Amount));
+        }
+        private void OnLeveledUp(object? sender, LevelUpEventArgs e)
+        {
+            WriteLog(Localization.T("log.level.up", e.NewLevel));
+        }
+        private void OnItemReceived(object? sender, ItemReceivedEventArgs e)
+        {
+            WriteLog(Localization.T("log.item.received", e.Amount, e.Item.Name));
+        }
+        private void OnPlayerSkillLearned(object? sender, SkillLearnedEventArgs e)
+        {
+            WriteLog(Localization.T("log.skill.learned", e.Skill.Name));
         }
         public static void WriteLog(string msg)
         {
@@ -184,14 +198,17 @@ namespace MyriaRPG.ViewModel.Pages.Game
         private void TalkNpc()
         {
             if (SelectedNpc == "Healer")
-                UserAccoundService.CurrentCharacter.CurrentHealth = UserAccoundService.CurrentCharacter.MaxHealth;
-            CharacterHeaderVm.Refresh();
+            {
+                UserAccoundService.CurrentCharacter.Heal(UserAccoundService.CurrentCharacter.MaxHealth);
+                UserAccoundService.CurrentCharacter.RestoreMana(UserAccoundService.CurrentCharacter.MaxMana);
+                WriteLog(Localization.T("msg.healer.fullheal"));
+            }
         }
         public static void RefreshLocalisation()
         {
             if (_instantce == null || _instantce.currentRoom == null)
                 return;
-            _instantce.RoomName = MyriaLib.Systems.Localization.T(_instantce.currentRoom.Name);
+            _instantce.RoomName = Localization.T(_instantce.currentRoom.Name);
         }
         private void RefreshRoomFlags()
         {
@@ -232,6 +249,17 @@ namespace MyriaRPG.ViewModel.Pages.Game
             RoomName = MyriaLib.Systems.Localization.T(currentRoom.Name);
             RoomDescription = currentRoom.Description;
             ImageSource = "/Data/images/rooms/" + currentRoom.Name + ".jpg";
+            if (currentRoom.Npcs != null && currentRoom.Npcs.Count > 0)
+            {
+                HasNpcs = System.Windows.Visibility.Visible;
+                Npcs.Clear();
+                foreach (string npc in currentRoom.Npcs)
+                {
+                    Npcs.Add(npc);
+                }
+            }
+            else
+                HasNpcs = System.Windows.Visibility.Hidden;
             GetDirections();
             RefreshRoomFlags();
         }
