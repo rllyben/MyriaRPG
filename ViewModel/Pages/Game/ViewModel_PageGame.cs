@@ -1,6 +1,4 @@
-﻿using MyriaLib.Entities.Maps;
-using MyriaLib.Entities.Players;
-using MyriaLib.Entities.Skills;
+﻿using MyriaLib.Entities.Players;
 using MyriaLib.Services;
 using MyriaLib.Systems.Events;
 using MyriaRPG.Model;
@@ -11,10 +9,7 @@ using MyriaRPG.View.Pages.Game.IngameWindow;
 using MyriaRPG.View.Windows;
 using MyriaRPG.ViewModel.Pages.Game.IngameWindow;
 using MyriaRPG.ViewModel.UserControls;
-using System.Numerics;
-using System.Security.Cryptography;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace MyriaRPG.ViewModel.Pages.Game

@@ -1,5 +1,4 @@
-﻿using MyriaLib.Entities.Players;
-using MyriaLib.Entities.Skills;
+﻿using MyriaLib.Entities.Skills;
 using MyriaLib.Systems;
 using MyriaLib.Services;
 using MyriaRPG.Model;

@@ -1,9 +1,7 @@
 ﻿// MyriaRPG.Model.Behaviors (or wherever you prefer)
 // Requires: Microsoft.Xaml.Behaviors.Wpf
-using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Microsoft.Xaml.Behaviors;
 

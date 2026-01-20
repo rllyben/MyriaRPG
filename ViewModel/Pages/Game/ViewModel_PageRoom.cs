@@ -1,12 +1,13 @@
 ﻿using MyriaLib.Entities.Maps;
+using MyriaLib.Entities.NPCs;
 using MyriaLib.Entities.Players;
 using MyriaLib.Services;
-using MyriaLib.Systems;
-using MyriaLib.Systems.Events;
+using MyriaLib.Systems.Enums;
 using MyriaRPG.Model;
 using MyriaRPG.Services;
 using MyriaRPG.Utils;
 using MyriaRPG.View.Pages.Game;
+using System.Windows.Visibility;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -15,11 +16,32 @@ namespace MyriaRPG.ViewModel.Pages.Game
     public class ViewModel_PageRoom : BaseViewModel
     {
         private static ViewModel_PageRoom _instantce;
+
+        private Player player;
+        private Room currentRoom;
+
         private string btn_North;
+        private bool _hasNorth;
+        private bool _hasSouth;
+        private bool _hasWest;
+        private bool _hasEast;
         private string btn_South;
         private string btn_West;
-        private string btn_East; 
-        private System.Windows.Visibility _hasNpcs;
+        private string btn_East;
+
+        private string _roomName;
+        private string _roomDescription;
+        private string _imageSource;
+
+        private Visibility btnFightVisibility;
+        private Visibility btnGatherVisibility;
+        private Visibility _hasNpcsVisibility;
+
+        private bool _hasMonsters;
+        private bool _canGather;
+        private bool _hasNpcs;
+        private Npc _selectedNpc;
+
         [LocalizedKey("game.exit.north")]
         public string BtnNorth
         {
@@ -64,13 +86,15 @@ namespace MyriaRPG.ViewModel.Pages.Game
             }
 
         }
-        public System.Windows.Visibility HasNpcs
-        {
-            get => _hasNpcs;
-            set { _hasNpcs = value; OnPropertyChanged(); }
-        }
-        private Room currentRoom;
-        private string _roomName;
+        [LocalizedKey("app.general.UI.fight")]
+        public string BtnFight { get; set; }
+        [LocalizedKey("pg.room.UI.gather")]
+        public string BtnGather { get; set; }
+        [LocalizedKey("app.general.UI.npcs")]
+        public string BtnNpcs { get; set; }
+        [LocalizedKey("pg.room.UI.talk")]
+        public string BtnTalk { get; set; }
+
         public string RoomName 
         { 
             get { return _roomName; }
@@ -80,7 +104,6 @@ namespace MyriaRPG.ViewModel.Pages.Game
                 OnPropertyChanged();
             }
         }
-        private string _roomDescription = "Sunlit plaza with cobblestones and a gentle fountain.";
         public string RoomDescription 
         { 
             get { return _roomDescription; }
@@ -91,43 +114,6 @@ namespace MyriaRPG.ViewModel.Pages.Game
             }
 
         }
-
-        [LocalizedKey("app.general.UI.fight")]
-        public string BtnFight { get; set; }
-        [LocalizedKey("app.general.UI.npcs")]
-        public string BtnNpcs { get; set; }
-        [LocalizedKey("pg.room.UI.talk")]
-        public string BtnTalk { get; set; }
-
-        // Exit flags
-        public bool HasNorth { get => _n; set { _n = value; OnPropertyChanged(); } }
-        private bool _n;
-        public bool HasEast { get => _e; set { _e = value; OnPropertyChanged(); } }
-        private bool _e;
-        public bool HasSouth { get => _s; set { _s = value; OnPropertyChanged(); } }
-        private bool _s;
-        public bool HasWest { get => _w; set { _w = value; OnPropertyChanged(); } }
-        private bool _w;
-        public ObservableCollection<string> Log { get; set; }
-        private System.Windows.Visibility btnFightVisibility;
-        public System.Windows.Visibility BtnFightVisibility { get => btnFightVisibility; set { btnFightVisibility = value; OnPropertyChanged(); } }
-        private bool _hasMonsters;
-        public bool HasMonsters
-        {
-            get => _hasMonsters;
-            set 
-            { 
-                _hasMonsters = value;
-                if (value == true)
-                    BtnFightVisibility = System.Windows.Visibility.Visible;
-                else
-                    BtnFightVisibility = System.Windows.Visibility.Hidden;
-
-                OnPropertyChanged(); 
-            }
-
-        }
-        private string _imageSource;
         public string ImageSource
         {
             get => _imageSource;
@@ -138,33 +124,98 @@ namespace MyriaRPG.ViewModel.Pages.Game
             }
 
         }
-        public ObservableCollection<string> Npcs { get; set; }
-        public string SelectedNpc { get; set; }
+
+
+        // Exit flags
+        public bool HasNorth { get => _hasNorth; set { _hasNorth = value; OnPropertyChanged(); } }
+        public bool HasEast { get => _hasEast; set { _hasEast = value; OnPropertyChanged(); } }
+        public bool HasSouth { get => _hasSouth; set { _hasSouth = value; OnPropertyChanged(); } }
+        public bool HasWest { get => _hasWest; set { _hasWest = value; OnPropertyChanged(); } }
+
+        public Visibility BtnFightVisibility { get => btnFightVisibility; set { btnFightVisibility = value; OnPropertyChanged(); } }
+        public Visibility BtnGatherVisibility { get => btnGatherVisibility; set { btnGatherVisibility = value; OnPropertyChanged(); } }
+        public Visibility HasNpcsVisibility { get => _hasNpcsVisibility; set { _hasNpcsVisibility = value; OnPropertyChanged(); } }
+        public bool HasMonsters {
+            get => _hasMonsters;
+            set 
+            { 
+                _hasMonsters = value;
+                if (value)
+                    BtnFightVisibility = Visibility.Visible;
+                else
+                    BtnFightVisibility = System.Windows.Visibility.Hidden;
+
+                OnPropertyChanged(); 
+            }
+
+        }
+        public bool CanGather
+        {
+            get => _canGather;
+            set 
+            {
+                _canGather = value;
+                if (value)
+                    BtnGatherVisibility = Visibility.Visible;
+                else
+                    BtnGatherVisibility = Visibility.Hidden;
+
+                OnPropertyChanged();
+            }
+
+        }
+        public bool HasNpcs
+        {
+            get => _hasNpcs;
+            set
+            {
+                _hasNpcs = value;
+                if (value)
+                    HasNpcsVisibility = Visibility.Visible;
+                else
+                    HasNpcsVisibility = Visibility.Hidden;
+
+                OnPropertyChanged();
+            }
+
+        }
+
+        public Npc SelectedNpc { get => _selectedNpc; set { _selectedNpc = value; } }
+
+        public ObservableCollection<string> Log { get; set; }
+        public ObservableCollection<Npc> Npcs { get; set; }
+
         // Commands
         public ICommand MoveCommand { get; }
         public ICommand StartFightCommand { get; }
         public ICommand OpenNpcsCommand { get; }
         public ICommand TalkCommand { get; }
+        public ICommand StartGatheringCommand { get; }
+
         public ViewModel_PageRoom()
         {
-            Player player = UserAccoundService.CurrentCharacter;
-            Npcs = new ObservableCollection<string>();
+            player = UserAccoundService.CurrentCharacter;
+
+            Npcs = new ObservableCollection<Npc>();
+            Log = new ObservableCollection<string>();
+
             MoveCommand = new RelayCommand<string>(Move);
             StartFightCommand = new RelayCommand(StartFight);
             TalkCommand = new RelayCommand(TalkNpc);
+            StartGatheringCommand = new RelayCommand(StartGathering);
+
             currentRoom = RoomService.GetRoomById(player.CurrentRoom.Id);
-            RoomName = Localization.T(currentRoom.Name);
+            RoomName = MyriaLib.Systems.Localization.T(currentRoom.Name);
             RoomDescription = currentRoom.Description;
             ImageSource = "/Data/images/rooms/" + currentRoom.Name + ".jpg";
-            Log = new ObservableCollection<string>();
-            if (currentRoom.Npcs != null && currentRoom.Npcs.Count > 0)
-                HasNpcs = System.Windows.Visibility.Visible;
-            else
-                HasNpcs = System.Windows.Visibility.Hidden;
-            foreach(string npc in currentRoom.Npcs)
+
+            HasNpcs = currentRoom.Npcs != null && currentRoom.Npcs.Count > 0;
+            Npcs.Clear();
+            foreach (Npc npc in currentRoom.NpcRefs)
             {
                 Npcs.Add(npc);
             }
+
             RefreshRoomFlags();
             _instantce = this;
 
@@ -197,12 +248,13 @@ namespace MyriaRPG.ViewModel.Pages.Game
         }
         private void TalkNpc()
         {
-            if (SelectedNpc == "Healer")
+            if (SelectedNpc.Type == NpcType.Healer)
             {
-                UserAccoundService.CurrentCharacter.Heal(UserAccoundService.CurrentCharacter.MaxHealth);
-                UserAccoundService.CurrentCharacter.RestoreMana(UserAccoundService.CurrentCharacter.MaxMana);
+                player.CurrentHealth = player.MaxHealth;
+                player.CurrentMana = player.MaxMana;
                 WriteLog(Localization.T("msg.healer.fullheal"));
             }
+            CharacterHeaderVm.Refresh();
         }
         public static void RefreshLocalisation()
         {
@@ -210,11 +262,17 @@ namespace MyriaRPG.ViewModel.Pages.Game
                 return;
             _instantce.RoomName = Localization.T(_instantce.currentRoom.Name);
         }
+        public void StartGathering()
+        {
+
+        }
         private void RefreshRoomFlags()
         {
             GetDirections();
             HasMonsters = currentRoom.HasMonsters && !currentRoom.IsCleared
                          && (currentRoom.Monsters.Count > 0 || currentRoom.CurrentMonsters.Count > 0);
+            CanGather = currentRoom.GathersRemaining > 0 && currentRoom.GatheringSpots != null && currentRoom.GatheringSpots.Count > 0;
+            HasNpcs = currentRoom.Npcs != null && currentRoom.Npcs.Count > 0;
         }
         private void GetDirections()
         {
@@ -239,13 +297,13 @@ namespace MyriaRPG.ViewModel.Pages.Game
         private void Move(string? dir)
         {
             if (string.IsNullOrWhiteSpace(dir)) return;
-            // use shared game lib to TryMove and update:
-            RoomName = $"Moved {dir}";
-            RoomDescription = $"You travel {dir}.";
-            // Then set exit flags for new room accordingly
+            if (!RoomService.CanEnterRoom(currentRoom.Exits[dir.ToLower()], player))
+            {
 
-            currentRoom = RoomService.GetRoomById(currentRoom.Exits[dir.ToLower()].Id);
-            UserAccoundService.CurrentCharacter.CurrentRoom = currentRoom;
+                return;
+            }
+            currentRoom = currentRoom.Exits[dir.ToLower()];
+            player.CurrentRoom = currentRoom;
             RoomName = MyriaLib.Systems.Localization.T(currentRoom.Name);
             RoomDescription = currentRoom.Description;
             ImageSource = "/Data/images/rooms/" + currentRoom.Name + ".jpg";

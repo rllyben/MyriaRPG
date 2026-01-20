@@ -192,7 +192,7 @@
     "Name": "room.lumina.center",
     "Description": "A peaceful hilltop city where adventureres begin their journey.",
     "IsCity": true,
-    "Npcs": [ "Healer", "Quest Board" ],
+    "Npcs": [ "healer_default", "trader_default" ],
     "ExitIds": {
       "south": 5,
       "north": 12,
@@ -205,7 +205,7 @@
     "Name": "room.lumina.north",
     "Description": "The northern gate of the city, you can hear the sound of a smith hammering away at the metal.",
     "IsCity": true,
-    "Npcs": [ "Smith" ],
+    "Npcs": [ "smith_default", "villager_default" ],
     "ExitIds": {
       "south": 11,
       "north": 14
@@ -217,7 +217,7 @@
     "Name": "room.lumina.east",
     "Description": "The eastern Gate of the City, you can hear the sounds of the Forest Edge. Many adventurers are passing by.",
     "IsCity": true,
-    "Npcs": [ "Quest Board" ],
+    "Npcs": [ "villager_default" ],
     "ExitIds": {
       "west": 11,
       "east": 25
@@ -269,7 +269,7 @@
     "Name": "room.ceralith.outskirts",
     "Description": "A small town nestled in the mountains, the town is filled with people, but it's mostly farmers.",
     "IsCity": true,
-    "Npcs": [ "Smith" ],
+    "Npcs": [ "smith_default" ],
     "RequirementType": 1,
     "AccessLevel": 10,
     "ExitIds": {
@@ -283,7 +283,7 @@
     "Name": "room.ceralith.center",
     "Description": "The small City of Ceralith, it's a small town, but it's filled with people.",
     "IsCity": true,
-    "Npcs": [ "Healer" ],
+    "Npcs": [ "healer_default" ],
     "RequirementType": 1,
     "AccessLevel": 10,
     "ExitIds": {
@@ -297,7 +297,7 @@
     "Name": "room.ceralith.east",
     "Description": "You can already see the wide plains with many acres of farmland.",
     "IsCity": true,
-    "Npcs": [ "Quest Board" ],
+    "Npcs": [ "villager_default" ],
     "RequirementType": 1,
     "AccessLevel": 10,
     "ExitIds": {
@@ -444,7 +444,7 @@
     "Name": "room.elorium.north.gate",
     "Description": "The gate is gigantic, it's walls decorated with black marble. It's very lively, you can hear the sound of people talking and laughing.",
     "IsCity": true,
-    "Npcs": [ "Quest Board" ],
+    "Npcs": [ "villager_default" ],
     "RequirementType": 1,
     "AccessLevel": 20,
     "ExitIds": {
@@ -458,6 +458,7 @@
     "Name": "room.elorium.north.district",
     "Description": "Even though you are at the outermost district of Elorium, the streets are still filled with people. You can see the cathedral in the distance.",
     "IsCity": true,
+    "Npcs": [ "villager_default" ],
     "RequirementType": 1,
     "AccessLevel": 20,
     "ExitIds": {
@@ -472,6 +473,7 @@
     "Name": "room.elorium.center.spellbound",
     "Description": "The famous Spellbound Street, it's a big street with many shops and restaurants. Under which are many spell book stores.",
     "IsCity": true,
+    "Npcs": [ "trader_default" ],
     "RequirementType": 1,
     "AccessLevel": 20,
     "ExitIds": {
@@ -485,7 +487,7 @@
     "Name": "room.elorium.north.smithy",
     "Description": "",
     "IsCity": true,
-    "Npcs": [ "Smith" ],
+    "Npcs": [ "smith_default" ],
     "RequirementType": 1,
     "AccessLevel": 20,
     "ExitIds": {
@@ -499,7 +501,7 @@
     "Name": "room.elorium.center.market",
     "Description": "A market in the forest, the air is filled with the scent of pine trees. You can still see Lumina's Rise in the distance.",
     "IsCity": true,
-    "Npcs": [ "Healer", "Collector", "Herbalist", "Farmer", "Fisher" ],
+    "Npcs": [ "trader_default" ],
     "RequirementType": 1,
     "AccessLevel": 20,
     "ExitIds": {
@@ -514,7 +516,7 @@
     "Name": "room.elorium.center.cathedral",
     "Description": "A Cathedral in the forest, the air is filled with the scent of pine trees. You can still see Lumina's Rise in the distance.",
     "IsCity": true,
-    "Npcs": [ "Healer" ],
+    "Npcs": [ "healer_default" ],
     "RequirementType": 1,
     "AccessLevel": 20,
     "ExitIds": {
@@ -530,7 +532,7 @@
     "Name": "room.elorium.center",
     "Description": "The city center of Elorium, the streets are filled with people, you see the Guild Hall.",
     "IsCity": true,
-    "Npcs": [ "Quest Board", "Guild Hall" ],
+    "Npcs": [ "villager_default" ],
     "RequirementType": 1,
     "AccessLevel": 20,
     "ExitIds": {
@@ -546,7 +548,7 @@
     "Name": "room.elorium.east.gate",
     "Description": "The eastern gate seems to be closed, you can hear the sounds of an intense battle.",
     "IsCity": true,
-    "Npcs": [ "Quest Board" ],
+    "Npcs": [ "villager_default" ],
     "RequirementType": 1,
     "AccessLevel": 20,
     "ExitIds": {
@@ -559,7 +561,7 @@
     "Name": "room.elorium.south.district",
     "Description": "An huge District, though it seems to be mostly a slum. You can see the Cathedral Tower towering over the District like an laughing shadow",
     "IsCity": true,
-    "Npcs": [ "Bettler" ],
+    "Npcs": [ "villager_default" ],
     "RequirementType": 1,
     "AccessLevel": 20,
     "ExitIds": {
@@ -613,7 +615,7 @@
     "Name": "room.elorium.center.academy",
     "Description": "The renound Academy of Elorium, here you can learn many skills, from magic to healing to fighting and shooting.",
     "IsCity": true,
-    "Npcs": [ "Skill Master" ],
+    "Npcs": [ "villager_default" ],
     "RequirementType": 1,
     "AccessLevel": 20,
     "ExitIds": {

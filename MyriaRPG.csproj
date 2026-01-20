@@ -15,6 +15,7 @@
     <None Remove="Data\common\forests.json" />
     <None Remove="Data\common\items.json" />
     <None Remove="Data\common\monsters.json" />
+    <None Remove="Data\common\npcs.json" />
     <None Remove="Data\common\quests.json" />
     <None Remove="Data\common\rooms.json" />
     <None Remove="Data\common\skills.json" />
@@ -39,6 +40,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\common\monsters.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\common\npcs.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\common\quests.json">
