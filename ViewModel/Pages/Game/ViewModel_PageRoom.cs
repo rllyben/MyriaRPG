@@ -3,6 +3,8 @@ using MyriaLib.Entities.NPCs;
 using MyriaLib.Entities.Players;
 using MyriaLib.Services;
 using MyriaLib.Systems.Enums;
+using MyriaLib.Systems.Events;
+using MyriaLib.Systems;
 using MyriaRPG.Model;
 using MyriaRPG.Services;
 using MyriaRPG.Utils;
@@ -253,7 +255,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
                 player.CurrentMana = player.MaxMana;
                 WriteLog(Localization.T("msg.healer.fullheal"));
             }
-            CharacterHeaderVm.Refresh();
+
         }
         public static void RefreshLocalisation()
         {
@@ -308,15 +310,13 @@ namespace MyriaRPG.ViewModel.Pages.Game
             ImageSource = "/Data/images/rooms/" + currentRoom.Name + ".jpg";
             if (currentRoom.Npcs != null && currentRoom.Npcs.Count > 0)
             {
-                HasNpcs = System.Windows.Visibility.Visible;
+                HasNpcs = currentRoom.Npcs.Count > 0;
                 Npcs.Clear();
-                foreach (string npc in currentRoom.Npcs)
+                foreach (Npc npc in currentRoom.NpcRefs)
                 {
                     Npcs.Add(npc);
                 }
             }
-            else
-                HasNpcs = System.Windows.Visibility.Hidden;
             GetDirections();
             RefreshRoomFlags();
         }

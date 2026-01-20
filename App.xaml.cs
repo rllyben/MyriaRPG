@@ -18,7 +18,6 @@ namespace MyriaRPG
             SettingsService.Load();
             MyriaLib.Systems.Localization.Load(Settings.Current.LanguageSettings.Local);
             ThemeManager.Apply(Settings.Current.VisualSettings.DarkMode);
-            TestingClass.TestSaveNpc();
             GameService.InitializeGame();
         }
 
