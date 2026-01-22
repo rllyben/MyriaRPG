@@ -11,8 +11,8 @@ namespace MyriaRPG.Model
         { Name = name; Type = type; Rarity = rarity; IsEquipable = type is "Weapon" or "Armor" or "Accessory"; }
         public ItemVm(string name, string type, ItemRarity rarity, SolidColorBrush color)
         { Name = name; Type = type; Rarity = rarity; IsEquipable = type is "Weapon" or "Armor" or "Accessory"; Color = color; }
-
-
+        private string _id;
+        public string Id { get { return _id; } set { _id = value; } }
         public string Name { get; set; }
         public string Type { get; set; }
         public ItemRarity Rarity { get; set; }

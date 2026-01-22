@@ -75,6 +75,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
                 temp.Rarity = item.Rarity;
                 temp.Color = rarityColors[item.Rarity];
                 temp.Quantity = item.StackSize;
+                temp.Id = item.Id;
 
                 Backpack.Add(temp);
             }
@@ -86,6 +87,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
                 temp.Type = (weapon as EquipmentItem).SlotType.ToString();
                 temp.Rarity = weapon.Rarity;
                 temp.Color = rarityColors[weapon.Rarity];
+                temp.Id = weapon.Id;
                 Swap(ref _ew, temp);
             }
             if (_player.ArmorSlot != null)
@@ -96,6 +98,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
                 temp.Type = (armor as EquipmentItem).SlotType.ToString();
                 temp.Rarity = armor.Rarity;
                 temp.Color = rarityColors[armor.Rarity];
+                temp.Id = armor.Id;
                 Swap(ref _ea, temp);
             }
             if (_player.AccessorySlot != null)
@@ -106,6 +109,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
                 temp.Type = (accessory as EquipmentItem).SlotType.ToString();
                 temp.Rarity = accessory.Rarity;
                 temp.Color = rarityColors[accessory.Rarity];
+                temp.Id = accessory.Id;
                 Swap(ref _ex, temp);
             }
             Bronze = _player.Money.Coins.TotalBronze;
@@ -119,20 +123,18 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             if (item is null) return;
             if (!IsCompatible(a.Slot, item)) return;
 
-            Player player = UserAccoundService.CurrentCharacter;
-
             switch (a.Slot)
             {
                 case "Weapon": 
-                    if (_player.Inventory.SwapEquipment(item.Name, _player))
+                    if (_player.Inventory.SwapEquipment(item.Id, _player))
                         Swap(ref _ew, item);
                     break;
                 case "Armor": 
-                    if (_player.Inventory.SwapEquipment(item.Name, _player)) 
+                    if (_player.Inventory.SwapEquipment(item.Id, _player)) 
                         Swap(ref _ea, item); 
                     break;
                 case "Accessory": 
-                    if (_player.Inventory.SwapEquipment(item.Name, _player))
+                    if (_player.Inventory.SwapEquipment(item.Id, _player))
                         Swap(ref _ex, item);
                     break;
             }

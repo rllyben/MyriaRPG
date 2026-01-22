@@ -2,14 +2,18 @@
 using MyriaLib.Entities.NPCs;
 using MyriaLib.Entities.Players;
 using MyriaLib.Services;
-using MyriaLib.Systems.Enums;
-using MyriaLib.Systems.Events;
 using MyriaLib.Systems;
+using MyriaLib.Systems.Events;
 using MyriaRPG.Model;
 using MyriaRPG.Services;
 using MyriaRPG.Utils;
 using MyriaRPG.View.Pages.Game;
+using MyriaRPG.View.Windows;
+using MyriaRPG.ViewModel.Pages.Game.IngameWindow;
+using MyriaRPG.ViewModel.UserControls;
+using MyriaRPG.View.Pages.Game.IngameWindow.NpcInteraction;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace MyriaRPG.ViewModel.Pages.Game
@@ -235,11 +239,11 @@ namespace MyriaRPG.ViewModel.Pages.Game
         }
         private void OnItemReceived(object? sender, ItemReceivedEventArgs e)
         {
-            WriteLog(Localization.T("log.item.received", e.Amount, e.Item.Name));
+            WriteLog(Localization.T("log.item.received", e.Amount, Localization.T(e.Item.Name)));
         }
         private void OnPlayerSkillLearned(object? sender, SkillLearnedEventArgs e)
         {
-            WriteLog(Localization.T("log.skill.learned", e.Skill.Name));
+            WriteLog(Localization.T("log.skill.learned", Localization.T(e.Skill.Name)));
         }
         public static void WriteLog(string msg)
         {
@@ -249,13 +253,10 @@ namespace MyriaRPG.ViewModel.Pages.Game
         }
         private void TalkNpc()
         {
-            if (SelectedNpc.Type == NpcType.Healer)
-            {
-                player.CurrentHealth = player.MaxHealth;
-                player.CurrentMana = player.MaxMana;
-                WriteLog(Localization.T("msg.healer.fullheal"));
-            }
-
+            if (SelectedNpc == null) return;
+            MainWindow.Instance.gameWindow.Visibility = System.Windows.Visibility.Visible;
+            Page page = new Page_GeneralNpcInteraction(SelectedNpc);
+            Navigation.NavigateIngameWindow(page);
         }
         public static void RefreshLocalisation()
         {

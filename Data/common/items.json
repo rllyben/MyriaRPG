@@ -128,7 +128,7 @@
   },
   {
     "Id": "leather_bow",
-    "Name": "leather_bow",
+    "Name": "item.leather_bow",
     "Description": "A light bow ideal for agile archers.",
     "Type": "equipment",
     "Rarity": "Common",
