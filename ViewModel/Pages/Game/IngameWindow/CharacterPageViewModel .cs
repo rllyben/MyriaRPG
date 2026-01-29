@@ -27,6 +27,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
         private string tbl_Crit;
         private string tbl_Evasion;
         private string tbl_Block;
+        private string _charClass;
         [LocalizedKey("pg.character.info.level")]
         public string TblLevel
         {
@@ -236,6 +237,16 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             }
 
         }
+        public string CharClass
+        {
+            get => _charClass;
+            set
+            {
+                _charClass = value;
+                OnPropertyChanged();
+            }
+
+        }
         public string CharacterName { get; set; }
         public int Level { get; set; }
         public long XpCurrent { get; set; }
@@ -263,6 +274,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             Level = player.Level;
             XpCurrent = player.Experience;
             XpToNextLevel = player.ExpForNextLvl;
+            CharClass = player.Class.ToString();
 
             Base = new BaseStatsVm(
                 player.Stats.Strength, player.Stats.Dexterity, player.Stats.Endurance,

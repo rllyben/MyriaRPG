@@ -31,6 +31,7 @@
             <TextBlock Text="  •  " Foreground="#7E7E8A" FontSize="16" Margin="4,0"/>
             <TextBlock Text="{Binding TblLevel}" Foreground="#AFAFBA" FontSize="16"/>
             <TextBlock Text="{Binding Level}" Foreground="#EFEFEF" FontSize="16" FontWeight="SemiBold"/>
+            <TextBlock Text="{Binding CharClass}" Foreground="#EFEFEF" FontSize="16" FontWeight="SemiBold"/>
         </StackPanel>
 
         <!-- XP progress -->

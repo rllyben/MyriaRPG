@@ -195,6 +195,7 @@
     "BaseBonusATK": 10,
     "BaseBonusSTR": 3,
     "BuyPrice": 55,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {
@@ -230,6 +231,7 @@
     "BaseBonusATK": 3,
     "BaseBonusAim": 2,
     "BuyPrice": 55,
+    "Type": "equipment",
     "Rarity": "Common"
   },
   {

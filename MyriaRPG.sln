@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36221.1
+# Visual Studio Version 18
+VisualStudioVersion = 18.2.11415.280 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyriaRPG", "MyriaRPG.csproj", "{E05A263B-6DD9-411C-8521-36E56A07CEB4}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyriaRPG", "MyriaRPG.csproj
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyriaLib", "..\MyriaLib\MyriaLib.csproj", "{5410E26F-8734-4A81-84FA-FA52B0298DCD}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MyriaRpg.Setup", "..\MyriaRpg.Setup\MyriaRpg.Setup.vdproj", "{AB65B25B-3D8E-685C-E247-169694C32491}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +26,8 @@ Global
 		{5410E26F-8734-4A81-84FA-FA52B0298DCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5410E26F-8734-4A81-84FA-FA52B0298DCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5410E26F-8734-4A81-84FA-FA52B0298DCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB65B25B-3D8E-685C-E247-169694C32491}.Debug|Any CPU.ActiveCfg = Debug
+		{AB65B25B-3D8E-685C-E247-169694C32491}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

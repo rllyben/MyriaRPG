@@ -1,15 +1,10 @@
 ﻿using MyriaLib.Entities.NPCs;
+using MyriaLib.Entities.Players;
 using MyriaLib.Services;
-using MyriaLib.Systems;
 using MyriaRPG.Model;
 using MyriaRPG.Utils;
 using MyriaRPG.View.Windows;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -24,6 +19,12 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
         private string _npcTypeText;
         private string _dialogText;
         private string _btnClose;
+        private BaseViewModel _currentPanel;
+        public BaseViewModel CurrentPanel
+        {
+            get => _currentPanel;
+            set { _currentPanel = value; OnPropertyChanged(); }
+        }
         public string NpcName 
         {
             get => _npcName;
@@ -73,6 +74,16 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
 
         public GeneralNpcInteractionViewModel(Npc npc)
         {
+            Player player = UserAccoundService.CurrentCharacter;
+
+            var dialogPanel = new DialogPanelViewModel(
+                npc,
+                player,
+                onNavigate: panel => CurrentPanel = panel
+            );
+
+            CurrentPanel = dialogPanel;
+
             NpcName = MyriaLib.Systems.Localization.T(npc.NameKey);
             NpcTypeText = MyriaLib.Systems.Localization.T(npc.Type.ToString());
             DialogText = MyriaLib.Systems.Localization.T("npc." + npc.Id + "dialog");
@@ -90,7 +101,6 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
             }
             CloseCommand = new RelayCommand(() => MainWindow.Instance.gameWindow.Visibility = Visibility.Hidden);
         }
-        
 
     }
     public class ServiceOption : BaseViewModel

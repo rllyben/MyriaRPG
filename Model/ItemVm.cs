@@ -1,12 +1,22 @@
 ﻿using System.Windows.Media;
 using MyriaRPG.ViewModel;
 using MyriaLib.Systems.Enums;
+using MyriaLib.Entities.Items;
+using MyriaLib.Systems;
 
 namespace MyriaRPG.Model
 {
     public class ItemVm : BaseViewModel
     {
         public ItemVm() { }
+        public ItemVm(Item item) 
+        {
+            Id = item.Id;
+            Name = item.Name;
+            Type = item.Name;
+            Rarity = item.Rarity;
+            IsEquipable = item is EquipmentItem;
+        }
         public ItemVm(string name, string type, ItemRarity rarity)
         { Name = name; Type = type; Rarity = rarity; IsEquipable = type is "Weapon" or "Armor" or "Accessory"; }
         public ItemVm(string name, string type, ItemRarity rarity, SolidColorBrush color)
@@ -17,6 +27,11 @@ namespace MyriaRPG.Model
         public string Type { get; set; }
         public ItemRarity Rarity { get; set; }
         public SolidColorBrush Color { get; set; }
+
+        public override string ToString()
+        {
+            return Localization.T(Name);
+        }
 
 
         public string Icon { get => _icon; set { _icon = value; OnPropertyChanged(); } }
