@@ -49,17 +49,17 @@
                 <TextBlock Text="{Binding RoomDescription}" Margin="0,8,0,0" TextWrapping="Wrap" Foreground="{DynamicResource Brush.Foreground}"/>
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Center">
                     <Button Content="{Binding BtnFight}"  Command="{Binding StartFightCommand}"
-                                Visibility="{Binding BtnFightVisibility}" Margin="5,0,5,0"/>
+                            Visibility="{Binding BtnFightVisibility}" Margin="5,0,5,0"/>
                     <Button Content="{Binding BtnGather}"  Command="{Binding StartGatheringCommand}"
-                                Visibility="{Binding BtnGatherVisibility}" Margin="5,0,5,0"/>
+                            Visibility="{Binding BtnGatherVisibility}" Margin="5,0,5,0"/>
                 </StackPanel>
                 <!-- NPC interaction panel -->
                 <Border Margin="0,12,0,0"
-                            Background="{DynamicResource Brush.Surface}"
-                            BorderBrush="{DynamicResource Brush.Border}"
-                            BorderThickness="1"
-                            CornerRadius="{StaticResource Radius.Panel}"
-                            Padding="10">
+                        Background="{DynamicResource Brush.Surface}"
+                        BorderBrush="{DynamicResource Brush.Border}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource Radius.Panel}"
+                        Padding="10">
 
                     <StackPanel>
                         <TextBlock Text="{Binding NpcsHeaderText}" FontWeight="SemiBold" Opacity="0.9"/>
@@ -74,29 +74,33 @@
 
                             <!-- NPC list -->
                             <ListBox Grid.Column="0"
-                                         ItemsSource="{Binding Npcs}"
-                                         SelectedItem="{Binding SelectedNpc}"
-                                         Visibility="{Binding HasNpcsVisibility}"
-                                         MinHeight="120"/>
+                                     ItemsSource="{Binding Npcs}"
+                                     SelectedItem="{Binding SelectedNpc}"
+                                     Background="{x:Null}"
+                                     Foreground="{DynamicResource Brush.Foreground}"
+                                     Visibility="{Binding HasNpcsVisibility}"
+                                     MinHeight="120"/>
 
                             <!-- NPC details -->
                             <StackPanel Grid.Column="2">
                                 <TextBlock Text="{Binding SelectedNpc.Name}" FontSize="16" FontWeight="SemiBold"/>
                                 <TextBlock Text="{Binding SelectedNpc.ShortDescription}"
-                                               Margin="0,4,0,8"
-                                               TextWrapping="Wrap"
-                                               Opacity="0.85"/>
+                                           Margin="0,4,0,8"
+                                           TextWrapping="Wrap"
+                                           Opacity="0.85"/>
 
                                 <StackPanel Orientation="Horizontal">
                                     <Button Content="{Binding BtnTalk}"
-                                                Command="{Binding TalkCommand}"
-                                                Margin="10,0,8,0"
-                                                Visibility="{Binding HasNpcsVisibility}"/>
+                                            Command="{Binding TalkCommand}"
+                                            Margin="10,0,8,0"
+                                            Visibility="{Binding HasNpcsVisibility}"/>
                                 </StackPanel>
                             </StackPanel>
                             <ListBox Grid.Column="3"
-                                         ItemsSource="{Binding Log}"
-                                         MinHeight="120"/>
+                                     ItemsSource="{Binding Log}"
+                                     Background="{x:Null}"
+                                     Foreground="{DynamicResource Brush.Foreground}"
+                                     MinHeight="120"/>
                         </Grid>
                     </StackPanel>
                 </Border>
