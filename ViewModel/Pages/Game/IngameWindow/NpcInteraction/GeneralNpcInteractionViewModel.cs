@@ -1,4 +1,5 @@
 ﻿using MyriaLib.Entities.NPCs;
+using MyriaLib.Entities.Players;
 using MyriaLib.Services;
 using MyriaRPG.Model;
 using MyriaRPG.Utils;
@@ -18,7 +19,12 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
         private string _npcTypeText;
         private string _dialogText;
         private string _btnClose;
-        private object _currentPanel;
+        private BaseViewModel _currentPanel;
+        public BaseViewModel CurrentPanel
+        {
+            get => _currentPanel;
+            set { _currentPanel = value; OnPropertyChanged(); }
+        }
         public string NpcName 
         {
             get => _npcName;
@@ -74,6 +80,16 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
 
         public GeneralNpcInteractionViewModel(Npc npc)
         {
+            Player player = UserAccoundService.CurrentCharacter;
+
+            var dialogPanel = new DialogPanelViewModel(
+                npc,
+                player,
+                onNavigate: panel => CurrentPanel = panel
+            );
+
+            CurrentPanel = dialogPanel;
+
             NpcName = MyriaLib.Systems.Localization.T(npc.NameKey);
             NpcTypeText = MyriaLib.Systems.Localization.T(npc.Type.ToString());
             DialogText = MyriaLib.Systems.Localization.T("npc." + npc.Id + "dialog");
@@ -91,20 +107,6 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
                 ServiceOptions.Add(serviceOption);
             }
             CloseCommand = new RelayCommand(() => MainWindow.Instance.gameWindow.Visibility = Visibility.Hidden);
-        }
-        private void ExecuteService(Npc npc, string serviceId)
-        {
-            var player = UserAccoundService.CurrentCharacter; // or however you access the active player
-
-            // For now: services needing item/amount can open a popup first (shop UI)
-            // Later you'll pass selected item + amount into Execute(...).
-            var result = NpcInteractionService.Execute(player, npc, serviceId);
-
-            // Use result to update the dialog line (and/or log)
-            DialogText = MyriaLib.Systems.Localization.T(result.MessageKey, result.Args);
-
-            // Optional: if result indicates opening a shop, you open your in-game window page here
-            // if (result.MessageKey == "npc.action.open.shop_equipment") { ... }
         }
 
     }

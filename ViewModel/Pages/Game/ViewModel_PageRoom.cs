@@ -15,6 +15,7 @@ using MyriaRPG.View.Pages.Game.IngameWindow.NpcInteraction;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Input;
+using MyriaLib.Services.Builder;
 
 namespace MyriaRPG.ViewModel.Pages.Game
 {
@@ -266,7 +267,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
         }
         public void StartGathering()
         {
-
+            player.Inventory.AddItem(ItemFactory.CreateItem("iron_ore"), player);
         }
         private void RefreshRoomFlags()
         {

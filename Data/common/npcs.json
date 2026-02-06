@@ -11,7 +11,8 @@
     "nameKey": "game.npc.smith.default.name",
     "descriptionKey": "game.npc.smith.default.desc",
     "type": 2,
-    "services": [ "shop_equipment", "upgrade", "craft" ]
+    "services": [ "shop_equipment", "upgrade", "craft" ],
+    "itemNames": [ "starter_dagger", "rogue_cloak", "crit_band", "steel_sword", "starter_armor", "iron_band", "fur_vest", "power_charm", "leather_bow", "archer_garb", "focus_band", "starter_crossbow", "hunter_coat", "starter_gauntlets", "padded_armor", "fighter_token", "starter_mace", "prayer_robes", "faith_charm", "tracker_band", "flamecaster_staff", "storm_robes", "starter_branch", "nature_robe", "life_leaf", "crystal_focus_band", "mage_robe", "mana_ring", "souls_blade", "bone_plate", "soul_shard", "pickaxe", "woodcutter_axe" ]
   },
   {
     "id": "trader_default",
