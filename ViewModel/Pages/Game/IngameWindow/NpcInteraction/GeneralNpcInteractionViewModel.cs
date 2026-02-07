@@ -25,14 +25,14 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
             get => _currentPanel;
             set { _currentPanel = value; OnPropertyChanged(); }
         }
-        public string NpcName 
+        public string NpcName
         {
             get => _npcName;
-            set 
-            { 
-                _npcName = value; 
+            set
+            {
+                _npcName = value;
                 OnPropertyChanged();
-            } 
+            }
 
         }
         public string NpcTypeText
@@ -67,9 +67,9 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
             }
 
         }
+
         public ObservableCollection<ServiceOption> ServiceOptions { get; set; } = new();
 
-        public ICommand BackToDialogCommand { get; }
         public ICommand CloseCommand { get; }
 
         public GeneralNpcInteractionViewModel(Npc npc)
@@ -90,15 +90,14 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
 
             foreach (string service in npc.Services)
             {
-                var serviceOption = new ServiceOption
-                {
-                    // Better text than raw "heal"/"buy_items"
-                    Text = MyriaLib.Systems.Localization.T($"npc.service.{service}.title"),
-
-                    Command = new RelayCommand(() => ExecuteService(npc, service))
-                };
-
+                ServiceOption serviceOption = new ServiceOption() { Text = service };
                 ServiceOptions.Add(serviceOption);
+
+                switch (service)
+                {
+                    case "heal": serviceOption.Command = new RelayCommand(npc.HealingAction); break;
+                }
+
             }
             CloseCommand = new RelayCommand(() => MainWindow.Instance.gameWindow.Visibility = Visibility.Hidden);
         }
@@ -106,13 +105,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
     }
     public class ServiceOption : BaseViewModel
     {
-        private string _text;
-        public string Text
-        {
-            get => _text;
-            set { _text = value; OnPropertyChanged(); }
-        }
-
+        public string Text { get; set; }
         public ICommand Command { get; set; }
     }
 
