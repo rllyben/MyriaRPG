@@ -67,12 +67,6 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
             }
 
         }
-
-        public object CurrentPanel
-        {
-            get => _currentPanel;
-            set { _currentPanel = value; OnPropertyChanged(); }
-        }
         public ObservableCollection<ServiceOption> ServiceOptions { get; set; } = new();
 
         public ICommand BackToDialogCommand { get; }
