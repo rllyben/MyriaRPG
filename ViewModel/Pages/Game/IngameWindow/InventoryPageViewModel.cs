@@ -62,8 +62,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             _player = UserAccoundService.CurrentCharacter;
             foreach (Item item in _player.Inventory.Items)
             {
-                ItemVm temp = new ItemVm();
-                temp.Name = Localization.T(item.Name);
+                ItemVm temp = new ItemVm(item);
                 string itemType = "";
                 if (item is EquipmentItem eq)
                     itemType = $"{eq.SlotType}";
@@ -71,20 +70,15 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
                     itemType = $"Consumable";
                 else if (item is MaterialItem mat)
                     itemType = $"Material";
-                temp.Type = itemType;
-                temp.Rarity = item.Rarity;
-                temp.Color = rarityColors[item.Rarity];
-                temp.Quantity = item.StackSize;
-                temp.Id = item.Id;
 
                 Backpack.Add(temp);
             }
             if (_player.WeaponSlot != null)
             {
-                Item weapon = _player.WeaponSlot;
+                EquipmentItem weapon = _player.WeaponSlot;
                 ItemVm temp = new ItemVm();
-                temp.Name = weapon.Name;
-                temp.Type = (weapon as EquipmentItem).SlotType.ToString();
+                temp.Name = Localization.T(weapon.Name) + $" {weapon.UpgradeLevel}";
+                temp.Type = weapon.SlotType.ToString();
                 temp.Rarity = weapon.Rarity;
                 temp.Color = rarityColors[weapon.Rarity];
                 temp.Id = weapon.Id;
@@ -92,10 +86,10 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             }
             if (_player.ArmorSlot != null)
             {
-                Item armor = _player.ArmorSlot;
+                EquipmentItem armor = _player.ArmorSlot;
                 ItemVm temp = new ItemVm();
-                temp.Name = armor.Name;
-                temp.Type = (armor as EquipmentItem).SlotType.ToString();
+                temp.Name = Localization.T(armor.Name) + $" {armor.UpgradeLevel}";
+                temp.Type = armor.SlotType.ToString();
                 temp.Rarity = armor.Rarity;
                 temp.Color = rarityColors[armor.Rarity];
                 temp.Id = armor.Id;
@@ -103,10 +97,10 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             }
             if (_player.AccessorySlot != null)
             {
-                Item accessory = _player.AccessorySlot;
+                EquipmentItem accessory = _player.AccessorySlot;
                 ItemVm temp = new ItemVm();
-                temp.Name = accessory.Name;
-                temp.Type = (accessory as EquipmentItem).SlotType.ToString();
+                temp.Name = Localization.T(accessory.Name) + $" {accessory.UpgradeLevel}";
+                temp.Type = accessory.SlotType.ToString();
                 temp.Rarity = accessory.Rarity;
                 temp.Color = rarityColors[accessory.Rarity];
                 temp.Id = accessory.Id;

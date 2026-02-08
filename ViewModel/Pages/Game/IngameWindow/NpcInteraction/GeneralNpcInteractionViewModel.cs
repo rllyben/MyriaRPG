@@ -15,6 +15,8 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
         // Because of Bug to not show ServiceOption Text property without
         public string Text { get; set; }
 
+        private Npc _npc;
+
         private string _npcName;
         private string _npcTypeText;
         private string _dialogText;
@@ -75,7 +77,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
         public GeneralNpcInteractionViewModel(Npc npc)
         {
             Player player = UserAccoundService.CurrentCharacter;
-
+            _npc = npc;
             var dialogPanel = new DialogPanelViewModel(
                 npc,
                 player,
@@ -95,11 +97,15 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
 
                 switch (service)
                 {
-                    case "heal": serviceOption.Command = new RelayCommand(npc.HealingAction); break;
+                    case "heal": serviceOption.Command = new RelayCommand(Healing); break;
                 }
 
             }
             CloseCommand = new RelayCommand(() => MainWindow.Instance.gameWindow.Visibility = Visibility.Hidden);
+        }
+        private void Healing()
+        {
+            _npc.HealingAction(UserAccoundService.CurrentCharacter);
         }
 
     }

@@ -11,6 +11,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
 {
     public class UpgradePanelViewModel : BaseViewModel
     {
+        private readonly Npc _npc;
         private readonly Player _player;
         private readonly Action _goBack;
 
@@ -43,6 +44,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
 
         public UpgradePanelViewModel(Npc npc, Player player, Action goBack)
         {
+            _npc = npc;
             _player = player;
             _goBack = goBack;
 
@@ -69,7 +71,8 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
             EquipmentItem eq = _player.Inventory.Items.Where(i => i.Id == SelectedEquipment.Id).FirstOrDefault() as EquipmentItem;
             if (eq == null)
                 return;
-            eq.TryUpgrade(_player);
+
+            NpcActionResult result = _npc.UpgradeItem(_player, eq);
 
             // refresh list
             LoadUpgradable();

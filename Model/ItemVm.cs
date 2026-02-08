@@ -12,7 +12,9 @@ namespace MyriaRPG.Model
         public ItemVm(Item item) 
         {
             Id = item.Id;
-            Name = item.Name;
+            Name = Localization.T(item.Name);
+            if (item is EquipmentItem eq)
+                Name += $" {eq.UpgradeLevel}";
             Type = item.Name;
             Rarity = item.Rarity;
             IsEquipable = item is EquipmentItem;

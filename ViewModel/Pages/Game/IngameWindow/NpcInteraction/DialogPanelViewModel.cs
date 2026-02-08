@@ -3,6 +3,7 @@ using MyriaLib.Entities.Players;
 using MyriaRPG.Utils;
 using MyriaLib.Systems;
 using System.Collections.ObjectModel;
+using MyriaLib.Services;
 
 namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
 {
@@ -46,8 +47,8 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
             // Healer: immediate action
             if (serviceId == "heal")
             {
-                _npc.HealingAction();
-                DialogText = Localization.T("npc.result.heal"); // add this key
+                NpcActionResult res = _npc.HealingAction(UserAccoundService.CurrentCharacter);
+                DialogText = Localization.T(res.MessageKey, res.MessageArgs);
                 return;
             }
 

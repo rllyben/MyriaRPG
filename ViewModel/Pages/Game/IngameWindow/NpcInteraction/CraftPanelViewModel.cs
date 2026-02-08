@@ -11,6 +11,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
 {
     public class CraftPanelViewModel : BaseViewModel
     {
+        private readonly Npc _npc;
         private readonly Player _player;
         private readonly Action _goBack;
 
@@ -44,6 +45,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
 
         public CraftPanelViewModel(Npc npc, Player player, Action goBack)
         {
+            _npc = npc;
             _player = player;
             _goBack = goBack;
 

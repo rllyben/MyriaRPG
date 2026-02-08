@@ -138,7 +138,7 @@ ToolTip="Accessory" Background="{DynamicResource Brush.Border}"
                      VirtualizingPanel.IsVirtualizing="False" Background="{x:Null}">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel ItemWidth="120" ItemHeight="120"/>
+                        <UniformGrid Columns="5"/>
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
