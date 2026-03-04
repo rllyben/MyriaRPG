@@ -22,6 +22,8 @@
   "app.general.UI.menue.main": "Main Menue",
   "app.general.UI.quit": "Quit",
   "app.general.UI.quit.save": "Save and Quit",
+  "app.general.UI.owned": "Owned",
+  "app.general.UI.max": "Max",
   "app.accounting.UI.username": "Username",
   "app.accounting.UI.password": "Password",
   "app.accounting.UI.login": "Login",

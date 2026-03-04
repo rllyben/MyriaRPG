@@ -12,7 +12,7 @@ namespace MyriaRPG.View.Pages
         public Page_StartupMenue()
         {
             InitializeComponent();
-            Navigation.SetNavigationFrame(Frame, 1);
+            Navigation.SetNavigationFrame(Frame, NavigationFrameType.Startup);
             this.DataContext = new ViewModel_StartupMenuePage();
         }
 

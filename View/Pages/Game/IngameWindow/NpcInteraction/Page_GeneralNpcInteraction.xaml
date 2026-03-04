@@ -9,6 +9,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Page_GeneralNpcInteraction">
     <Page.Resources>
+        <local:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
 
         <!-- Dialog Panel -->
         <DataTemplate DataType="{x:Type vm:DialogPanelViewModel}">
@@ -313,27 +314,89 @@
                         BorderBrush="{DynamicResource Brush.Border}"
                         BorderThickness="1">
 
-                        <StackPanel>
-                            <TextBlock Text="{Binding SelectedName}" FontSize="16"
-                                       Foreground="{DynamicResource Brush.Foreground}" FontWeight="SemiBold"/>
-                            <ItemsControl ItemsSource="{Binding SelectedIngredients}" Margin="0,8,0,10">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <DockPanel Margin="0,2">
-                                            <TextBlock Text="{Binding Name}"
-                                                       Foreground="{DynamicResource Brush.Foreground}"/>
-                                            <TextBlock Text="{Binding AmountText}" DockPanel.Dock="Right"
-                                                       Foreground="{DynamicResource Brush.Foreground}" Opacity="0.8"/>
-                                        </DockPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                            <Button Content="{Binding BtnCraft}"
-                                Command="{Binding CraftCommand}"
-                                IsEnabled="{Binding CanCraft}"
-                                HorizontalAlignment="Right"/>
-                        </StackPanel>
+                            <!-- Header: Icon + Name -->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <!-- Upgrade Stone Icon (SVG Path) -->
+                                <ContentControl ContentTemplate="{StaticResource Icon.upgrade_stone}" 
+                                                Visibility="{Binding SelectedRecipe.Id, Converter={StaticResource StringToVisibilityConverter}, ConverterParameter='upgrade_stone'}"
+                                                Width="{Binding FontSize, ElementName=RecipeNameText}"
+                                                Height="{Binding FontSize, ElementName=RecipeNameText}"/>
+                                
+                                <TextBlock x:Name="RecipeNameText"
+                                           Text="{Binding SelectedName}" 
+                                           FontSize="20"
+                                           Foreground="{DynamicResource Brush.Foreground}" 
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"
+                                           Margin="10,0,0,0"/>
+                            </StackPanel>
+
+                            <!-- Ingredients List -->
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                <ItemsControl ItemsSource="{Binding SelectedIngredients}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Margin="0,4" Padding="8" Background="{DynamicResource Brush.Background}" CornerRadius="4">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <!-- Iron Ore Icon (SVG Path) -->
+                                                    <ContentControl ContentTemplate="{StaticResource Icon.iron_ore}" 
+                                                                    Visibility="{Binding Id, Converter={StaticResource StringToVisibilityConverter}, ConverterParameter='iron_ore'}"
+                                                                    Width="{Binding FontSize, ElementName=IngredientNameText}"
+                                                                    Height="{Binding FontSize, ElementName=IngredientNameText}"/>
+
+                                                    <TextBlock x:Name="IngredientNameText"
+                                                               Grid.Column="1"
+                                                               Text="{Binding DisplayString}"
+                                                               Foreground="{DynamicResource Brush.Foreground}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="10,0,0,0"/>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+
+                            <!-- Footer: Quantity + Craft Button -->
+                            <StackPanel Grid.Row="2" Margin="0,10,0,0">
+                                <DockPanel Margin="0,0,0,10">
+                                    <TextBlock Text="{Binding QuantityLabel}" 
+                                               Foreground="{DynamicResource Brush.Foreground}" 
+                                               VerticalAlignment="Center"/>
+                                    
+                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                        <Button Content="-" Command="{Binding DecreaseQuantityCommand}" Width="30" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" 
+                                                 Width="50" 
+                                                 TextAlignment="Center" 
+                                                 VerticalContentAlignment="Center"
+                                                 Margin="5,0"/>
+                                        <Button Content="+" Command="{Binding IncreaseQuantityCommand}" Width="30" Height="30"/>
+                                        <Button Content="{Binding MaxLabel}" Command="{Binding MaxQuantityCommand}" Margin="5,0,0,0" Padding="5,0"/>
+                                    </StackPanel>
+                                </DockPanel>
+
+                                <Button Content="{Binding BtnCraft}"
+                                        Command="{Binding CraftCommand}"
+                                        IsEnabled="{Binding CanCraft}"
+                                        Height="40"
+                                        FontSize="16"
+                                        FontWeight="Bold"/>
+                            </StackPanel>
+                        </Grid>
                     </Border>
                 </Grid>
 

@@ -15,7 +15,7 @@ namespace MyriaRPG.View.Windows
         {
             Instance = this;
             InitializeComponent();
-            Navigation.SetNavigationFrame(Frame, 0);
+            Navigation.SetNavigationFrame(Frame, NavigationFrameType.Main);
             Canvas.Children.Add(gameWindow);
             gameWindow.Visibility = Visibility.Hidden;
             this.WindowState = WindowState.Maximized;

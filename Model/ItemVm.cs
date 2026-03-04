@@ -2,7 +2,10 @@
 using MyriaRPG.ViewModel;
 using MyriaLib.Systems.Enums;
 using MyriaLib.Entities.Items;
-using MyriaLib.Systems;
+using System.IO;
+using System.Windows;
+using System.Windows.Media.Imaging;
+using Localization = MyriaLib.Systems.Localization;
 
 namespace MyriaRPG.Model
 {
@@ -18,11 +21,15 @@ namespace MyriaRPG.Model
             Type = item.Name;
             Rarity = item.Rarity;
             IsEquipable = item is EquipmentItem;
+            Quantity = item.StackSize; // Initialize quantity from item
+            
+            LoadIcon(item.Id);
         }
         public ItemVm(string name, string type, ItemRarity rarity)
-        { Name = name; Type = type; Rarity = rarity; IsEquipable = type is "Weapon" or "Armor" or "Accessory"; }
+        { Name = name; Type = type; Rarity = rarity; IsEquipable = type is "Weapon" or "Armor" or "Accessory"; LoadIcon(name); }
         public ItemVm(string name, string type, ItemRarity rarity, SolidColorBrush color)
-        { Name = name; Type = type; Rarity = rarity; IsEquipable = type is "Weapon" or "Armor" or "Accessory"; Color = color; }
+        { Name = name; Type = type; Rarity = rarity; IsEquipable = type is "Weapon" or "Armor" or "Accessory"; Color = color; LoadIcon(name); }
+        
         private string _id;
         public string Id { get { return _id; } set { _id = value; } }
         public string Name { get; set; }
@@ -52,5 +59,29 @@ namespace MyriaRPG.Model
         private bool _equip;
         public bool IsEquipped { get => _equipped; set { _equipped = value; OnPropertyChanged(); } }
         private bool _equipped;
+
+        public ImageSource IconSource { get; set; }
+
+        private void LoadIcon(string id)
+        {
+            // Icon loading logic is handled by XAML resources now
+        }
+
+        public static ItemVm CreateEmptySlot()
+        {
+            return new ItemVm
+            {
+                Id = "empty_slot",
+                Name = "",
+                Icon = "",
+                Quantity = 0,
+                Color = Brushes.Transparent // Or a subtle border color for empty slots
+            };
+        }
+
+        public bool IsEmpty => Id == "empty_slot";
+        public Visibility IsEmptyVisibility => IsEmpty ? Visibility.Visible : Visibility.Hidden;
+        public bool ShowQuantity => !IsEmpty && Quantity > 1;
+        public Visibility ShowQuantityVisibility => ShowQuantity ? Visibility.Visible : Visibility.Hidden;
     }
 }

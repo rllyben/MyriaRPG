@@ -7,46 +7,114 @@
              xmlns:local="clr-namespace:MyriaRPG.View.UserControls"
              xmlns:beh="clr-namespace:MyriaRPG.Model.Behaviors"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <!-- Bind state to VM -->
-    <Grid Canvas.Left="{Binding Left}" Canvas.Top="{Binding Top}"
-        Panel.ZIndex="{Binding ZIndex}" Name="Grid">
+             d:DesignHeight="600" d:DesignWidth="800">
+    
+    <UserControl.Resources>
+        <!-- Modern Shadow Effect -->
+        <DropShadowEffect x:Key="WindowShadow" BlurRadius="20" ShadowDepth="5" Opacity="0.4" Color="Black"/>
+        
+        <!-- Close Button Style -->
+        <Style x:Key="CloseButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="0,8,0,0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#C62828"/> <!-- Dark Red hover -->
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#B71C1C"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
 
-        <Border Background="{DynamicResource Brush.Background}" CornerRadius="8" BorderBrush="#607D8B" BorderThickness="1">
+    <!-- Main Container with Shadow -->
+    <Grid Canvas.Left="{Binding Left}" Canvas.Top="{Binding Top}" Panel.ZIndex="{Binding ZIndex}" Name="Grid">
+        
+        <Border Background="{DynamicResource Brush.Background}" 
+                CornerRadius="8" 
+                BorderBrush="{DynamicResource Brush.Border}" 
+                BorderThickness="1"
+                Effect="{StaticResource WindowShadow}"
+                MinWidth="400" MinHeight="300">
+            
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="28"/>
+                    <RowDefinition Height="40"/> <!-- Taller, more touch-friendly title bar -->
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <!-- Title bar -->
-                <Border Grid.Row="0" Background="{DynamicResource Brush.TitleBackground}" CornerRadius="8,8,0,0">
+                <!-- Title Bar Area -->
+                <Border Grid.Row="0" 
+                        Background="{DynamicResource Brush.TitleBackground}" 
+                        CornerRadius="8,8,0,0"
+                        BorderBrush="{DynamicResource Brush.Border}"
+                        BorderThickness="0,0,0,1">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="40"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{Binding Title}" Margin="8,0" VerticalAlignment="Center" Foreground="{DynamicResource Brush.Foreground}" HorizontalAlignment="Center" Panel.ZIndex="99"/>
-                        <Button Content="✕"
-                                Command="{Binding CloseCommand}" DockPanel.Dock="Right"
-                                Grid.Column="1"
-                                Panel.ZIndex="99" Margin="2,2,2,2" Padding="0,0,0,0" Foreground="{DynamicResource Brush.Error}" BorderBrush="{DynamicResource Brush.Border}" Background="{DynamicResource Brush.Background}" FontWeight="Bold"/>
-                        <!-- Drag thumb with behavior firing VM command -->
-                        <Thumb Style="{x:Null}" x:Name="DragThumb" Background="{DynamicResource Brush.TitleBackground}" Grid.ColumnSpan="2">
+                        <!-- Drag Handle (Invisible Thumb covering the title bar) -->
+                        <Thumb x:Name="DragThumb" Grid.ColumnSpan="2" Opacity="0">
                             <i:Interaction.Behaviors>
                                 <beh:DragThumbToCommandBehavior Command="{Binding DragDeltaCommand}" />
                             </i:Interaction.Behaviors>
+                            <Thumb.Template>
+                                <ControlTemplate TargetType="Thumb">
+                                    <Rectangle Fill="Transparent"/>
+                                </ControlTemplate>
+                            </Thumb.Template>
                         </Thumb>
+
+                        <!-- Window Title -->
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="15,0,0,0" IsHitTestVisible="False">
+                            <!-- Optional: Add an Icon here later -->
+                            <!-- <Image Source="..." Width="16" Height="16" Margin="0,0,8,0"/> -->
+                            <TextBlock Text="{Binding Title}" 
+                                       Foreground="{DynamicResource Brush.Foreground}" 
+                                       FontWeight="SemiBold"
+                                       FontSize="14"
+                                       TextTrimming="CharacterEllipsis"/>
+                        </StackPanel>
+
+                        <!-- Close Button -->
+                        <Button Grid.Column="1"
+                                Content="✕"
+                                Command="{Binding CloseCommand}"
+                                Style="{StaticResource CloseButtonStyle}"
+                                ToolTip="Close"/>
                     </Grid>
                 </Border>
 
-                <!-- Content -->
-                <Frame Name="Frame" NavigationUIVisibility="Hidden" Grid.Row="1"></Frame>
+                <!-- Content Area -->
+                <Border Grid.Row="1" 
+                        Background="{DynamicResource Brush.Surface}" 
+                        CornerRadius="0,0,8,8"
+                        Padding="0"> <!-- Padding handled by pages usually, or add margin here -->
+                    <Frame Name="Frame" 
+                           NavigationUIVisibility="Hidden" 
+                           ClipToBounds="True"/>
+                </Border>
             </Grid>
         </Border>
 
-        <!-- Bring-to-front via event → command (no code-behind) -->
+        <!-- Bring-to-front behavior -->
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="PreviewMouseDown">
                 <i:InvokeCommandAction Command="{Binding FocusCommand}" />

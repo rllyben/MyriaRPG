@@ -13,7 +13,7 @@ namespace MyriaRPG.View.UserControls
         {
             InitializeComponent();
             this.DataContext = new ViewModel_GameWindow();
-            Navigation.SetNavigationFrame(Frame, 3);
+            Navigation.SetNavigationFrame(Frame, NavigationFrameType.IngameWindow);
         }
 
     }

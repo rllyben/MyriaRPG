@@ -102,7 +102,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
         public ViewModel_PageGame()
         {
             Page_Room roomPage = new();
-            Navigation.RegisterGamePage(roomPage, 0);
+            Navigation.RegisterGamePage(roomPage, GamePageType.Room);
             MapCommand = new RelayCommand(OpenMap);
             SettingsCommand = new RelayCommand(OpenSettings);
             OpenInventoryCommand = new RelayCommand(OpenInventory);
@@ -111,7 +111,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
             OpenQuestsCommand = new RelayCommand(OpenQuests);
             if (UserAccoundService.CurrentCharacter.CurrentRoom == null)
                 UserAccoundService.CurrentCharacter.CurrentRoom = RoomService.GetRoomById(UserAccoundService.CurrentCharacter.CurrentRoomId);
-            Navigation.NavigateGamePageToRegister(0);
+            Navigation.NavigateGamePageToRegister(GamePageType.Room);
         }
         private void OpenMap()
         {

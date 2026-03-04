@@ -28,6 +28,8 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
         private string tbl_Evasion;
         private string tbl_Block;
         private string _charClass;
+        private Player _player;
+
         [LocalizedKey("pg.character.info.level")]
         public string TblLevel
         {
@@ -255,8 +257,8 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
         public string XpProgressText => $"{XpCurrent:N0} / {XpToNextLevel:N0}  ({XpPercent:0}%)";
         public double XpPercent => Math.Clamp(XpToNextLevel > 0 ? (XpCurrent * 100.0) / XpToNextLevel : 0, 0, 100);
 
-        public BaseStatsVm Base { get; }
-        public DerivedStatsVm Derived { get; }
+        public BaseStatsVm Base { get; private set; }
+        public DerivedStatsVm Derived { get; private set; }
         public ICommand IncreaseStatCommand { get; }
         public ICommand DecreaseStatCommand { get; }
 
@@ -270,40 +272,96 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
 
         public CharacterPageViewModel(Player player) // pass your real models
         {
+            _player = player;
             CharacterName = player.Name;
             Level = player.Level;
             XpCurrent = player.Experience;
             XpToNextLevel = player.ExpForNextLvl;
             CharClass = player.Class.ToString();
 
-            Base = new BaseStatsVm(
-                player.Stats.Strength, player.Stats.Dexterity, player.Stats.Endurance,
-                player.Stats.Intelligence, player.Stats.Spirit);
-
-            Derived = new DerivedStatsVm(
-                player.CurrentHealth, player.MaxHealth, player.CurrentMana, player.MaxMana,
-                player.TotalPhysicalAttack, player.TotalPhysicalDefense, player.TotalMagicAttack, player.TotalMagicDefense,
-                player.TotalAim, player.TotalEvasion, player.CritChance, player.BlockChance);
+            RefreshStats();
 
             IncreaseStatCommand = new RelayCommand<string>(IncreaseStat);
             DecreaseStatCommand = new RelayCommand<string>(DecreaseStat);
         }
 
+        private void RefreshStats()
+        {
+            Base = new BaseStatsVm(
+                _player.Stats.Strength, _player.Stats.StrengthAdded,
+                _player.Stats.Dexterity, _player.Stats.DexterityAdded,
+                _player.Stats.Endurance, _player.Stats.EnduranceAdded,
+                _player.Stats.Intelligence, _player.Stats.IntelligenceAdded,
+                _player.Stats.Spirit, _player.Stats.SpiritAdded,
+                _player.Stats.UnusedPoints);
+
+            Derived = new DerivedStatsVm(
+                _player.CurrentHealth, _player.MaxHealth, _player.CurrentMana, _player.MaxMana,
+                _player.TotalPhysicalAttack, _player.TotalPhysicalDefense, _player.TotalMagicAttack, _player.TotalMagicDefense,
+                _player.TotalAim, _player.TotalEvasion, _player.CritChance, _player.BlockChance);
+            
+            OnPropertyChanged(nameof(Base));
+            OnPropertyChanged(nameof(Derived));
+        }
+
         private void IncreaseStat(string? statKey)
         {
-            // TODO: implement when stat point system is ready
-            // Example later:
-            // if (Base.Unspent <= 0 || statKey is null) return;
-            // switch (statKey) { case "STR": Base = Base with { STR = Base.STR + 1, Unspent = Base.Unspent - 1 }; break; ... }
+            if (_player.Stats.UnusedPoints <= 0 || statKey is null) return;
+
+            switch (statKey)
+            {
+                case "STR": _player.Stats.StrengthAdded++; break;
+                case "DEX": _player.Stats.DexterityAdded++; break;
+                case "END": _player.Stats.EnduranceAdded++; break;
+                case "INT": _player.Stats.IntelligenceAdded++; break;
+                case "SPR": _player.Stats.SpiritAdded++; break;
+                default: return;
+            }
+            _player.Stats.UnusedPoints--;
+            RefreshStats();
         }
 
         private void DecreaseStat(string? statKey)
         {
-            // TODO: implement rules for decreasing (allow only points spent this level? etc.)
+            if (statKey is null) return;
+
+            switch (statKey)
+            {
+                case "STR":
+                    if (_player.Stats.StrengthAdded > 0) { _player.Stats.StrengthAdded--; _player.Stats.UnusedPoints++; }
+                    break;
+                case "DEX":
+                    if (_player.Stats.DexterityAdded > 0) { _player.Stats.DexterityAdded--; _player.Stats.UnusedPoints++; }
+                    break;
+                case "END":
+                    if (_player.Stats.EnduranceAdded > 0) { _player.Stats.EnduranceAdded--; _player.Stats.UnusedPoints++; }
+                    break;
+                case "INT":
+                    if (_player.Stats.IntelligenceAdded > 0) { _player.Stats.IntelligenceAdded--; _player.Stats.UnusedPoints++; }
+                    break;
+                case "SPR":
+                    if (_player.Stats.SpiritAdded > 0) { _player.Stats.SpiritAdded--; _player.Stats.UnusedPoints++; }
+                    break;
+            }
+            RefreshStats();
         }
     }
 
-    public record BaseStatsVm(int STR, int DEX, int END, int INT, int SPR);
+    public record BaseStatsVm(
+        int STR, int STR_Added,
+        int DEX, int DEX_Added,
+        int END, int END_Added,
+        int INT, int INT_Added,
+        int SPR, int SPR_Added,
+        int Unspent)
+    {
+        public string STR_Display => STR_Added > 0 ? $"{STR} (+{STR_Added})" : $"{STR}";
+        public string DEX_Display => DEX_Added > 0 ? $"{DEX} (+{DEX_Added})" : $"{DEX}";
+        public string END_Display => END_Added > 0 ? $"{END} (+{END_Added})" : $"{END}";
+        public string INT_Display => INT_Added > 0 ? $"{INT} (+{INT_Added})" : $"{INT}";
+        public string SPR_Display => SPR_Added > 0 ? $"{SPR} (+{SPR_Added})" : $"{SPR}";
+    }
+
     public class DerivedStatsVm
     {
         public int HP { get; }

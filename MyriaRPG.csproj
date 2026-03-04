@@ -167,4 +167,25 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Assets\Icons\Iron_Ore.svg" />
+    <Resource Include="Assets\Icons\iron_ore.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <None Remove="Assets\Icons\Upgrade_Stone.svg" />
+    <Resource Include="Assets\Icons\upgrade_stone.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <None Remove="Assets\Icons\Pickaxe.svg" />
+    <Resource Include="Assets\Icons\pickaxe.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <None Remove="Assets\Icons\Shadow_Reamnent.svg" />
+    <None Remove="Assets\Icons\Aprentance_Cloke.svg" />
+    <None Remove="Assets\Icons\Default.svg" />
+    <Resource Include="Assets\Icons\Default.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
 </Project>

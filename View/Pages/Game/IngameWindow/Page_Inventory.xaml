@@ -7,10 +7,13 @@
       xmlns:behaviors="clr-namespace:MyriaRPG.Model.Behaviors"
       xmlns:vm="clr-namespace:MyriaRPG.Model"
       xmlns:local="clr-namespace:MyriaRPG.View.Pages.Game.IngameWindow"
+      xmlns:converters="clr-namespace:MyriaRPG.View.Converters"
       mc:Ignorable="d"
       d:DesignWidth="1000" d:DesignHeight="700">
 
     <Page.Resources>
+        <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+        
         <!-- Rarity brushes -->
         <SolidColorBrush x:Key="Rarity.Common" Color="#808080"/>
         <SolidColorBrush x:Key="Rarity.Uncommon" Color="#3CB371"/>
@@ -20,16 +23,17 @@
         <SolidColorBrush x:Key="Rarity.Legendary" Color="#DAA520"/>
         <SolidColorBrush x:Key="Rarity.Godly" Color="#FFB6C1"/>
 
-
-        <!-- Item cell style -->
+        <!-- Empty item cell style -->
         <Style x:Key="ItemCell" TargetType="Border">
-            <Setter Property="Padding" Value="8"/>
-            <Setter Property="Margin" Value="6"/>
-            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="CornerRadius" Value="6"/>
             <Setter Property="BorderBrush" Value="#33000000"/>
             <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Width" Value="60"/>
+            <Setter Property="Height" Value="60"/>
+            <Setter Property="Background" Value="Transparent"/>
         </Style>
-
 
         <!-- Tooltip for item details -->
         <DataTemplate x:Key="ItemTooltipTemplate">
@@ -42,13 +46,27 @@
             </StackPanel>
         </DataTemplate>
 
-
         <!-- Equipment slot chrome -->
         <Style x:Key="EquipSlot" TargetType="Border" BasedOn="{StaticResource ItemCell}">
-            <Setter Property="Width" Value="120"/>
-            <Setter Property="Height" Value="120"/>
+            <Setter Property="Width" Value="60"/>
+            <Setter Property="Height" Value="60"/>
             <Setter Property="Background" Value="#0FFFFFFF"/>
         </Style>
+
+        <!-- Shared Icon Template -->
+        <DataTemplate x:Key="ItemIconTemplate" DataType="{x:Type vm:ItemVm}">
+            <ContentControl Style="{StaticResource IconSwitcherStyle}"/>
+        </DataTemplate>
+
+        <!-- Equipped Item Template (with Tooltip) -->
+        <DataTemplate x:Key="EquippedItemTemplate" DataType="{x:Type vm:ItemVm}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel.ToolTip>
+                    <ToolTip Content="{Binding}" ContentTemplate="{StaticResource ItemTooltipTemplate}"/>
+                </StackPanel.ToolTip>
+                <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource ItemIconTemplate}" Width="40" Height="40"/>
+            </StackPanel>
+        </DataTemplate>
     </Page.Resources>
 
     <Grid>
@@ -65,108 +83,130 @@
         <!-- TOP: Equipment slots (Weapon, Armor, Accessory) -->
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,8">
             <!-- Weapon slot -->
-            <Border Style="{StaticResource EquipSlot}" AllowDrop="True"
-                    ToolTip="Weapon" Background="{DynamicResource Brush.Border}"
-        BorderThickness="3"
-        BorderBrush="{Binding EquippedWeapon.Color}">
+            <Border Style="{StaticResource EquipSlot}" 
+                    AllowDrop="True"
+                    ToolTip="Weapon" 
+                    Background="{DynamicResource Brush.Border}"
+                    BorderThickness="2"
+                    BorderBrush="{Binding EquippedWeapon.Color}">
                 <i:Interaction.Behaviors>
-                    <behaviors:DropToCommandBehavior DropCommand="{Binding EquipDropCommand}" Slot="Weapon"/>
+                    <behaviors:DropToCommandBehavior 
+                        DropCommand="{Binding EquipDropCommand}" 
+                        Slot="Weapon"/>
                 </i:Interaction.Behaviors>
-                <ContentPresenter Content="{Binding EquippedWeapon}">
-                    <ContentPresenter.ContentTemplate>
-                        <DataTemplate DataType="{x:Type vm:ItemVm}">
-                            <StackPanel HorizontalAlignment="Center">
-                                <TextBlock Text="{Binding Icon}" FontSize="28" HorizontalAlignment="Center"/>
-                                <TextBlock Text="{Binding Name}" TextAlignment="Center"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ContentPresenter.ContentTemplate>
-                </ContentPresenter>
+                <Border Background="Transparent">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding UnequipCommand}" 
+                                                   CommandParameter="Weapon"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ContentPresenter Content="{Binding EquippedWeapon}" 
+                                      ContentTemplate="{StaticResource EquippedItemTemplate}"/>
+                </Border>
             </Border>
 
             <!-- Armor slot -->
             <Border Style="{StaticResource EquipSlot}" AllowDrop="True" Margin="12,0"
-ToolTip="Armor" Background="{DynamicResource Brush.Border}"
-        BorderThickness="3"
-        BorderBrush="{Binding EquippedArmor.Color}">
+                    ToolTip="Armor" Background="{DynamicResource Brush.Border}"
+                    BorderThickness="2"
+                    BorderBrush="{Binding EquippedArmor.Color}">
                 <i:Interaction.Behaviors>
-                    <behaviors:DropToCommandBehavior DropCommand="{Binding EquipDropCommand}" Slot="Weapon"/>
+                    <behaviors:DropToCommandBehavior 
+                        DropCommand="{Binding EquipDropCommand}" 
+                        Slot="Armor"/>
                 </i:Interaction.Behaviors>
-                <ContentPresenter Content="{Binding EquippedArmor}">
-                    <ContentPresenter.ContentTemplate>
-                        <DataTemplate DataType="{x:Type vm:ItemVm}">
-                            <StackPanel HorizontalAlignment="Center">
-                                <TextBlock Text="{Binding Icon}" FontSize="28" HorizontalAlignment="Center"/>
-                                <TextBlock Text="{Binding Name}" TextAlignment="Center"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ContentPresenter.ContentTemplate>
-                </ContentPresenter>
+                <Border Background="Transparent">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding UnequipCommand}" 
+                                                   CommandParameter="Armor"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ContentPresenter Content="{Binding EquippedArmor}" 
+                                      ContentTemplate="{StaticResource EquippedItemTemplate}"/>
+                </Border>
             </Border>
 
 
             <!-- Accessory slot -->
             <Border Style="{StaticResource EquipSlot}" AllowDrop="True"
-ToolTip="Accessory" Background="{DynamicResource Brush.Border}"
-        BorderThickness="3"
-        BorderBrush="{Binding EquippedAccessory.Color}">
+                    ToolTip="Accessory" Background="{DynamicResource Brush.Border}"
+                    BorderThickness="2"
+                    BorderBrush="{Binding EquippedAccessory.Color}">
                 <i:Interaction.Behaviors>
-                    <behaviors:DropToCommandBehavior DropCommand="{Binding EquipDropCommand}" Slot="Accessory"/>
+                    <behaviors:DropToCommandBehavior 
+                        DropCommand="{Binding EquipDropCommand}" 
+                        Slot="Accessory"/>
                 </i:Interaction.Behaviors>
-                <ContentPresenter Content="{Binding EquippedAccessory}">
-                    <ContentPresenter.ContentTemplate>
-                        <DataTemplate DataType="{x:Type vm:ItemVm}">
-                            <StackPanel HorizontalAlignment="Center">
-                                <TextBlock Text="{Binding Icon}" FontSize="28" HorizontalAlignment="Center"/>
-                                <TextBlock Text="{Binding Name}" TextAlignment="Center"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ContentPresenter.ContentTemplate>
-                </ContentPresenter>
+                <Border Background="Transparent">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding UnequipCommand}" CommandParameter="Accessory"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ContentPresenter Content="{Binding EquippedAccessory}" 
+                                      ContentTemplate="{StaticResource EquippedItemTemplate}"/>
+                </Border>
             </Border>
         </StackPanel>
 
 
-        <!-- MIDDLE: Backpack grid (drag source) -->
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <ListBox ItemsSource="{Binding Backpack}"
-                     SelectedItem="{Binding SelectedItem}"
-                     BorderThickness="0"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                     ScrollViewer.CanContentScroll="False"
-                     VirtualizingPanel.IsVirtualizing="False" Background="{x:Null}">
-                <ListBox.ItemsPanel>
+        <!-- MIDDLE: Backpack grid (7x7 = 49 slots) -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding Backpack}" Background="{x:Null}">
+                <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid Columns="5"/>
+                        <UniformGrid Columns="7" HorizontalAlignment="Left"/>
                     </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border Style="{StaticResource ItemCell}" AllowDrop="False">
-                            <StackPanel HorizontalAlignment="Center">
-                                <!-- Replace with Image later -->
-                                <TextBlock Text="{Binding Icon}" FontSize="28" HorizontalAlignment="Center" Foreground="{Binding Color}"/>
-                                <TextBlock Text="{Binding Name}" TextAlignment="Center" Foreground="{DynamicResource Brush.Foreground}"/>
-                                <TextBlock Text="{Binding Quantity}" FontSize="12" Opacity="0.8" HorizontalAlignment="Center" Foreground="{DynamicResource Brush.Foreground}"/>
-                            </StackPanel>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:ItemVm}">
+                        <Border Style="{StaticResource ItemCell}" 
+                                AllowDrop="False" 
+                                BorderBrush="{Binding Color}" 
+                                BorderThickness="2">
+                            <!-- Only show content if it's not an empty slot -->
+                            <Grid Visibility="{Binding IsEmptyVisibility}">
+                                <StackPanel HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center">
+                                    <ContentPresenter Content="{Binding}" 
+                                                      ContentTemplate="{StaticResource ItemIconTemplate}" 
+                                                      Width="40" Height="40"/>
+                                </StackPanel>
+                                <!-- Quantity Overlay -->
+                                <TextBlock Text="{Binding Quantity}" 
+                                           FontSize="10" FontWeight="Bold"
+                                           HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                                           Margin="0,0,2,1"
+                                           Foreground="{DynamicResource Brush.Foreground}"
+                                           Visibility="{Binding ShowQuantityVisibility}">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect ShadowDepth="0" BlurRadius="2" Color="Black" Opacity="1"/>
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                            </Grid>
                             <Border.ToolTip>
-                                <ToolTip ContentTemplate="{StaticResource ItemTooltipTemplate}" />
+                                <ToolTip Content="{Binding}" ContentTemplate="{StaticResource ItemTooltipTemplate}" />
                             </Border.ToolTip>
                             <i:Interaction.Behaviors>
-                                <behaviors:DragStartBehavior DragCommand="{Binding DataContext.BeginDragItemCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"/>
+                                <behaviors:DragStartBehavior 
+                                    DragCommand="{Binding DataContext.BeginDragItemCommand, 
+                                    RelativeSource={RelativeSource 
+                                    AncestorType=ItemsControl}}"/>
                             </i:Interaction.Behaviors>
                         </Border>
                     </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ScrollViewer>
 
 
         <!-- BOTTOM: Money bag info -->
         <Border Grid.Row="2" Padding="8" Background="#08FFFFFF" Margin="0,8,0,0">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <TextBlock Text="Money:" FontWeight="SemiBold" Foreground="{DynamicResource Brush.Foreground}"/>
+                <TextBlock Text="{Binding MoneyLabel}" FontWeight="SemiBold" Foreground="{DynamicResource Brush.Foreground}"/>
+                <TextBlock Text=": " FontWeight="SemiBold" Foreground="{DynamicResource Brush.Foreground}"/>
                 <TextBlock Text="{Binding MoneyDisplay}" Foreground="{DynamicResource Brush.Foreground}"/>
             </StackPanel>
         </Border>

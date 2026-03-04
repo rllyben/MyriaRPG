@@ -180,10 +180,10 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             }
         }
 
-        public bool IsShowingActive => ShowActive;
-        public bool IsShowingAvailable => ShowAvailable;
+        public Visibility IsShowingActive => ShowActive ? Visibility.Visible : Visibility.Hidden;
+        public Visibility IsShowingAvailable => ShowAvailable ? Visibility.Visible : Visibility.Hidden;
 
-        public string HeaderSuffix => IsShowingActive ? $"({MyriaLib.Systems.Localization.T("pg.quests.tab.active")})" : $"({MyriaLib.Systems.Localization.T("pg.quests.tab.available")})";
+        public string HeaderSuffix => ShowActive ? $"({MyriaLib.Systems.Localization.T("pg.quests.tab.active")})" : $"({MyriaLib.Systems.Localization.T("pg.quests.tab.available")})";
 
         // Data
         public ObservableCollection<QuestListItemVm> Quests { get; } = new();
@@ -264,7 +264,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
         {
             Quests.Clear();
 
-            if (IsShowingActive)
+            if (ShowActive)
             {
                 foreach (var q in _player.ActiveQuests
                              /*.Where(q => q.Status != QuestStatus.Completed)*/)
@@ -293,7 +293,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
         {
             if (SelectedQuest == null)
                 return false;
-            else if (!IsShowingActive)
+            else if (!ShowActive)
                 return false;
             return _player.ActiveQuests.Where(b => b.Id == SelectedQuest.Id).First().Status == QuestStatus.Completed;
         }

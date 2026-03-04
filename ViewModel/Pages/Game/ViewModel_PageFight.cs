@@ -97,7 +97,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
         private void Run()
         {
             ViewModel_PageRoom.WriteLog(Localization.T("msg.fight.run.success"));
-            Navigation.NavigateGamePageToRegister(0);
+            Navigation.NavigateGamePageToRegister(GamePageType.Room);
         }
 
         private int _lastLogIndex = 0;
@@ -125,7 +125,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
             if (EnemyHp < 1)
             {
                 ViewModel_PageRoom.WriteLog($"{_monster.Name} {Localization.T("msg.fight.won")}");
-                Navigation.NavigateGamePageToRegister(0);
+                Navigation.NavigateGamePageToRegister(GamePageType.Room);
             }
 
         }

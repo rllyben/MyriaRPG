@@ -7,7 +7,6 @@
       Title="Quests">
 
     <Page.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
         <Style x:Key="SegmentToggleBase"
        TargetType="ToggleButton">
             <Setter Property="Background" Value="Transparent"/>
@@ -200,7 +199,7 @@
 
                 <!-- Title -->
                 <StackPanel Grid.Row="0"
-                            Visibility="{Binding HasSelected,  ConverterParameter=Inverse}">
+                            Visibility="{Binding HasSelected}">
                     <TextBlock Text="{Binding SelectedQuest.Title}"
                                FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource Brush.Foreground}"/>
                     <StackPanel Orientation="Horizontal">
@@ -213,7 +212,7 @@
 
                 <!-- Description -->
                 <ScrollViewer Grid.Row="3"
-                              Visibility="{Binding HasSelected,  ConverterParameter=Inverse}">
+                              Visibility="{Binding HasSelected}">
                     <StackPanel>
                         <TextBlock Text="{Binding TblDescription}" FontWeight="SemiBold" Foreground="{DynamicResource Brush.Foreground}" Margin="0,0,0,4"/>
                         <TextBlock Text="{Binding SelectedQuest.Description}"
@@ -236,7 +235,7 @@
 
                 <!-- Rewards -->
                 <StackPanel Grid.Row="4"
-                            Visibility="{Binding HasSelected,  ConverterParameter=Inverse}"
+                            Visibility="{Binding HasSelected}"
                             Margin="0,6,0,4">
                     <TextBlock Text="{Binding TblRewards}" FontWeight="SemiBold" Foreground="{DynamicResource Brush.Foreground}" Margin="0,0,0,2"/>
                     <ItemsControl ItemsSource="{Binding SelectedQuest.Rewards}">
@@ -253,10 +252,10 @@
 
                 <!-- Action buttons -->
                 <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right"
-                            Visibility="{Binding HasSelected,  ConverterParameter=Inverse}">
+                            Visibility="{Binding HasSelected}">
                     <!-- Active-mode buttons -->
                     <StackPanel Orientation="Horizontal"
-                                Visibility="{Binding IsShowingActive, Converter={StaticResource BoolToVisibility}}">
+                                Visibility="{Binding IsShowingActive}">
                         <Button Content="{Binding BtnTrack}"
                                 Command="{Binding CompleteQuestCommand}"
                                 CommandParameter="{Binding SelectedQuest}"
@@ -269,7 +268,7 @@
 
                     <!-- Available-mode buttons -->
                     <StackPanel Orientation="Horizontal"
-                                Visibility="{Binding IsShowingAvailable, Converter={StaticResource BoolToVisibility}}">
+                                Visibility="{Binding IsShowingAvailable}">
                         <Button Content="{Binding BtnAccept}"
                                 Command="{Binding AcceptQuestCommand}"
                                 CommandParameter="{Binding SelectedQuest}"

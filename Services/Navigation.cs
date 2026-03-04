@@ -15,27 +15,27 @@ namespace MyriaRPG.Services
         private static Page GameRoomPage = new();
         private static Page GameCombatPage = new();
 
-        public static bool SetNavigationFrame(Frame navFrame, int frameType)
+        public static bool SetNavigationFrame(Frame navFrame, NavigationFrameType frameType)
         {
             switch (frameType)
             {
-                case 0: MainNavigationFrame = navFrame; MainNavigationFrame.Navigate(new Page_StartupMenue()); return true;
-                case 1: PageNavigationFrame = navFrame; return true;
-                case 2: SettingsNavigationFrame = navFrame; return true;
-                case 3: IngameNavigationFrame = navFrame; return true;
-                case 4: GameNavigationFrame = navFrame; return true;
-                case 5: IngameMenueNavigationFrame = navFrame; return true;
-                case 6: IngameSettingsNavigationFrame = navFrame; return true;
+                case NavigationFrameType.Main: MainNavigationFrame = navFrame; MainNavigationFrame.Navigate(new Page_StartupMenue()); return true;
+                case NavigationFrameType.Startup: PageNavigationFrame = navFrame; return true;
+                case NavigationFrameType.Settings: SettingsNavigationFrame = navFrame; return true;
+                case NavigationFrameType.IngameWindow: IngameNavigationFrame = navFrame; return true;
+                case NavigationFrameType.Game: GameNavigationFrame = navFrame; return true;
+                case NavigationFrameType.IngameMenu: IngameMenueNavigationFrame = navFrame; return true;
+                case NavigationFrameType.IngameSettings: IngameSettingsNavigationFrame = navFrame; return true;
                 default: return false;
             }
 
         }
-        public static bool RegisterGamePage(Page page, int pageType)
+        public static bool RegisterGamePage(Page page, GamePageType pageType)
         {
             switch (pageType)
             {
-                case 0: GameRoomPage = page; return true;
-                case 1: GameCombatPage = page; return true;
+                case GamePageType.Room: GameRoomPage = page; return true;
+                case GamePageType.Combat: GameCombatPage = page; return true;
                 default: return false;
             }
 
@@ -125,14 +125,14 @@ namespace MyriaRPG.Services
             }
             return true;
         }
-        public static bool NavigateGamePageToRegister(int id)
+        public static bool NavigateGamePageToRegister(GamePageType id)
         {
             try
             {
                 switch (id)
                 {
-                    case 0: GameNavigationFrame.Navigate(GameRoomPage); return true;
-                    case 1: GameNavigationFrame.Navigate(GameCombatPage); return true;
+                    case GamePageType.Room: GameNavigationFrame.Navigate(GameRoomPage); return true;
+                    case GamePageType.Combat: GameNavigationFrame.Navigate(GameCombatPage); return true;
                     default: return false;
                 }
 

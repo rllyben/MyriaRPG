@@ -8,6 +8,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Assets/Light.xaml"/>
                 <ResourceDictionary Source="Assets/Layout.xaml"/>
+                <ResourceDictionary Source="Assets/Icons.xaml"/>
                 <!-- Load *one* theme; you’ll swap this at runtime -->
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

@@ -13,7 +13,7 @@ namespace MyriaRPG.View.Pages.Game.IngameWindow
         {
             InitializeComponent();
             this.DataContext = new ViewModel_SettingsPage();
-            Navigation.SetNavigationFrame(frm_NavigationFrame, 5);
+            Navigation.SetNavigationFrame(frm_NavigationFrame, NavigationFrameType.IngameMenu);
         }
 
     }

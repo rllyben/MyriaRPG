@@ -1,0 +1,124 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Shadow Remnant">
+    <defs>
+        <!-- Core shadow gradient -->
+        <radialGradient id="core" cx="42%" cy="36%" r="70%">
+            <stop offset="0" stop-color="#2b2d3a" stop-opacity="1"/>
+            <stop offset="0.45" stop-color="#141523" stop-opacity="1"/>
+            <stop offset="1" stop-color="#070711" stop-opacity="1"/>
+        </radialGradient>
+
+        <!-- Purple void sheen -->
+        <linearGradient id="sheen" x1="160" y1="120" x2="360" y2="380" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#b9a6ff" stop-opacity="0.55"/>
+            <stop offset="0.35" stop-color="#7a5cff" stop-opacity="0.22"/>
+            <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+        </linearGradient>
+
+        <!-- Aura stroke -->
+        <linearGradient id="aura" x1="130" y1="120" x2="390" y2="420" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#b89cff" stop-opacity="0.55"/>
+            <stop offset="0.55" stop-color="#6a4cff" stop-opacity="0.25"/>
+            <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+        </linearGradient>
+
+        <filter id="softShadow" x="-35%" y="-35%" width="170%" height="170%">
+            <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#000" flood-opacity="0.35"/>
+        </filter>
+
+        <filter id="outerGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="10" result="b"/>
+            <feColorMatrix in="b" type="matrix"
+                           values="1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 0.55 0" result="g"/>
+            <feMerge>
+                <feMergeNode in="g"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+
+        <!-- Clip for internal effects -->
+        <clipPath id="remClip">
+            <path d="M270 70
+               C306 118, 318 152, 336 176
+               C364 214, 418 236, 408 280
+               C396 332, 330 332, 320 380
+               C308 438, 258 468, 214 452
+               C162 434, 156 384, 136 350
+               C112 308, 64 278, 88 232
+               C112 186, 178 194, 206 154
+               C230 120, 242 88, 270 70 Z"/>
+        </clipPath>
+    </defs>
+
+    <!-- Ground shadow -->
+    <ellipse cx="256" cy="456" rx="160" ry="30" fill="#000" opacity="0.14"/>
+
+    <!-- Aura wisps (behind) -->
+    <g filter="url(#outerGlow)" opacity="0.95">
+        <path d="M262 84
+             C310 136, 318 150, 346 190
+             C382 244, 432 250, 422 292
+             C410 344, 344 348, 332 396
+             C316 458, 248 494, 196 470
+             C146 448, 146 398, 120 356
+             C90 308, 46 280, 74 226
+             C104 168, 176 182, 206 138
+             C230 104, 236 92, 262 84 Z"
+              fill="none" stroke="url(#aura)" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" opacity="0.75"/>
+        <path d="M242 104
+             C286 146, 300 176, 326 206
+             C358 244, 404 258, 394 288
+             C382 328, 334 334, 320 372
+             C302 424, 256 450, 220 438
+             C178 424, 172 390, 154 360
+             C132 326, 98 300, 112 258
+             C126 214, 182 224, 206 188
+             C224 160, 224 126, 242 104 Z"
+              fill="none" stroke="#9a86ff" stroke-opacity="0.22" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
+    </g>
+
+    <!-- Core remnant -->
+    <path filter="url(#softShadow)"
+          d="M270 70
+           C306 118, 318 152, 336 176
+           C364 214, 418 236, 408 280
+           C396 332, 330 332, 320 380
+           C308 438, 258 468, 214 452
+           C162 434, 156 384, 136 350
+           C112 308, 64 278, 88 232
+           C112 186, 178 194, 206 154
+           C230 120, 242 88, 270 70 Z"
+          fill="url(#core)" stroke="#0b0b12" stroke-width="10" stroke-linejoin="round"/>
+
+    <!-- Internal void sheen + specks -->
+    <g clip-path="url(#remClip)">
+        <path d="M190 200
+             C220 150, 270 150, 300 190
+             C330 228, 320 260, 350 300
+             C380 340, 330 380, 300 380
+             C260 380, 250 340, 210 330
+             C165 318, 150 250, 190 200 Z"
+              fill="url(#sheen)" opacity="0.95"/>
+
+        <!-- soft fog bands -->
+        <path d="M120 290 C170 260, 230 270, 300 300 C350 322, 390 310, 420 292"
+              fill="none" stroke="#b9a6ff" stroke-opacity="0.10" stroke-width="16" stroke-linecap="round"/>
+        <path d="M110 340 C170 320, 240 330, 292 352 C330 368, 360 368, 392 356"
+              fill="none" stroke="#7a5cff" stroke-opacity="0.10" stroke-width="14" stroke-linecap="round"/>
+
+        <!-- void specks -->
+        <circle cx="248" cy="212" r="5.5" fill="#ffffff" opacity="0.35"/>
+        <circle cx="308" cy="238" r="4" fill="#ffffff" opacity="0.28"/>
+        <circle cx="218" cy="292" r="3.8" fill="#ffffff" opacity="0.22"/>
+        <circle cx="292" cy="318" r="5" fill="#ffffff" opacity="0.18"/>
+        <circle cx="190" cy="360" r="4.2" fill="#ffffff" opacity="0.20"/>
+    </g>
+
+    <!-- Sharp highlight edge -->
+    <path d="M262 92
+           C288 126, 296 150, 312 170
+           C338 204, 380 224, 372 252"
+          fill="none" stroke="#ffffff" stroke-opacity="0.16" stroke-width="10" stroke-linecap="round"/>
+</svg>
