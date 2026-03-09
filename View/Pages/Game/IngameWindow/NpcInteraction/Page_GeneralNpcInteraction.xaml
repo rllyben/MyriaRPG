@@ -10,6 +10,19 @@
       Title="Page_GeneralNpcInteraction">
     <Page.Resources>
         <local:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+
+        <!-- Small inventory cell for shop panel -->
+        <Style x:Key="ShopInventoryCell" TargetType="Border">
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="BorderBrush" Value="#33000000"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Width" Value="44"/>
+            <Setter Property="Height" Value="44"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
 
         <!-- Dialog Panel -->
         <DataTemplate DataType="{x:Type vm:DialogPanelViewModel}">
@@ -79,24 +92,26 @@
                     <TextBlock Text="{Binding Title}"
                            FontSize="16"
                            FontWeight="SemiBold"
-                               Foreground="{DynamicResource Brush.Foreground}"
+                           Foreground="{DynamicResource Brush.Foreground}"
                            DockPanel.Dock="Left"/>
 
                     <TextBlock Text="{Binding MoneyText}"
                            DockPanel.Dock="Right"
-                               Foreground="{DynamicResource Brush.Foreground}"
+                           Foreground="{DynamicResource Brush.Foreground}"
                            Opacity="0.85"/>
                 </DockPanel>
 
-                <!-- Body -->
+                <!-- Body: 3 columns -->
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="12"/>
-                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- Stock list -->
+                    <!-- Column 0: Stock list -->
                     <Border Grid.Column="0"
                         Padding="8"
                         CornerRadius="12"
@@ -105,39 +120,27 @@
                         BorderThickness="1">
 
                         <DockPanel>
-                            
                             <TextBlock Text="{Binding StockHeader}"
                                    FontWeight="SemiBold"
-                               Foreground="{DynamicResource Brush.Foreground}"
+                                   Foreground="{DynamicResource Brush.Foreground}"
                                    Margin="2,0,0,6"
                                    DockPanel.Dock="Top"/>
 
                             <ListBox ItemsSource="{Binding Stock}"
                                  SelectedItem="{Binding SelectedStock}"
                                  BorderThickness="0"
-                                 MaxHeight="200"
                                  Background="{x:Null}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid Width="160">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="4*"/>
-                                                <ColumnDefinition Width="1*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Text="{Binding Name}" 
-                                                       Foreground="{DynamicResource Brush.Foreground}"/>
-                                            <TextBlock Text="{Binding BuyPriceText}"
-                                                       Foreground="{DynamicResource Brush.Foreground}"
-                                                       Opacity="0.8"
-                                                       Grid.Column="1"/>
-                                        </Grid>
+                                        <TextBlock Text="{Binding Name}"
+                                                   Foreground="{DynamicResource Brush.Foreground}"/>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
                         </DockPanel>
                     </Border>
 
-                    <!-- Details + actions -->
+                    <!-- Column 2: Item details -->
                     <Border Grid.Column="2"
                         Padding="10"
                         CornerRadius="12"
@@ -149,15 +152,18 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
+                            <!-- Item name -->
                             <TextBlock Text="{Binding SelectedName}"
                                    FontSize="16"
                                    Foreground="{DynamicResource Brush.Foreground}"
                                    FontWeight="SemiBold"/>
 
+                            <!-- Item description -->
                             <TextBlock Grid.Row="1"
                                    Text="{Binding SelectedDescription}"
                                    Margin="0,6,0,0"
@@ -165,32 +171,115 @@
                                    Opacity="0.8"
                                    TextWrapping="Wrap"/>
 
-                            <!-- Quantity + Buy/Sell -->
-                            <StackPanel Grid.Row="3" Margin="0,10,0,0">
-                                <DockPanel Margin="0,0,0,8">
-                                    <TextBlock Text="{Binding QtyLabel}"
-                                               Foreground="{DynamicResource Brush.Foreground}" Opacity="0.8"/>
-                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <Button Content="-" Command="{Binding DecQtyCommand}" Width="28" Margin="0,0,6,0"/>
-                                        <TextBlock Text="{Binding Quantity}" VerticalAlignment="Center" MinWidth="28" 
-                                                   Foreground="{DynamicResource Brush.Foreground}" TextAlignment="Center"/>
-                                        <Button Content="+" Command="{Binding IncQtyCommand}" Width="28" Margin="6,0,0,0"/>
-                                    </StackPanel>
-                                </DockPanel>
-
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <Button Content="{Binding BtnBuy}"
-                                        Command="{Binding BuyCommand}"
-                                        Margin="0,0,8,0"
-                                        IsEnabled="{Binding CanBuy}"/>
-                                    <Button Content="{Binding BtnSell}"
-                                        Command="{Binding SellCommand}"
-                                        IsEnabled="{Binding CanSell}"/>
-                                </StackPanel>
+                            <!-- Price info -->
+                            <StackPanel Grid.Row="2" Margin="0,10,0,0">
+                                <TextBlock Text="{Binding SelectedTypeText}"
+                                       Foreground="{DynamicResource Brush.Foreground}"
+                                       Opacity="0.7"
+                                       Margin="0,0,0,4"/>
+                                <TextBlock Text="{Binding SelectedPriceText}"
+                                       Foreground="{DynamicResource Brush.Foreground}"
+                                       FontWeight="SemiBold"/>
+                                <TextBlock Text="{Binding SelectedSellValueText}"
+                                       Foreground="{DynamicResource Brush.Foreground}"
+                                       Opacity="0.7"
+                                       Margin="0,2,0,0"/>
                             </StackPanel>
+
+                            <!-- Buy button -->
+                            <Button Grid.Row="4"
+                                Content="{Binding BtnBuy}"
+                                Command="{Binding BuyCommand}"
+                                IsEnabled="{Binding CanBuy}"
+                                HorizontalAlignment="Right"
+                                Margin="0,10,0,0"/>
                         </Grid>
                     </Border>
+
+                    <!-- Column 4: Player inventory (sell by right-click) -->
+                    <Border Grid.Column="4"
+                        Padding="8"
+                        CornerRadius="12"
+                        Background="{DynamicResource Brush.Surface}"
+                        BorderBrush="{DynamicResource Brush.Border}"
+                        BorderThickness="1">
+
+                        <DockPanel>
+                            <TextBlock Text="{Binding InventoryHeader}"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource Brush.Foreground}"
+                                   Margin="2,0,0,6"
+                                   DockPanel.Dock="Top"/>
+
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                <ItemsControl ItemsSource="{Binding PlayerInventory}" Background="{x:Null}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Columns="5" HorizontalAlignment="Left"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Style="{StaticResource ShopInventoryCell}"
+                                                    BorderBrush="{Binding Color}"
+                                                    BorderThickness="2">
+                                                <Grid>
+                                                    <TextBlock Text="{Binding Name}"
+                                                               FontSize="9"
+                                                               TextTrimming="CharacterEllipsis"
+                                                               Foreground="{DynamicResource Brush.Foreground}"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"/>
+                                                    <!-- Quantity overlay -->
+                                                    <TextBlock Text="{Binding Quantity}"
+                                                               FontSize="9" FontWeight="Bold"
+                                                               HorizontalAlignment="Right"
+                                                               VerticalAlignment="Bottom"
+                                                               Margin="0,0,2,1"
+                                                               Foreground="{DynamicResource Brush.Foreground}"
+                                                               Visibility="{Binding ShowQuantityVisibility}"/>
+                                                </Grid>
+                                                <Border.InputBindings>
+                                                    <MouseBinding MouseAction="RightClick"
+                                                        Command="{Binding DataContext.SellItemCommand,
+                                                            RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                                        CommandParameter="{Binding}"/>
+                                                </Border.InputBindings>
+                                                <Border.ToolTip>
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                                        <TextBlock Text="{Binding Type}"/>
+                                                        <TextBlock Text="{Binding Description}" TextWrapping="Wrap" MaxWidth="280"/>
+                                                        <TextBlock Text="{Binding Rarity}" FontStyle="Italic"/>
+                                                    </StackPanel>
+                                                </Border.ToolTip>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </DockPanel>
+                    </Border>
                 </Grid>
+
+                <!-- Sell confirmation overlay -->
+                <Border Grid.Row="0" Grid.RowSpan="3"
+                        Visibility="{Binding ShowConfirmDialog, Converter={StaticResource BoolToVis}}"
+                        Background="#CC000000" CornerRadius="12" Panel.ZIndex="10">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding ConfirmMessage}"
+                                   Foreground="White" FontSize="14" TextWrapping="Wrap"
+                                   Margin="20" TextAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="{Binding BtnYes}"
+                                    Command="{Binding ConfirmSellCommand}"
+                                    Margin="0,0,12,0" MinWidth="80" Padding="8,4"/>
+                            <Button Content="{Binding BtnNo}"
+                                    Command="{Binding CancelSellCommand}"
+                                    MinWidth="80" Padding="8,4"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
 
                 <!-- Back -->
                 <Button Grid.Row="2"

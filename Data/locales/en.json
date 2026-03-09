@@ -278,5 +278,11 @@
   "npc.craft.craft": "Craft",
   "npc.upgrade.upgrade": "Upgrade",
   "npc.shop.qty": "Quantity",
-  "npc.smith_difaultdialog": "Hello dear!"
+  "npc.smith_difaultdialog": "Hello dear!",
+  "npc.shop.playeritems": "Your Items",
+  "npc.shop.sell.confirm": "Sell {0} for {1} Bronze?",
+  "npc.shop.price.buy": "Price",
+  "npc.shop.price.sell": "Sell Value",
+  "app.general.UI.yes": "Yes",
+  "app.general.UI.no": "No"
 }

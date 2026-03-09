@@ -188,5 +188,21 @@
   "log.hp.lost": "Du hast {0} Schaden erlitten.",
   "log.hp.gained": "Du hast {0} HP geheilt.",
   "log.mp.spent": "Du hast {0} MP verbraucht.",
-  "log.mp.gained": "Du hast {0} MP wiederhergestellt."
+  "log.mp.gained": "Du hast {0} MP wiederhergestellt.",
+  "npc.shop.title": "Shop",
+  "npc.shop.title.equipment": "Ausrüstungsshop",
+  "npc.shop.stock": "Angebot",
+  "npc.shop.money": "Geld",
+  "npc.shop.quantity": "Menge",
+  "npc.shop.buy": "Kaufen",
+  "npc.shop.sell": "Verkaufen",
+  "npc.shop.qty": "Menge",
+  "npc.shop.playeritems": "Deine Items",
+  "npc.shop.sell.confirm": "{0} für {1} Bronze verkaufen?",
+  "npc.shop.price.buy": "Preis",
+  "npc.shop.price.sell": "Verkaufswert",
+  "app.general.UI.yes": "Ja",
+  "app.general.UI.no": "Nein",
+  "app.general.UI.owned": "Besitzt",
+  "app.general.UI.max": "Max"
 }
