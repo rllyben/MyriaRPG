@@ -1,41 +1,35 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <PropertyGroup>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
-</Project>
-
 <Page x:Class="MyriaRPG.Pages.InventoryPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:local="clr-namespace:MyriaRPG.Pages"
-      xmlns:vm="clr-namespace:MyriaRPG.ViewModels"
-      Title="Inventory" Height="1080" Width="1920"
-      Background="#0F0E1A">
+      Title="Inventory"
+      Background="{DynamicResource Brush.Background}">
 
     <Page.Resources>
         <!-- Converters -->
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         
-        <!-- Rarity Color Definitions -->
-        <SolidColorBrush x:Key="RarityCommon" Color="#A0A0A0"/>
-        <SolidColorBrush x:Key="RarityUncommon" Color="#1EFF00"/>
-        <SolidColorBrush x:Key="RarityRare" Color="#0070DD"/>
-        <SolidColorBrush x:Key="RarityEpic" Color="#A335EE"/>
-        <SolidColorBrush x:Key="RarityLegendary" Color="#FF8000"/>
-        <SolidColorBrush x:Key="RarityMythic" Color="#FF0000"/>
+        <!-- Index to Column Converter -->
+        <local:IndexToColumnConverter x:Key="IndexToColumnConverter"/>
+        
+        <!-- Index to Row Converter -->
+        <local:IndexToRowConverter x:Key="IndexToRowConverter"/>
+        
+        <!-- Stack Size to Visibility Converter -->
+        <local:StackSizeToVisibilityConverter x:Key="StackSizeToVisibilityConverter"/>
 
         <!-- Equipment Slot Style -->
         <Style x:Key="EquipmentSlotStyle" TargetType="ContentControl">
-            <Setter Property="Width" Value="120"/>
-            <Setter Property="Height" Value="120"/>
-            <Setter Property="Margin" Value="8"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Height" Value="80"/>
+            <Setter Property="Margin" Value="6"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ContentControl">
-                        <Border Background="#1A1929" BorderBrush="#3A3A4A" BorderThickness="2" CornerRadius="8">
+                        <Border Background="{DynamicResource Brush.TileBackground}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="2" CornerRadius="8">
                             <Grid>
                                 <TextBlock Text="{TemplateBinding Tag}" 
-                                          Foreground="#7A7A8A" 
+                                          Foreground="{DynamicResource Brush.SecondaryText}" 
                                           FontSize="11" 
                                           HorizontalAlignment="Center" 
                                           VerticalAlignment="Center"
@@ -50,52 +44,75 @@
 
         <!-- Inventory Slot Style -->
         <Style x:Key="InventorySlotStyle" TargetType="Border">
-            <Setter Property="Background" Value="#1A1929"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="#3A3A4A"/>
-            <Setter Property="Padding" Value="4"/>
+            <Setter Property="Background" Value="{DynamicResource Brush.TileBackground}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
+            <Setter Property="Padding" Value="2"/>
             <Setter Property="AllowDrop" Value="True"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="CornerRadius" Value="4"/>
         </Style>
 
-        <!-- Item Style with Rarity Border -->
-        <Style x:Key="ItemContainerStyle" TargetType="Grid">
-            <Setter Property="Cursor" Value="Hand"/>
+        <!-- Icon Switcher Style - Dynamically selects icon based on Item.Id -->
+        <Style x:Key="IconSwitcherStyle" TargetType="ContentControl">
+            <Setter Property="ContentTemplate" Value="{StaticResource Icon.Default}"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="iron_ore">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.iron_ore}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="upgrade_stone">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.upgrade_stone}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="pickaxe">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.pickaxe}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="shadow_remnant">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.shadow_remnant}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="mage_robe">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.mage_robe}"/>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
 
     </Page.Resources>
 
     <Grid>
         <!-- Background Pattern -->
-        <Rectangle Fill="#0F0E1A"/>
+        <Rectangle Fill="{DynamicResource Brush.Background}"/>
         <Canvas Opacity="0.05">
-            <Rectangle Fill="White" Width="1920" Height="1080" Canvas.Left="0" Canvas.Top="0"/>
+            <Rectangle Fill="White" Canvas.Left="0" Canvas.Top="0" Width="1920" Height="1080"/>
         </Canvas>
 
         <StackPanel Orientation="Vertical" Margin="20">
             <!-- Header -->
-            <TextBlock Text="INVENTORY" 
+            <TextBlock Text="{Binding InventoryTitle}" 
                        FontSize="32" 
                        FontWeight="Bold" 
-                       Foreground="#E0E0E0"
+                       Foreground="{DynamicResource Brush.Foreground}"
                        Margin="0,0,0,20"
                        FontFamily="Segoe UI"/>
 
             <!-- Equipment Section -->
-            <Border Background="#1A1929" BorderBrush="#3A3A4A" BorderThickness="1" CornerRadius="8" Padding="20" Margin="0,0,0,20">
+            <Border Background="{DynamicResource Brush.TileBackground}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1" CornerRadius="8" Padding="20" Margin="0,0,0,20">
                 <StackPanel>
-                    <TextBlock Text="EQUIPMENT" FontSize="14" Foreground="#7A7A8A" FontWeight="Bold" Margin="0,0,0,12"/>
-                    
+                    <TextBlock Text="{Binding EquipmentTitle}" FontSize="14" Foreground="{DynamicResource Brush.SecondaryText}" FontWeight="Bold" Margin="0,0,0,12"/>
+
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <!-- Weapon Slot -->
                         <ContentControl x:Name="WeaponSlot" 
                                        Style="{StaticResource EquipmentSlotStyle}"
                                        DataContext="{Binding WeaponSlot}"
-                                       Tag="WEAPON"
+                                       Tag="{Binding WeaponHint}"
                                        AllowDrop="True"
                                        Drop="EquipmentSlot_Drop"
-                                       DragOver="EquipmentSlot_DragOver">
+                                       DragOver="EquipmentSlot_DragOver"
+                                       PreviewMouseLeftButtonDown="EquipmentSlot_PreviewMouseLeftButtonDown"
+                                       MouseEnter="EquipmentSlot_MouseEnter"
+                                       MouseLeave="EquipmentSlot_MouseLeave">
                             <Border BorderBrush="{Binding BorderColor}" BorderThickness="2" CornerRadius="4">
-                                <Canvas x:Name="WeaponSlotCanvas" Background="Transparent"/>
+                                <!-- Icon from DataTemplate -->
+                                <ContentControl Content="{Binding Item}" Style="{StaticResource IconSwitcherStyle}"/>
                             </Border>
                         </ContentControl>
 
@@ -103,12 +120,16 @@
                         <ContentControl x:Name="ArmorSlot" 
                                        Style="{StaticResource EquipmentSlotStyle}"
                                        DataContext="{Binding ArmorSlot}"
-                                       Tag="ARMOR"
+                                       Tag="{Binding ArmorHint}"
                                        AllowDrop="True"
                                        Drop="EquipmentSlot_Drop"
-                                       DragOver="EquipmentSlot_DragOver">
+                                       DragOver="EquipmentSlot_DragOver"
+                                       PreviewMouseLeftButtonDown="EquipmentSlot_PreviewMouseLeftButtonDown"
+                                       MouseEnter="EquipmentSlot_MouseEnter"
+                                       MouseLeave="EquipmentSlot_MouseLeave">
                             <Border BorderBrush="{Binding BorderColor}" BorderThickness="2" CornerRadius="4">
-                                <Canvas x:Name="ArmorSlotCanvas" Background="Transparent"/>
+                                <!-- Icon from DataTemplate -->
+                                <ContentControl Content="{Binding Item}" Style="{StaticResource IconSwitcherStyle}"/>
                             </Border>
                         </ContentControl>
 
@@ -116,12 +137,16 @@
                         <ContentControl x:Name="AccessorySlot" 
                                        Style="{StaticResource EquipmentSlotStyle}"
                                        DataContext="{Binding AccessorySlot}"
-                                       Tag="ACCESSORY"
+                                       Tag="{Binding AccessoryHint}"
                                        AllowDrop="True"
                                        Drop="EquipmentSlot_Drop"
-                                       DragOver="EquipmentSlot_DragOver">
+                                       DragOver="EquipmentSlot_DragOver"
+                                       PreviewMouseLeftButtonDown="EquipmentSlot_PreviewMouseLeftButtonDown"
+                                       MouseEnter="EquipmentSlot_MouseEnter"
+                                       MouseLeave="EquipmentSlot_MouseLeave">
                             <Border BorderBrush="{Binding BorderColor}" BorderThickness="2" CornerRadius="4">
-                                <Canvas x:Name="AccessorySlotCanvas" Background="Transparent"/>
+                                <!-- Icon from DataTemplate -->
+                                <ContentControl Content="{Binding Item}" Style="{StaticResource IconSwitcherStyle}"/>
                             </Border>
                         </ContentControl>
                     </StackPanel>
@@ -129,42 +154,84 @@
             </Border>
 
             <!-- Inventory Grid Section -->
-            <Border Background="#1A1929" BorderBrush="#3A3A4A" BorderThickness="1" CornerRadius="8" Padding="20" Margin="0,0,0,20">
+            <Border Background="{DynamicResource Brush.TileBackground}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1" CornerRadius="8" Padding="20" Margin="0,0,0,20">
                 <StackPanel>
-                    <TextBlock Text="BACKPACK" FontSize="14" Foreground="#7A7A8A" FontWeight="Bold" Margin="0,0,0,12"/>
-                    
-                    <Grid x:Name="InventoryGrid">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                    </Grid>
+                    <TextBlock Text="{Binding InventoryTitle}" FontSize="14" Foreground="{DynamicResource Brush.SecondaryText}" FontWeight="Bold" Margin="0,0,0,12"/>
+
+                    <!-- Items Grid using ItemsControl -->
+                    <ItemsControl ItemsSource="{Binding InventoryItems}" x:Name="InventoryItemsControl">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="70"/>
+                                        <ColumnDefinition Width="70"/>
+                                        <ColumnDefinition Width="70"/>
+                                        <ColumnDefinition Width="70"/>
+                                        <ColumnDefinition Width="70"/>
+                                        <ColumnDefinition Width="70"/>
+                                        <ColumnDefinition Width="70"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="70"/>
+                                        <RowDefinition Height="70"/>
+                                        <RowDefinition Height="70"/>
+                                        <RowDefinition Height="70"/>
+                                        <RowDefinition Height="70"/>
+                                        <RowDefinition Height="70"/>
+                                        <RowDefinition Height="70"/>
+                                    </Grid.RowDefinitions>
+                                </Grid>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style>
+                                <Setter Property="Grid.Column" Value="{Binding Index, Converter={StaticResource IndexToColumnConverter}}"/>
+                                <Setter Property="Grid.Row" Value="{Binding Index, Converter={StaticResource IndexToRowConverter}}"/>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource InventorySlotStyle}" 
+                                       BorderBrush="{Binding RarityBrush}"
+                                       AllowDrop="True"
+                                       Drop="InventorySlot_Drop"
+                                       DragOver="InventorySlot_DragOver"
+                                       PreviewMouseLeftButtonDown="InventorySlot_PreviewMouseLeftButtonDown"
+                                       MouseEnter="InventorySlot_MouseEnter"
+                                       MouseLeave="InventorySlot_MouseLeave">
+                                    <Grid Background="Transparent">
+                                        <!-- Display Icon from Icons.xaml DataTemplate based on Item.Id -->
+                                        <ContentControl Content="{Binding Item}" Style="{StaticResource IconSwitcherStyle}" Margin="2"/>
+                                        
+                                        <!-- Stack Count Badge -->
+                                        <TextBlock Text="{Binding Item.StackSize, StringFormat='0'}" 
+                                                  Foreground="{DynamicResource Brush.Foreground}"
+                                                  FontSize="12"
+                                                  FontWeight="Bold"
+                                                  HorizontalAlignment="Right"
+                                                  VerticalAlignment="Bottom"
+                                                  Margin="4"
+                                                  Background="#80000000"
+                                                  Padding="2,0,2,0"
+                                                  Visibility="{Binding Item.StackSize, Converter={StaticResource StackSizeToVisibilityConverter}}"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </StackPanel>
             </Border>
 
             <!-- Money Section -->
-            <Border Background="#1A1929" BorderBrush="#3A3A4A" BorderThickness="1" CornerRadius="8" Padding="20">
+            <Border Background="{DynamicResource Brush.TileBackground}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1" CornerRadius="8" Padding="20">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock Text="💰" FontSize="24" Margin="0,0,12,0"/>
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="MONEY BAG" FontSize="12" Foreground="#7A7A8A" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding MoneyBagTitle}" FontSize="12" Foreground="{DynamicResource Brush.SecondaryText}" FontWeight="Bold"/>
                         <TextBlock Text="{Binding MoneyDisplay}" 
                                   FontSize="18" 
-                                  Foreground="#FFD700" 
+                                  Foreground="{DynamicResource Brush.Gold}" 
                                   FontWeight="Bold"
                                   FontFamily="Consolas"/>
                     </StackPanel>
@@ -174,18 +241,21 @@
 
         <!-- Tooltip -->
         <Border x:Name="ItemTooltip" 
-               Background="#2A2935" 
-               BorderBrush="#3A3A4A" 
-               BorderThickness="1" 
-               CornerRadius="6"
-               Padding="12"
-               Visibility="{Binding IsTooltipVisible, Converter={StaticResource BoolToVisibilityConverter}}"
-               MaxWidth="300">
+                Background="{DynamicResource Brush.TileBackground}" 
+                BorderBrush="{DynamicResource Brush.Border}" 
+                BorderThickness="1" 
+                CornerRadius="6"
+                Padding="12"
+                Visibility="{Binding IsTooltipVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                MaxWidth="300"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,60,20,0">
             <StackPanel DataContext="{Binding CurrentTooltip}">
-                <TextBlock Text="{Binding ItemName}" FontSize="14" FontWeight="Bold" Foreground="#E0E0E0" TextWrapping="Wrap" Margin="0,0,0,4"/>
-                <TextBlock Text="{Binding ItemType}" FontSize="11" Foreground="#A0A0A0" Margin="0,0,0,4"/>
+                <TextBlock Text="{Binding ItemName}" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource Brush.Foreground}" TextWrapping="Wrap" Margin="0,0,0,4"/>
+                <TextBlock Text="{Binding ItemType}" FontSize="11" Foreground="{DynamicResource Brush.SecondaryText}" Margin="0,0,0,4"/>
                 <TextBlock Text="{Binding ItemRarity}" FontSize="11" FontWeight="Bold" Foreground="{Binding RarityColor}" Margin="0,0,0,8"/>
-                <TextBlock Text="{Binding ItemStats}" FontSize="10" Foreground="#B0B0B0" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding ItemStats}" FontSize="10" Foreground="{DynamicResource Brush.SecondaryText}" TextWrapping="Wrap"/>
             </StackPanel>
         </Border>
     </Grid>

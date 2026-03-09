@@ -154,8 +154,9 @@ namespace MyriaRPG.Utils
                 ItemRarity.Uncommon => "#1EFF00",
                 ItemRarity.Rare => "#0070DD",
                 ItemRarity.Epic => "#A335EE",
+                ItemRarity.Unique => "#FFD700",
                 ItemRarity.Legendary => "#FF8000",
-                ItemRarity.Mythic => "#FF0000",
+                ItemRarity.Godly => "#FF0000",
                 _ => "#A0A0A0"
             };
         }
@@ -171,8 +172,9 @@ namespace MyriaRPG.Utils
                 ItemRarity.Uncommon => "Uncommon",
                 ItemRarity.Rare => "Rare",
                 ItemRarity.Epic => "Epic",
+                ItemRarity.Unique => "Unique",
                 ItemRarity.Legendary => "Legendary",
-                ItemRarity.Mythic => "Mythic",
+                ItemRarity.Godly => "Godly",
                 _ => "Unknown"
             };
         }

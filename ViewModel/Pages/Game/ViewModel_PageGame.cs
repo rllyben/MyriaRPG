@@ -11,6 +11,7 @@ using MyriaRPG.ViewModel.Pages.Game.IngameWindow;
 using MyriaRPG.ViewModel.UserControls;
 using System.Windows;
 using System.Windows.Input;
+using MyriaRPG.Pages;
 
 namespace MyriaRPG.ViewModel.Pages.Game
 {
@@ -124,8 +125,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
         private void OpenInventory()
         {
             MainWindow.Instance.gameWindow.Visibility = Visibility.Visible; /* open inventory popup */
-            Page_Inventory inv = new Page_Inventory();
-            ((MainWindow.Instance.gameWindow.DataContext) as ViewModel_GameWindow).Title = ((inv.DataContext) as InventoryPageViewModel).WindowTitle;
+            InventoryPage inv = new InventoryPage(UserAccoundService.CurrentCharacter);
             Navigation.NavigateIngameWindow(inv);
         }
         private void OpenCharacter()
