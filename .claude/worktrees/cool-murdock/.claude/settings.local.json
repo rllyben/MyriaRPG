@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet build)",
+      "Bash(dotnet build MyriaRPG.csproj)",
+      "Bash(git status -u)",
+      "Bash(git add Data/locales/de.json Data/locales/en.json View/Pages/Game/IngameWindow/NpcInteraction/Page_GeneralNpcInteraction.xaml ViewModel/Pages/Game/IngameWindow/NpcInteraction/ShopPanelViewModel.cs)",
+      "Bash(git commit:*)",
+      "Bash(git push -u origin claude/cool-murdock)",
+      "Bash(gh pr:*)"
+    ]
+  }
+}

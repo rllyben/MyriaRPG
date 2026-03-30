@@ -4,9 +4,7 @@ using MyriaLib.Services;
 using MyriaRPG.Model;
 using MyriaRPG.Utils;
 using MyriaRPG.View.Windows;
-using MyriaRPG.ViewModel.UserControls.IngameWindow;
 using System.Collections.ObjectModel;
-using System.Numerics;
 using System.Windows;
 using System.Windows.Input;
 
@@ -24,16 +22,6 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
         private string _dialogText;
         private string _btnClose;
         private BaseViewModel _currentPanel;
-        private ShopPanelViewModel _shopPanel;
-        public ShopPanelViewModel ShopPanelViewModel 
-        {
-            get => _shopPanel;
-            private set
-            {
-                _shopPanel = value;
-                OnPropertyChanged();
-            }
-        }
         public BaseViewModel CurrentPanel
         {
             get => _currentPanel;
@@ -101,7 +89,6 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
             NpcName = MyriaLib.Systems.Localization.T(npc.NameKey);
             NpcTypeText = MyriaLib.Systems.Localization.T(npc.Type.ToString());
             DialogText = MyriaLib.Systems.Localization.T("npc." + npc.Id + "dialog");
-            ShopPanelViewModel = new ShopPanelViewModel(npc, player, BackToMe);
 
             foreach (string service in npc.Services)
             {
@@ -115,14 +102,6 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
 
             }
             CloseCommand = new RelayCommand(() => MainWindow.Instance.gameWindow.Visibility = Visibility.Hidden);
-        }
-        private void BackToMe()
-        {
-            CurrentPanel = new DialogPanelViewModel(
-                _npc,
-                UserAccoundService.CurrentCharacter,
-                onNavigate: panel => CurrentPanel = panel
-            );
         }
         private void Healing()
         {

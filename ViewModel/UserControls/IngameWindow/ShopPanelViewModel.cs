@@ -1,20 +1,57 @@
 using MyriaLib.Entities.Items;
 using MyriaLib.Entities.NPCs;
 using MyriaLib.Entities.Players;
+using MyriaLib.Services;
 using MyriaLib.Services.Builder;
 using MyriaLib.Systems;
+using MyriaLib.Systems.Enums;
+using MyriaRPG.Model;
+using MyriaRPG.Pages;
 using MyriaRPG.Utils;
+using MyriaRPG.View.Pages.Game.IngameWindow;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
+namespace MyriaRPG.ViewModel.UserControls.IngameWindow
 {
+    public enum ShopFilter { Weapons, Armor, Accessories, Utilities }
     public class ShopPanelViewModel : BaseViewModel
     {
         private readonly Npc _npc;
         private readonly Player _player;
         private readonly Action _goBack;
+        private Page _inventoryPage;
+        private ShopFilter _activeFilter = ShopFilter.Weapons;
+        public ShopFilter ActiveFilter
+        {
+            get => _activeFilter;
+            set { _activeFilter = value; OnPropertyChanged(); OnPropertyChanged(nameof(FilteredStock)); }
+        }
 
+        public IEnumerable<ShopItemVm> FilteredStock => ActiveFilter switch
+        {
+            ShopFilter.Weapons => Stock.OfType<ShopEquipmentItemVm>()
+                                           .Where(i => i.SlotType == EquipmentType.Weapon
+                                                    && i.AllowedClasses.Contains(_player.Class)),
+            ShopFilter.Armor => Stock.OfType<ShopEquipmentItemVm>()
+                                           .Where(i => i.SlotType == EquipmentType.Armor
+                                                    && i.AllowedClasses.Contains(_player.Class)),
+            ShopFilter.Accessories => Stock.OfType<ShopEquipmentItemVm>()
+                                           .Where(i => i.SlotType == EquipmentType.Accessory
+                                                    && i.AllowedClasses.Contains(_player.Class)),
+            ShopFilter.Utilities => Stock.Where(i => i is not ShopEquipmentItemVm),
+            _ => Stock
+        };
+        public Page InventoryPage 
+        { 
+            get => _inventoryPage;
+            private set
+            {
+                _inventoryPage = value;
+                OnPropertyChanged(nameof(InventoryPage));
+            }
+        }
         public string Title => Localization.T("npc.shop.title.equipment");
         public string BtnBack => Localization.T("app.general.UI.back");
         public string BtnBuy => Localization.T("npc.shop.buy");
@@ -108,6 +145,11 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
         public bool CanSell => SelectedPlayerEquipment != null;
 
         // Commands
+
+        public ICommand FilterWeaponsCommand { get; }
+        public ICommand FilterArmorCommand { get; }
+        public ICommand FilterAccessoriesCommand { get; }
+        public ICommand FilterUtilitiesCommand { get; }
         public ICommand BackCommand { get; }
         public ICommand BuyCommand { get; }
         public ICommand SellCommand { get; }
@@ -122,6 +164,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
             _goBack = goBack;
 
             PlayerMoney = _player.Money.Coins.TotalBronze;
+            //InventoryPage = new InventoryPage(UserAccoundService.CurrentCharacter);
 
             // Commands
             BackCommand = new RelayCommand(_goBack);
@@ -130,6 +173,10 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
             IncreaseBuyQtyCommand = new RelayCommand(() => BuyQuantity++);
             DecreaseBuyQtyCommand = new RelayCommand(() => BuyQuantity--);
             MaxBuyQtyCommand = new RelayCommand(() => BuyQuantity = BuyQuantityMax);
+            FilterWeaponsCommand = new RelayCommand(() => ActiveFilter = ShopFilter.Weapons);
+            FilterArmorCommand = new RelayCommand(() => ActiveFilter = ShopFilter.Armor);
+            FilterAccessoriesCommand = new RelayCommand(() => ActiveFilter = ShopFilter.Accessories);
+            FilterUtilitiesCommand = new RelayCommand(() => ActiveFilter = ShopFilter.Utilities);
 
             LoadShopStock();
             LoadPlayerEquipment();
@@ -140,22 +187,17 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
             Stock.Clear();
 
             // Smith sells equipment items
-            var equipmentItems = new List<string>
-            {
-                "steel_sword",
-                "starter_armor",
-                "mage_robe",
-                "leather_bow",
-                "prayer_robes",
-                "flamecaster_staff",
-                "starter_mace"
-            };
+            var equipmentItems = _npc.ItemNames;
 
             foreach (var itemId in equipmentItems)
             {
                 if (ItemFactory.TryCreateItem(itemId, out var item))
                 {
-                    Stock.Add(ShopItemVm.FromItem(item));
+                    Console.WriteLine(item is EquipmentItem);
+                    if (item is EquipmentItem eq && eq.AllowedClasses.Contains(_player.Class))
+                        Stock.Add(ShopEquipmentItemVm.FromEquipment(eq));
+                    else if (item.AllowedClasses.Contains(_player.Class))
+                        Stock.Add(ShopItemVm.FromItem(item));
                 }
             }
 

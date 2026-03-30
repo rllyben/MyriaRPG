@@ -1,4 +1,4 @@
-using MyriaLib.Entities.Items;
+﻿using MyriaLib.Entities.Items;
 using MyriaLib.Entities.NPCs;
 using MyriaLib.Entities.Players;
 using MyriaLib.Services.Builder;
@@ -20,7 +20,6 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
         public string BtnCraft => Localization.T("npc.craft.craft");
         public string QuantityLabel => Localization.T("npc.shop.quantity");
         public string MaxLabel => Localization.T("app.general.UI.max");
-        public string IngredientsLabel => Localization.T("npc.craft.ingredients");
 
         public ObservableCollection<RecipeVm> Recipes { get; } = new();
 
@@ -36,7 +35,6 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
                 OnPropertyChanged(nameof(SelectedIngredients));
                 UpdateMaxCraftable();
                 Quantity = 1; // Reset quantity when recipe changes
-                StatusMessage = "";
             }
         }
 
@@ -70,13 +68,6 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
             }
         }
 
-        private string _statusMessage = "";
-        public string StatusMessage
-        {
-            get => _statusMessage;
-            set { _statusMessage = value; OnPropertyChanged(); }
-        }
-
         public bool CanCraft => SelectedRecipe != null && Quantity > 0 && Quantity <= MaxCraftable;
 
         public ICommand BackCommand { get; }
@@ -104,31 +95,26 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
         {
             Recipes.Clear();
 
-            // Recipe 1: 3 iron_ore -> upgrade_stone
+            // first stub recipe: 3 iron_ore -> upgrade_stone
             var recipe = new RecipeVm
             {
                 Id = "upgrade_stone",
                 Name = Localization.T("item.upgrade_stone.name"),
                 Ingredients = new ObservableCollection<IngredientVm>
                 {
-                    new IngredientVm 
-                    { 
-                        Id = "iron_ore", 
-                        Name = "item.iron_ore.name", 
-                        Amount = 3 
-                    }
+                    new IngredientVm { Id = "iron_ore", Name = "item.iron_ore.name", Amount = 3 }
                 }
             };
             
-            Recipes.Add(recipe);
-
-            // Add more recipes here as needed
-
-            SelectedRecipe = Recipes.FirstOrDefault();
-            if (SelectedRecipe == null)
+            // Update player inventory counts for ingredients
+            foreach(var ing in recipe.Ingredients)
             {
-                StatusMessage = Localization.T("npc.craft.noRecipes");
+                var playerItem = _player.Inventory.Items.FirstOrDefault(i => i.Id == ing.Id);
+                ing.PlayerHas = playerItem?.StackSize ?? 0;
             }
+
+            Recipes.Add(recipe);
+            SelectedRecipe = Recipes.FirstOrDefault();
         }
 
         private void UpdateMaxCraftable()
@@ -136,7 +122,6 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
             if (SelectedRecipe == null)
             {
                 MaxCraftable = 0;
-                StatusMessage = Localization.T("npc.craft.selectRecipe");
                 return;
             }
 
@@ -161,15 +146,6 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
             MaxCraftable = max == int.MaxValue ? 0 : max;
             OnPropertyChanged(nameof(CanCraft));
             
-            if (MaxCraftable == 0)
-            {
-                StatusMessage = Localization.T("npc.craft.notEnoughMaterials");
-            }
-            else
-            {
-                StatusMessage = "";
-            }
-            
             // Re-validate quantity
             if (Quantity > MaxCraftable) Quantity = MaxCraftable;
             if (Quantity == 0 && MaxCraftable > 0) Quantity = 1;
@@ -177,21 +153,14 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
 
         private void CraftSelected()
         {
-            if (SelectedRecipe == null || Quantity <= 0)
-            {
-                StatusMessage = Localization.T("npc.craft.selectRecipe");
-                return;
-            }
+            if (SelectedRecipe == null || Quantity <= 0) return;
 
             // Verify resources again
             foreach (IngredientVm item in SelectedRecipe.Ingredients)
             {
                 var material = _player.Inventory.Items.FirstOrDefault(i => i.Id == item.Id);
                 if (material == null || material.StackSize < item.Amount * Quantity)
-                {
-                    StatusMessage = Localization.T("npc.craft.notEnoughMaterials");
                     return;
-                }
             }
 
             // Consume resources
@@ -199,6 +168,12 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
             {
                 var material = _player.Inventory.Items.FirstOrDefault(i => i.Id == item.Id);
                 
+                // RemoveItem logic in Inventory.cs removes the object reference if stacksize matches.
+                // We need to be careful. The safest way with current Inventory.cs is to reduce stack size manually or create a dummy item to remove.
+                // Since Inventory.RemoveItem(Item item) just does Items.Remove(item), it expects the EXACT instance from the list if we want to remove the whole stack.
+                // But here we want to reduce quantity.
+                
+                // Let's implement a safer consumption logic here that respects the Inventory implementation
                 int amountToRemove = item.Amount * Quantity;
                 
                 if (material.StackSize > amountToRemove)
@@ -207,40 +182,26 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
                 }
                 else
                 {
+                    // Exact match or more (though we checked before), remove the item entirely
                     _player.Inventory.RemoveItem(material);
                 }
             }
             
+            // Force inventory restack/cleanup just in case
             _player.Inventory.Restack();
 
             // Create result
             if (ItemFactory.TryCreateItem(SelectedRecipe.Id, out Item creation))
             {
                 creation.StackSize = Quantity;
-                if (_player.Inventory.AddItem(creation, _player))
-                {
-                    StatusMessage = Localization.T("npc.craft.success", Quantity, SelectedRecipe.Name);
-                    UpdateMaxCraftable();
-                    Quantity = 1;
-                }
-                else
-                {
-                    // Inventory full - need to return materials
-                    foreach (IngredientVm item in SelectedRecipe.Ingredients)
-                    {
-                        var material = ItemFactory.CreateItem(item.Id, item.Amount * Quantity);
-                        _player.Inventory.AddItem(material, _player);
-                    }
-                    StatusMessage = Localization.T("npc.craft.inventoryFull");
-                }
+                _player.Inventory.AddItem(creation, _player);
             }
-            else
-            {
-                StatusMessage = Localization.T("npc.craft.fail");
-            }
-        }
-    }
 
+            // Refresh UI
+            UpdateMaxCraftable();
+        }
+
+    }
     public class IngredientVm : BaseViewModel
     {
         public string Id { get; set; }
@@ -255,19 +216,23 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
         }
 
         public string AmountText => Amount.ToString();
-        public bool HasEnough => PlayerHas >= Amount;
         
         public string DisplayString => $"{Localization.T(Name)}: {Amount} ({Localization.T("app.general.UI.owned")}: {PlayerHas})";
 
-        public override string ToString() => Name;
+        public override string ToString()
+        {
+            return Name;
+        }
     }
-
     public class RecipeVm : BaseViewModel
     {
         public string Id { get; set; }
         public string Name { get; set; }
         public ObservableCollection<IngredientVm> Ingredients { get; set; } = new();
-        
-        public override string ToString() => Name;
+        public override string ToString()
+        {
+            return Localization.T(Name);
+        }
     }
+
 }

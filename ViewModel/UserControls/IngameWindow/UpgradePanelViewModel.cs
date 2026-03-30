@@ -6,7 +6,7 @@ using MyriaRPG.Utils;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
+namespace MyriaRPG.ViewModel.UserControls.IngameWindow
 {
     public class UpgradePanelViewModel : BaseViewModel
     {

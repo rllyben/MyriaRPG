@@ -1,0 +1,140 @@
+﻿<Page x:Class="MyriaRPG.View.Pages.Game.Page_Room"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MyriaRPG.View.Pages.Game"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Page_Room">
+
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <!-- Small square icon button style -->
+        <Style x:Key="IconButton" TargetType="Button">
+            <Setter Property="Width" Value="36"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="6"/>
+            <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground}"/>
+            <Setter Property="Background" Value="{DynamicResource Brush.Background}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="ToolTipService.ShowDuration" Value="60000"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid.Background>
+            <ImageBrush />
+        </Grid.Background>
+        <Image Source="{Binding ImageSource}" Stretch="Fill" ></Image>
+        <!-- CENTER: Map / main content (text-only placeholder for now) -->
+        <Border Background="{DynamicResource Brush.Background}" Grid.Row="1">
+            <StackPanel>
+                <TextBlock Text="{Binding RoomName}" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource Brush.Foreground}"/>
+                <TextBlock Text="{Binding RoomDescription}" Margin="0,8,0,0" TextWrapping="Wrap" Foreground="{DynamicResource Brush.Foreground}"/>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Center">
+                    <Button Content="{Binding BtnFight}"  Command="{Binding StartFightCommand}"
+                            Visibility="{Binding BtnFightVisibility}" Margin="5,0,5,0"/>
+                    <Button Content="{Binding BtnGather}"  Command="{Binding StartGatheringCommand}"
+                            Visibility="{Binding BtnGatherVisibility}" Margin="5,0,5,0"/>
+                </StackPanel>
+                <!-- NPC interaction panel -->
+                <Border Margin="0,12,0,0"
+                        Background="{DynamicResource Brush.Surface}"
+                        BorderBrush="{DynamicResource Brush.Border}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource Radius.Panel}"
+                        Padding="10">
+
+                    <StackPanel>
+                        <TextBlock Text="{Binding NpcsHeaderText}" FontWeight="SemiBold" Opacity="0.9"/>
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- NPC list -->
+                            <ListBox Grid.Column="0"
+                                     ItemsSource="{Binding Npcs}"
+                                     SelectedItem="{Binding SelectedNpc}"
+                                     Background="{x:Null}"
+                                     Foreground="{DynamicResource Brush.Foreground}"
+                                     Visibility="{Binding HasNpcsVisibility}"
+                                     MinHeight="120"/>
+
+                            <!-- NPC details -->
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="{Binding SelectedNpc.Name}" FontSize="16" FontWeight="SemiBold"/>
+                                <TextBlock Text="{Binding SelectedNpc.ShortDescription}"
+                                           Margin="0,4,0,8"
+                                           TextWrapping="Wrap"
+                                           Opacity="0.85"/>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="{Binding BtnTalk}"
+                                            Command="{Binding TalkCommand}"
+                                            Margin="10,0,8,0"
+                                            Visibility="{Binding HasNpcsVisibility}"/>
+                                </StackPanel>
+                            </StackPanel>
+                            <ListBox Grid.Column="3"
+                                     ItemsSource="{Binding Log}"
+                                     Background="{x:Null}"
+                                     Foreground="{DynamicResource Brush.Foreground}"
+                                     MinHeight="120"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+
+        <!-- EDGE EXITS: appear only if the exit exists -->
+        <!-- NORTH (top center) -->
+        <Button Content="{Binding BtnNorth}" Command="{Binding MoveCommand}" 
+                CommandParameter="North"
+                Visibility="{Binding HasNorth, Converter={StaticResource BoolToVis}}"
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Top" 
+                Margin="0,8,0,0" Padding="8,4" Foreground="{DynamicResource Brush.Foreground}" Background="{DynamicResource Brush.Background}"/>
+
+        <!-- SOUTH (bottom center) -->
+        <Button Content="{Binding BtnSouth}" 
+                Command="{Binding MoveCommand}" 
+                CommandParameter="South"
+                Visibility="{Binding HasSouth, Converter={StaticResource BoolToVis}}"
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Bottom" 
+                Margin="0,0,0,50" Padding="8,4" Foreground="{DynamicResource Brush.Foreground}" Background="{DynamicResource Brush.Background}"/>
+
+        <!-- WEST (left center, vertical) -->
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8" >
+            <Button Content="{Binding BtnWest}" Command="{Binding MoveCommand}" CommandParameter="West"
+                    Visibility="{Binding HasWest, Converter={StaticResource BoolToVis}}" Padding="8,4" Foreground="{DynamicResource Brush.Foreground}" Background="{DynamicResource Brush.Background}"/>
+        </StackPanel>
+
+        <!-- EAST (right center, vertical) -->
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="8">
+            <Button Content="{Binding BtnEast}" Command="{Binding MoveCommand}" CommandParameter="East"
+                    Visibility="{Binding HasEast, Converter={StaticResource BoolToVis}}" Padding="8,4"/>
+        </StackPanel>
+    </Grid>
+</Page>
