@@ -1,0 +1,152 @@
+﻿<Page x:Class="MyriaRPG.View.Pages.Game.IngameWindow.Inventory.Equipment"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MyriaRPG.View.Pages.Game.IngameWindow.Inventory"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Equipment">
+
+    <Page.Resources>
+        <!-- Converters -->
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+
+        <!-- Equipment Slot Style -->
+        <Style x:Key="EquipmentSlotStyle" TargetType="ContentControl">
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Height" Value="80"/>
+            <Setter Property="Margin" Value="6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ContentControl">
+                        <Border Background="{DynamicResource Brush.TileBackground}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="2" CornerRadius="8">
+                            <Grid>
+                                <TextBlock Text="{TemplateBinding Tag}" 
+                                          Foreground="{DynamicResource Brush.SecondaryText}" 
+                                          FontSize="11" 
+                                          HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center"
+                                          FontWeight="Bold"/>
+                                <ContentPresenter/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Inventory Slot Style -->
+        <Style x:Key="InventorySlotStyle" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource Brush.TileBackground}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="AllowDrop" Value="True"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="CornerRadius" Value="4"/>
+        </Style>
+
+        <!-- Icon Switcher Style - Dynamically selects icon based on Item.Id -->
+        <Style x:Key="IconSwitcherStyle" TargetType="ContentControl">
+            <Setter Property="ContentTemplate" Value="{StaticResource Icon.Default}"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="iron_ore">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.iron_ore}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="upgrade_stone">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.upgrade_stone}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="pickaxe">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.pickaxe}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="shadow_remnant">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.shadow_remnant}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="mage_robe">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.mage_robe}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </Page.Resources>
+    <Grid>
+        <!-- Equipment Section -->
+        <Border Background="{DynamicResource Brush.TileBackground}" BorderBrush="{DynamicResource Brush.Border}" BorderThickness="1" CornerRadius="8" Padding="20" Margin="0,0,0,20">
+            <StackPanel>
+                <TextBlock Text="{Binding EquipmentTitle}" FontSize="14" Foreground="{DynamicResource Brush.SecondaryText}" FontWeight="Bold" Margin="0,0,0,12"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <!-- Weapon Slot -->
+                    <ContentControl x:Name="WeaponSlot" 
+                           Style="{StaticResource EquipmentSlotStyle}"
+                           DataContext="{Binding WeaponSlot}"
+                           Tag="{Binding WeaponHint}"
+                           AllowDrop="True"
+                           Drop="EquipmentSlot_Drop"
+                           DragOver="EquipmentSlot_DragOver"
+                           PreviewMouseLeftButtonDown="EquipmentSlot_PreviewMouseLeftButtonDown"
+                           MouseEnter="EquipmentSlot_MouseEnter"
+                           MouseLeave="EquipmentSlot_MouseLeave">
+                        <Border BorderBrush="{Binding BorderColor}" BorderThickness="2" CornerRadius="4">
+                            <!-- Icon from DataTemplate -->
+                            <ContentControl Content="{Binding Item}" Style="{StaticResource IconSwitcherStyle}"/>
+                        </Border>
+                    </ContentControl>
+
+                    <!-- Armor Slot -->
+                    <ContentControl x:Name="ArmorSlot" 
+                           Style="{StaticResource EquipmentSlotStyle}"
+                           DataContext="{Binding ArmorSlot}"
+                           Tag="{Binding ArmorHint}"
+                           AllowDrop="True"
+                           Drop="EquipmentSlot_Drop"
+                           DragOver="EquipmentSlot_DragOver"
+                           PreviewMouseLeftButtonDown="EquipmentSlot_PreviewMouseLeftButtonDown"
+                           MouseEnter="EquipmentSlot_MouseEnter"
+                           MouseLeave="EquipmentSlot_MouseLeave">
+                        <Border BorderBrush="{Binding BorderColor}" BorderThickness="2" CornerRadius="4">
+                            <!-- Icon from DataTemplate -->
+                            <ContentControl Content="{Binding Item}" Style="{StaticResource IconSwitcherStyle}"/>
+                        </Border>
+                    </ContentControl>
+
+                    <!-- Accessory Slot -->
+                    <ContentControl x:Name="AccessorySlot" 
+                           Style="{StaticResource EquipmentSlotStyle}"
+                           DataContext="{Binding AccessorySlot}"
+                           Tag="{Binding AccessoryHint}"
+                           AllowDrop="True"
+                           Drop="EquipmentSlot_Drop"
+                           DragOver="EquipmentSlot_DragOver"
+                           PreviewMouseLeftButtonDown="EquipmentSlot_PreviewMouseLeftButtonDown"
+                           MouseEnter="EquipmentSlot_MouseEnter"
+                           MouseLeave="EquipmentSlot_MouseLeave">
+                        <Border BorderBrush="{Binding BorderColor}" BorderThickness="2" CornerRadius="4">
+                            <!-- Icon from DataTemplate -->
+                            <ContentControl Content="{Binding Item}" Style="{StaticResource IconSwitcherStyle}"/>
+                        </Border>
+                    </ContentControl>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        <Border x:Name="ItemTooltip" 
+                Background="{DynamicResource Brush.TileBackground}" 
+                BorderBrush="{DynamicResource Brush.Border}" 
+                BorderThickness="1" 
+                CornerRadius="6"
+                Padding="12"
+                Visibility="{Binding IsTooltipVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                MaxWidth="300"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,60,20,0">
+            <StackPanel DataContext="{Binding CurrentTooltip}">
+                <TextBlock Text="{Binding ItemName}" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource Brush.Foreground}" TextWrapping="Wrap" Margin="0,0,0,4"/>
+                <TextBlock Text="{Binding ItemType}" FontSize="11" Foreground="{DynamicResource Brush.SecondaryText}" Margin="0,0,0,4"/>
+                <TextBlock Text="{Binding ItemRarity}" FontSize="11" FontWeight="Bold" Foreground="{Binding RarityColor}" Margin="0,0,0,8"/>
+                <TextBlock Text="{Binding ItemStats}" FontSize="10" Foreground="{DynamicResource Brush.SecondaryText}" TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>

@@ -1,0 +1,34 @@
+<Page x:Class="MyriaRPG.Pages.InventoryPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="clr-namespace:MyriaRPG.Pages"
+      Title="Inventory"
+      Background="{DynamicResource Brush.Background}">
+
+    <Grid>
+        <!-- Background Pattern -->
+        <Rectangle Fill="{DynamicResource Brush.Background}"/>
+        <Canvas Opacity="0.05">
+            <Rectangle Fill="White" Canvas.Left="0" Canvas.Top="0" Width="1920" Height="1080"/>
+        </Canvas>
+
+        <StackPanel Orientation="Vertical" Margin="20">
+            <!-- Header -->
+            <TextBlock Text="{Binding InventoryTitle}" 
+                       FontSize="32" 
+                       FontWeight="Bold" 
+                       Foreground="{DynamicResource Brush.Foreground}"
+                       Margin="0,0,0,20"
+                       FontFamily="Segoe UI"/>
+
+            <!-- Equipment Section -->
+            <Frame Source="Equipment.xaml"></Frame>
+
+            <!-- Inventory Grid Section -->
+            <Frame Source="Inventory.xaml"></Frame>
+
+            <!-- Money Section -->
+            <Frame Source="MoneyBag.xaml"></Frame>
+        </StackPanel>
+    </Grid>
+</Page>

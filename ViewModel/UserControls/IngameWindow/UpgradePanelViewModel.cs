@@ -99,13 +99,6 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
                 return;
             }
 
-            // Check cost
-            if (_player.Money.Coins.TotalBronze < SelectedEquipment.UpgradeCost)
-            {
-                StatusMessage = Localization.T("npc.upgrade.notEnoughMoney");
-                return;
-            }
-
             // Perform upgrade
             NpcActionResult result = _npc.UpgradeItem(_player, eq);
 
