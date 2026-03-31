@@ -9,6 +9,7 @@ namespace MyriaRPG.Model
     {
         public EquipmentType SlotType { get; set; }
         public List<PlayerClass> AllowedClasses { get; set; }
+        public bool IsTool { get; set; }
 
         public static ShopEquipmentItemVm FromEquipment(EquipmentItem item)
         {
@@ -18,7 +19,8 @@ namespace MyriaRPG.Model
                 Name = Localization.T($"item.{item.Id}"),
                 BuyPrice = item.BuyPrice,
                 SlotType = item.SlotType,
-                AllowedClasses = item.AllowedClasses
+                AllowedClasses = item.AllowedClasses,
+                IsTool = item.IsTool
             };
         }
     }

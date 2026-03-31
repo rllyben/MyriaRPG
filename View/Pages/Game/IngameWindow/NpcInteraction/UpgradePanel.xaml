@@ -53,8 +53,8 @@
 
                 <StackPanel>
                     <TextBlock Text="{Binding SelectedName}" Foreground="{DynamicResource Brush.Foreground}" FontSize="16" FontWeight="SemiBold"/>
-                    <TextBlock Text="{Binding SelectedUpgradeText}" Foreground="{DynamicResource Brush.Foreground}" Margin="0,6,0,0" Opacity="0.85"/>
-                    <TextBlock Text="{Binding UpgradeCostText}" Foreground="{DynamicResource Brush.Foreground}" Margin="0,6,0,10" Opacity="0.85"/>
+                    <TextBlock Text="{Binding SelectedLevel}" Foreground="{DynamicResource Brush.Foreground}" Margin="0,6,0,0" Opacity="0.85"/>
+                    <TextBlock Text="{Binding UpgradeCost}" Foreground="{DynamicResource Brush.Foreground}" Margin="0,6,0,10" Opacity="0.85"/>
 
                     <Button Content="{Binding BtnUpgrade}"
                                 Command="{Binding UpgradeCommand}"

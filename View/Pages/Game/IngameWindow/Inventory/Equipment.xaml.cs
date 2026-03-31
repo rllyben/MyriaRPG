@@ -3,6 +3,7 @@ using MyriaLib.Systems.Enums;
 using MyriaRPG.ViewModel.Pages.Game.IngameWindow.Inventory;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace MyriaRPG.View.Pages.Game.IngameWindow.Inventory
@@ -51,6 +52,13 @@ namespace MyriaRPG.View.Pages.Game.IngameWindow.Inventory
             if (sender is ContentControl control && control.DataContext is EquipmentSlotViewModel slotViewModel
                 && slotViewModel.Item != null)
             {
+                ItemTooltipPopup.PlacementTarget = control;
+                bool flipLeft = control.Name == "AccessorySlot";
+                ItemTooltipPopup.CustomPopupPlacementCallback = (popupSize, targetSize, _) =>
+                {
+                    double x = flipLeft ? -popupSize.Width : targetSize.Width;
+                    return new[] { new CustomPopupPlacement(new Point(x, 0), PopupPrimaryAxis.None) };
+                };
                 var tempItem = new InventoryItemViewModel(slotViewModel.Item, 0);
                 _viewModel.ShowTooltipCommand.Execute(tempItem);
             }

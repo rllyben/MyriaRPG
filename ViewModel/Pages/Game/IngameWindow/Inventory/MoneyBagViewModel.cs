@@ -23,12 +23,19 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.Inventory
         {
             _player = player ?? throw new ArgumentNullException(nameof(player));
             _player.Inventory.ItemReceived += (s, e) => UpdateMoneyDisplay();
+            _player.Inventory.ItemSold += (s, e) => UpdateMoneyDisplay();
+            UpdateMoneyDisplay();
+        }
+
+        protected override void OnLanguageChanged(object? sender, EventArgs e)
+        {
+            base.OnLanguageChanged(sender, e);
             UpdateMoneyDisplay();
         }
 
         public void UpdateMoneyDisplay()
         {
-            MoneyDisplay = "0 Gold";
+            MoneyDisplay = _player.Money.Coins.ToDisplayString();
         }
     }
 }

@@ -501,6 +501,7 @@
     "Type": "equipment",
     "SlotType": 0,
     "BuyPrice": 100,
+    "IsTool": true,
     "AllowedClasses": [],
     "MaxStackSize": 1
   },
@@ -514,6 +515,7 @@
     "BaseBonusATK": 24,
     "BaseBonusAim": 3,
     "BaseBonusCrit": 5,
+    "IsTool": true,
     "AllowedClasses": [ "Barbarian" ],
     "MaxStackSize": 1
   },

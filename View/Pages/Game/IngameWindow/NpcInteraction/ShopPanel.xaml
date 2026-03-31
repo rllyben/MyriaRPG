@@ -84,14 +84,15 @@
                                    Foreground="{DynamicResource Brush.SecondaryText}"
                                    Margin="0,0,0,12"/>
                         <!-- Filter Buttons -->
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <Button Content="Weapons"     Command="{Binding FilterWeaponsCommand}"     Margin="0,0,5,0"/>
-                            <Button Content="Armor"       Command="{Binding FilterArmorCommand}"       Margin="0,0,5,0"/>
-                            <Button Content="Accessories" Command="{Binding FilterAccessoriesCommand}" Margin="0,0,5,0"/>
-                            <Button Content="Utilities"   Command="{Binding FilterUtilitiesCommand}"/>
-                        </StackPanel>
+                        <WrapPanel Margin="0,0,0,10">
+                            <Button Content="{Binding LblWeapons}"     Command="{Binding FilterWeaponsCommand}"     Margin="0,0,5,5"/>
+                            <Button Content="{Binding LblArmor}"       Command="{Binding FilterArmorCommand}"       Margin="0,0,5,5"/>
+                            <Button Content="{Binding LblAccessories}" Command="{Binding FilterAccessoriesCommand}" Margin="0,0,5,5"/>
+                            <Button Content="{Binding LblUtilities}"   Command="{Binding FilterUtilitiesCommand}"  Margin="0,0,5,5"/>
+                            <Button Content="{Binding LblBuyback}"     Command="{Binding FilterBuybackCommand}"    Margin="0,0,0,5"/>
+                        </WrapPanel>
                         <!-- Shop Items List -->
-                        <ListBox ItemsSource="{Binding Stock}"
+                        <ListBox ItemsSource="{Binding FilteredStock}"
                                  SelectedItem="{Binding SelectedStock}"
                                  Background="{DynamicResource Brush.Background}"
                                  BorderThickness="0"
@@ -110,9 +111,14 @@
                                                        FontSize="12"
                                                        FontWeight="Bold"
                                                        Foreground="{DynamicResource Brush.Foreground}"/>
-                                            <TextBlock Text="{Binding BuyPrice, StringFormat='Price: {0}'}"
-                                                       FontSize="11"
-                                                       Foreground="{DynamicResource Brush.Gold}"/>
+                                            <TextBlock FontSize="11" Foreground="{DynamicResource Brush.Gold}">
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}{0}: {1}">
+                                                        <Binding Path="DataContext.StockPriceLabel" RelativeSource="{RelativeSource AncestorType=ListBox}"/>
+                                                        <Binding Path="BuyPrice"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
                                         </StackPanel>
                                     </Border>
                                 </DataTemplate>
@@ -138,15 +144,20 @@
                                            Foreground="{DynamicResource Brush.Gold}"
                                            Margin="0,0,0,8"/>
 
-                                <TextBlock Text="{Binding BuyTotalPrice, StringFormat='Total: {0}'}"
-                                           FontSize="11"
-                                           FontWeight="Bold"
-                                           Foreground="{DynamicResource Brush.Gold}"/>
+                                <TextBlock FontSize="11" FontWeight="Bold" Foreground="{DynamicResource Brush.Gold}">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0}: {1}">
+                                            <Binding Path="TotalLabel"/>
+                                            <Binding Path="BuyTotalPrice"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
                             </StackPanel>
                         </Border>
 
-                        <!-- Quantity Control -->
-                        <StackPanel Margin="0,0,0,12">
+                        <!-- Quantity Control (hidden in Buyback tab) -->
+                        <StackPanel Margin="0,0,0,12"
+                                    Visibility="{Binding IsQuantityControlVisible, Converter={StaticResource BoolToVisibilityConverter}}">
                             <TextBlock Text="{Binding QuantityLabel}"
                                        FontSize="11"
                                        Foreground="{DynamicResource Brush.SecondaryText}"
@@ -251,10 +262,10 @@
                                                 MouseLeave="InventorySlot_MouseLeave">
                                             <Border.ContextMenu>
                                                 <ContextMenu>
-                                                    <MenuItem Header="Sell one"
+                                                    <MenuItem Header="{Binding PlacementTarget.Tag.LblSellOne, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                               Command="{Binding PlacementTarget.Tag.SellOneCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
-                                                    <MenuItem Header="Sell stack"
+                                                    <MenuItem Header="{Binding PlacementTarget.Tag.LblSellStack, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                               Command="{Binding PlacementTarget.Tag.SellStackCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                               Visibility="{Binding PlacementTarget.DataContext.IsStack, RelativeSource={RelativeSource AncestorType=ContextMenu}, Converter={StaticResource BoolToVisibilityConverter}}"/>
@@ -305,24 +316,27 @@
                     </StackPanel>
 
                     <!-- Item Tooltip -->
-                    <Border x:Name="ItemTooltip"
-                            Background="{DynamicResource Brush.TileBackground}"
-                            BorderBrush="{DynamicResource Brush.Border}"
-                            BorderThickness="1"
-                            CornerRadius="6"
-                            Padding="12"
-                            Visibility="{Binding IsTooltipVisible, Converter={StaticResource BoolToVisibilityConverter}}"
-                            MaxWidth="300"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            Margin="0,60,20,0">
-                        <StackPanel DataContext="{Binding CurrentTooltip}">
-                            <TextBlock Text="{Binding ItemName}" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource Brush.Foreground}" TextWrapping="Wrap" Margin="0,0,0,4"/>
-                            <TextBlock Text="{Binding ItemType}" FontSize="11" Foreground="{DynamicResource Brush.SecondaryText}" Margin="0,0,0,4"/>
-                            <TextBlock Text="{Binding ItemRarity}" FontSize="11" FontWeight="Bold" Foreground="{Binding RarityColor}" Margin="0,0,0,8"/>
-                            <TextBlock Text="{Binding ItemStats}" FontSize="10" Foreground="{DynamicResource Brush.SecondaryText}" TextWrapping="Wrap"/>
-                        </StackPanel>
-                    </Border>
+                    <Popup x:Name="ItemTooltipPopup"
+                           IsOpen="{Binding IsTooltipVisible}"
+                           Placement="Custom"
+                           AllowsTransparency="True"
+                           PopupAnimation="Fade"
+                           StaysOpen="True"
+                           IsHitTestVisible="False">
+                        <Border Background="{DynamicResource Brush.TileBackground}"
+                                BorderBrush="{DynamicResource Brush.Border}"
+                                BorderThickness="1"
+                                CornerRadius="6"
+                                Padding="12"
+                                MaxWidth="300">
+                            <StackPanel DataContext="{Binding CurrentTooltip}">
+                                <TextBlock Text="{Binding ItemName}" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource Brush.Foreground}" TextWrapping="Wrap" Margin="0,0,0,4"/>
+                                <TextBlock Text="{Binding ItemType}" FontSize="11" Foreground="{DynamicResource Brush.SecondaryText}" Margin="0,0,0,4"/>
+                                <TextBlock Text="{Binding ItemRarity}" FontSize="11" FontWeight="Bold" Foreground="{Binding RarityColor}" Margin="0,0,0,8"/>
+                                <TextBlock Text="{Binding ItemStats}" FontSize="10" Foreground="{DynamicResource Brush.SecondaryText}" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+                    </Popup>
                 </Grid>
             </Grid>
 

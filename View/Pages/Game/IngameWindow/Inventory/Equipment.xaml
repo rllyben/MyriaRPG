@@ -130,23 +130,26 @@
                 </StackPanel>
             </StackPanel>
         </Border>
-        <Border x:Name="ItemTooltip" 
-                Background="{DynamicResource Brush.TileBackground}" 
-                BorderBrush="{DynamicResource Brush.Border}" 
-                BorderThickness="1" 
-                CornerRadius="6"
-                Padding="12"
-                Visibility="{Binding IsTooltipVisible, Converter={StaticResource BoolToVisibilityConverter}}"
-                MaxWidth="300"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                Margin="0,60,20,0">
-            <StackPanel DataContext="{Binding CurrentTooltip}">
-                <TextBlock Text="{Binding ItemName}" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource Brush.Foreground}" TextWrapping="Wrap" Margin="0,0,0,4"/>
-                <TextBlock Text="{Binding ItemType}" FontSize="11" Foreground="{DynamicResource Brush.SecondaryText}" Margin="0,0,0,4"/>
-                <TextBlock Text="{Binding ItemRarity}" FontSize="11" FontWeight="Bold" Foreground="{Binding RarityColor}" Margin="0,0,0,8"/>
-                <TextBlock Text="{Binding ItemStats}" FontSize="10" Foreground="{DynamicResource Brush.SecondaryText}" TextWrapping="Wrap"/>
-            </StackPanel>
-        </Border>
+        <Popup x:Name="ItemTooltipPopup"
+               IsOpen="{Binding IsTooltipVisible}"
+               Placement="Custom"
+               AllowsTransparency="True"
+               PopupAnimation="Fade"
+               StaysOpen="True"
+               IsHitTestVisible="False">
+            <Border Background="{DynamicResource Brush.TileBackground}"
+                    BorderBrush="{DynamicResource Brush.Border}"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Padding="12"
+                    MaxWidth="300">
+                <StackPanel DataContext="{Binding CurrentTooltip}">
+                    <TextBlock Text="{Binding ItemName}" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource Brush.Foreground}" TextWrapping="Wrap" Margin="0,0,0,4"/>
+                    <TextBlock Text="{Binding ItemType}" FontSize="11" Foreground="{DynamicResource Brush.SecondaryText}" Margin="0,0,0,4"/>
+                    <TextBlock Text="{Binding ItemRarity}" FontSize="11" FontWeight="Bold" Foreground="{Binding RarityColor}" Margin="0,0,0,8"/>
+                    <TextBlock Text="{Binding ItemStats}" FontSize="10" Foreground="{DynamicResource Brush.SecondaryText}" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+        </Popup>
     </Grid>
 </Page>

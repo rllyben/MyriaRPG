@@ -49,6 +49,9 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.Inventory
             set => SetProperty(ref _isTooltipVisible, value);
         }
 
+        public string LblSellOne   => Localization.T("npc.shop.context.sell_one");
+        public string LblSellStack => Localization.T("npc.shop.context.sell_stack");
+
         public ICommand EquipItemCommand { get; }
         public ICommand UseItemCommand { get; }
         public ICommand SellItemCommand { get; }
@@ -209,17 +212,16 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.Inventory
     /// </summary>
     public class ItemTooltipViewModel : BaseViewModel
     {
-        private string _itemName;
+        private string _itemNameKey;
+        private string _itemNameSuffix = "";
         private string _itemType;
         private string _itemRarity;
         private Brush _rarityColor;
         private string _itemStats;
 
-        public string ItemName
-        {
-            get => Localization.T(_itemName);
-            set => SetProperty(ref _itemName, value);
-        }
+        // Lazy-translates the stored key so language switches work without re-calling SetItem.
+        // The suffix (e.g. " +3") is appended after translation.
+        public string ItemName => Localization.T(_itemNameKey) + _itemNameSuffix;
         public string ItemType { get => _itemType; set => SetProperty(ref _itemType, value); }
         public string ItemRarity { get => _itemRarity; set => SetProperty(ref _itemRarity, value); }
         public Brush RarityColor { get => _rarityColor; set => SetProperty(ref _rarityColor, value); }
@@ -227,7 +229,11 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.Inventory
 
         public void SetItem(Item item)
         {
-            ItemName = item.Name;
+            _itemNameKey = item.Name;
+            _itemNameSuffix = item is EquipmentItem eq && eq.UpgradeLevel >= 1
+                ? $" +{eq.UpgradeLevel}"
+                : "";
+            OnPropertyChanged(nameof(ItemName));
             ItemType = $"{Localization.T("pg.inventory.tooltip.type")}: {item.GetType().Name}";
             ItemRarity = $"{Localization.T("pg.inventory.tooltip.rarity")}: {item.Rarity}";
             RarityColor = GetRarityBrush(item.Rarity);

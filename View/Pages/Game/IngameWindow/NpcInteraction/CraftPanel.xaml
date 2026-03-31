@@ -8,6 +8,29 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CraftPanel">
 
+    <Page.Resources>
+        <Style x:Key="IconSwitcherStyle" TargetType="ContentControl">
+            <Setter Property="ContentTemplate" Value="{StaticResource Icon.Default}"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="iron_ore">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.iron_ore}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="upgrade_stone">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.upgrade_stone}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="pickaxe">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.pickaxe}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="shadow_remnant">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.shadow_remnant}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="mage_robe">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.mage_robe}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -60,8 +83,8 @@
 
                     <!-- Header: Icon + Name -->
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                        <!-- Upgrade Stone Icon (SVG Path) -->
-                        <ContentControl ContentTemplate="{StaticResource Icon.upgrade_stone}" 
+                        <ContentControl Content="{Binding SelectedRecipe}"
+                                                Style="{StaticResource IconSwitcherStyle}"
                                                 Width="{Binding FontSize, ElementName=RecipeNameText}"
                                                 Height="{Binding FontSize, ElementName=RecipeNameText}"/>
 
@@ -87,8 +110,8 @@
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
 
-                                            <!-- Iron Ore Icon (SVG Path) -->
-                                            <ContentControl ContentTemplate="{StaticResource Icon.iron_ore}" 
+                                            <ContentControl Content="{Binding}"
+                                                                    Style="{StaticResource IconSwitcherStyle}"
                                                                     Width="{Binding FontSize, ElementName=IngredientNameText}"
                                                                     Height="{Binding FontSize, ElementName=IngredientNameText}"/>
 

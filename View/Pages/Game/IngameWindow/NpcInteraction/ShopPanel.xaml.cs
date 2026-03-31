@@ -4,6 +4,7 @@ using MyriaRPG.ViewModel.Pages.Game.IngameWindow.Inventory;
 using MyriaRPG.ViewModel.UserControls.IngameWindow;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace MyriaRPG.View.Pages.Game.IngameWindow.NpcInteraction
@@ -25,7 +26,18 @@ namespace MyriaRPG.View.Pages.Game.IngameWindow.NpcInteraction
         private void InventorySlot_MouseEnter(object sender, MouseEventArgs e)
         {
             if (sender is Border border && border.DataContext is InventoryItemViewModel itemViewModel)
+            {
+                ItemTooltipPopup.PlacementTarget = border;
+                bool flipLeft = itemViewModel.GridColumn >= 4;
+                bool flipUp   = itemViewModel.GridRow >= 4;
+                ItemTooltipPopup.CustomPopupPlacementCallback = (popupSize, targetSize, _) =>
+                {
+                    double x = flipLeft ? -popupSize.Width : targetSize.Width;
+                    double y = flipUp   ? targetSize.Height - popupSize.Height : 0;
+                    return new[] { new CustomPopupPlacement(new Point(x, y), PopupPrimaryAxis.None) };
+                };
                 _inventoryViewModel.ShowTooltipCommand.Execute(itemViewModel);
+            }
         }
 
         private void InventorySlot_MouseLeave(object sender, MouseEventArgs e)

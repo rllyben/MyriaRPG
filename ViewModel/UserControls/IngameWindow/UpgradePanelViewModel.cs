@@ -37,9 +37,20 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
             }
         }
 
-        public string SelectedName => SelectedEquipment?.Name ?? "";
+        public string SelectedName => SelectedEquipment?.DisplayName ?? "";
         public string SelectedLevel => SelectedEquipment != null ? $"{Localization.T("npc.upgrade.level")}: +{SelectedEquipment.UpgradeLevel}" : "";
-        public string UpgradeCost => SelectedEquipment != null ? $"{CostLabel}: {SelectedEquipment.UpgradeCost}" : "";
+
+        public string UpgradeCost
+        {
+            get
+            {
+                if (SelectedEquipment == null) return "";
+                if (SelectedEquipment.UpgradeLevel >= 9) return Localization.T("npc.upgrade.maxLevel");
+                int have = GetMaterialCount(SelectedEquipment.UpgradeMaterialId);
+                string mat = Localization.T($"item.{SelectedEquipment.UpgradeMaterialId}");
+                return $"{CostLabel}: {SelectedEquipment.UpgradeMaterialCount}× {mat}  ({Localization.T("npc.upgrade.youHave")}: {have})";
+            }
+        }
 
         private string _statusMessage = "";
         public string StatusMessage
@@ -48,7 +59,12 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
             set { _statusMessage = value; OnPropertyChanged(); }
         }
 
-        public bool CanUpgrade => SelectedEquipment != null && _player.Money.Coins.TotalBronze >= SelectedEquipment.UpgradeCost;
+        public bool CanUpgrade => SelectedEquipment != null
+            && SelectedEquipment.UpgradeLevel < 9
+            && GetMaterialCount(SelectedEquipment.UpgradeMaterialId) >= SelectedEquipment.UpgradeMaterialCount;
+
+        private int GetMaterialCount(string materialId) =>
+            _player.Inventory.Items.Where(i => i.Id == materialId).Sum(i => i.StackSize);
 
         public ICommand BackCommand { get; }
         public ICommand UpgradeCommand { get; }
@@ -120,14 +136,18 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
 
         public string Id => _item.Id;
         public string Name => Localization.T($"item.{_item.Id}");
+        public string DisplayName => UpgradeLevel >= 1 ? $"{Name} +{UpgradeLevel}" : Name;
         public int UpgradeLevel => _item.UpgradeLevel;
-        public int UpgradeCost => 100 * (UpgradeLevel + 1); // Simple formula: 100, 200, 300, etc.
+
+        // Upgrade material requirement — extensible: swap Id/Count per tier later.
+        public string UpgradeMaterialId    => "upgrade_stone";
+        public int    UpgradeMaterialCount => 1;
 
         public EquipmentItemVm(EquipmentItem item)
         {
             _item = item;
         }
 
-        public override string ToString() => Name;
+        public override string ToString() => DisplayName;
     }
 }

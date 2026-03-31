@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(ls /c/Users/rhyen/OEBB/source/repos/MyriaRPG/View/Pages/*.xaml)",
-      "Bash(dotnet --version)"
+      "Bash(dotnet --version)",
+      "Bash(dotnet build:*)"
     ]
   }
 }

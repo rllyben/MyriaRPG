@@ -36,7 +36,7 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
                 ServiceOptions.Add(new ServiceOption
                 {
                     Text = Localization.T($"npc.service.{service}.title"),
-                    Description = Localization.T($"npc.service.{service}.description"),
+                    Description = Localization.T($"npc.service.{service}.desc"),
                     Command = new RelayCommand(() => HandleService(service))
                 });
             }
