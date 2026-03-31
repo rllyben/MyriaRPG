@@ -4,28 +4,30 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace MyriaRPG.View.Pages.Game.IngameWindow.Inventory
+namespace MyriaRPG.View.Pages.Game.IngameWindow.NpcInteraction
 {
-    public partial class Inventory : Page
+    public partial class ShopPanel : Page
     {
-        private InventoryGridViewModel _viewModel;
+        private InventoryGridViewModel _inventoryViewModel;
 
-        public Inventory()
+        public ShopPanel()
         {
             InitializeComponent();
-            _viewModel = new InventoryGridViewModel(UserAccoundService.CurrentCharacter);
-            this.DataContext = _viewModel;
+            var player = UserAccoundService.CurrentCharacter;
+            _inventoryViewModel = new InventoryGridViewModel(player);
+            InventorySection.DataContext = _inventoryViewModel;
+            MoneyBagSection.DataContext = new MoneyBagViewModel(player);
         }
 
         private void InventorySlot_MouseEnter(object sender, MouseEventArgs e)
         {
             if (sender is Border border && border.DataContext is InventoryItemViewModel itemViewModel)
-                _viewModel.ShowTooltipCommand.Execute(itemViewModel);
+                _inventoryViewModel.ShowTooltipCommand.Execute(itemViewModel);
         }
 
         private void InventorySlot_MouseLeave(object sender, MouseEventArgs e)
         {
-            _viewModel.HideTooltipCommand.Execute(null);
+            _inventoryViewModel.HideTooltipCommand.Execute(null);
         }
 
         private void InventorySlot_DragOver(object sender, DragEventArgs e)
@@ -43,9 +45,9 @@ namespace MyriaRPG.View.Pages.Game.IngameWindow.Inventory
                 && sender is Border targetBorder)
             {
                 if (targetBorder.DataContext is InventoryItemViewModel targetItem)
-                    _viewModel.HandleItemDrop(draggedItem, targetItem.Index);
+                    _inventoryViewModel.HandleItemDrop(draggedItem, targetItem.Index);
                 else
-                    _viewModel.RefreshInventory();
+                    _inventoryViewModel.RefreshInventory();
 
                 e.Handled = true;
             }

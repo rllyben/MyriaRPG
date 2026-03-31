@@ -1,0 +1,351 @@
+﻿<Page x:Class="MyriaRPG.View.Pages.Game.IngameWindow.NpcInteraction.ShopPanel"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:MyriaRPG.View.Pages.Game.IngameWindow.NpcInteraction"
+      mc:Ignorable="d"
+      d:DesignHeight="750" d:DesignWidth="800"
+      Title="ShopPanel">
+
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+
+        <Style x:Key="InventorySlotStyle" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource Brush.TileBackground}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="AllowDrop" Value="True"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="CornerRadius" Value="4"/>
+        </Style>
+
+        <Style x:Key="IconSwitcherStyle" TargetType="ContentControl">
+            <Setter Property="ContentTemplate" Value="{StaticResource Icon.Default}"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="iron_ore">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.iron_ore}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="upgrade_stone">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.upgrade_stone}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="pickaxe">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.pickaxe}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="shadow_remnant">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.shadow_remnant}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Content.Id, RelativeSource={RelativeSource Self}}" Value="mage_robe">
+                    <Setter Property="ContentTemplate" Value="{StaticResource Icon.mage_robe}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <StackPanel Margin="20" Orientation="Vertical">
+            <!-- Header with Money Display -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                <TextBlock Text="{Binding Title}"
+                           FontSize="28"
+                           FontWeight="Bold"
+                           Foreground="{DynamicResource Brush.Foreground}"
+                           VerticalAlignment="Center"/>
+
+                <TextBlock Text="{Binding PlayerMoneyText}"
+                           FontSize="16"
+                           FontWeight="Bold"
+                           Foreground="{DynamicResource Brush.Gold}"
+                           VerticalAlignment="Center"
+                           Margin="20,0,0,0"/>
+            </StackPanel>
+
+            <!-- Main Content: Two columns -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- LEFT: BUY SECTION -->
+                <Border Grid.Column="0"
+                        Background="{DynamicResource Brush.TileBackground}"
+                        BorderBrush="{DynamicResource Brush.Border}"
+                        BorderThickness="1"
+                        CornerRadius="8"
+                        Padding="15">
+                    <StackPanel Orientation="Vertical">
+                        <!-- Header -->
+                        <TextBlock Text="{Binding StockLabel}"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource Brush.SecondaryText}"
+                                   Margin="0,0,0,12"/>
+                        <!-- Filter Buttons -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <Button Content="Weapons"     Command="{Binding FilterWeaponsCommand}"     Margin="0,0,5,0"/>
+                            <Button Content="Armor"       Command="{Binding FilterArmorCommand}"       Margin="0,0,5,0"/>
+                            <Button Content="Accessories" Command="{Binding FilterAccessoriesCommand}" Margin="0,0,5,0"/>
+                            <Button Content="Utilities"   Command="{Binding FilterUtilitiesCommand}"/>
+                        </StackPanel>
+                        <!-- Shop Items List -->
+                        <ListBox ItemsSource="{Binding Stock}"
+                                 SelectedItem="{Binding SelectedStock}"
+                                 Background="{DynamicResource Brush.Background}"
+                                 BorderThickness="0"
+                                 Height="200"
+                                 Margin="0,0,0,12">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{DynamicResource Brush.TileBackground}"
+                                            BorderBrush="{DynamicResource Brush.Border}"
+                                            BorderThickness="1"
+                                            Padding="10"
+                                            Margin="0,5,0,0"
+                                            CornerRadius="4">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Name}"
+                                                       FontSize="12"
+                                                       FontWeight="Bold"
+                                                       Foreground="{DynamicResource Brush.Foreground}"/>
+                                            <TextBlock Text="{Binding BuyPrice, StringFormat='Price: {0}'}"
+                                                       FontSize="11"
+                                                       Foreground="{DynamicResource Brush.Gold}"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <!-- Selected Item Details -->
+                        <Border Background="{DynamicResource Brush.Background}"
+                                BorderBrush="{DynamicResource Brush.Border}"
+                                BorderThickness="1"
+                                Padding="10"
+                                CornerRadius="4"
+                                Margin="0,0,0,12">
+                            <StackPanel>
+                                <TextBlock Text="{Binding SelectedStockName}"
+                                           FontSize="12"
+                                           FontWeight="Bold"
+                                           Foreground="{DynamicResource Brush.Foreground}"
+                                           Margin="0,0,0,8"/>
+
+                                <TextBlock Text="{Binding SelectedStockPrice}"
+                                           FontSize="11"
+                                           Foreground="{DynamicResource Brush.Gold}"
+                                           Margin="0,0,0,8"/>
+
+                                <TextBlock Text="{Binding BuyTotalPrice, StringFormat='Total: {0}'}"
+                                           FontSize="11"
+                                           FontWeight="Bold"
+                                           Foreground="{DynamicResource Brush.Gold}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Quantity Control -->
+                        <StackPanel Margin="0,0,0,12">
+                            <TextBlock Text="{Binding QuantityLabel}"
+                                       FontSize="11"
+                                       Foreground="{DynamicResource Brush.SecondaryText}"
+                                       Margin="0,0,0,8"/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="-"
+                                        Command="{Binding DecreaseBuyQtyCommand}"
+                                        Width="30"
+                                        Height="30"
+                                        Padding="0"
+                                        Margin="0,0,5,0"/>
+
+                                <TextBlock Text="{Binding BuyQuantity}"
+                                           FontSize="12"
+                                           FontWeight="Bold"
+                                           Foreground="{DynamicResource Brush.Foreground}"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"
+                                           Width="40"
+                                           Margin="0,0,5,0"/>
+
+                                <Button Content="+"
+                                        Command="{Binding IncreaseBuyQtyCommand}"
+                                        Width="30"
+                                        Height="30"
+                                        Padding="0"
+                                        Margin="0,0,5,0"/>
+
+                                <Button Content="{Binding MaxLabel}"
+                                        Command="{Binding MaxBuyQtyCommand}"
+                                        Padding="8,5"
+                                        Height="30"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Buy Button -->
+                        <Button Content="{Binding BtnBuy}"
+                                Command="{Binding BuyCommand}"
+                                IsEnabled="{Binding CanBuy}"
+                                Padding="15,10"
+                                FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- RIGHT: SELL SECTION (Inventory) -->
+                <Grid Grid.Column="2" x:Name="InventorySection">
+                    <StackPanel>
+                    <Border Background="{DynamicResource Brush.TileBackground}"
+                            BorderBrush="{DynamicResource Brush.Border}"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Padding="15">
+                        <StackPanel>
+                            <TextBlock Text="{Binding InventoryTitle}"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       Foreground="{DynamicResource Brush.SecondaryText}"
+                                       Margin="0,0,0,12"/>
+
+                            <ItemsControl ItemsSource="{Binding InventoryItems}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="70"/>
+                                                <ColumnDefinition Width="70"/>
+                                                <ColumnDefinition Width="70"/>
+                                                <ColumnDefinition Width="70"/>
+                                                <ColumnDefinition Width="70"/>
+                                                <ColumnDefinition Width="70"/>
+                                                <ColumnDefinition Width="70"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="70"/>
+                                                <RowDefinition Height="70"/>
+                                                <RowDefinition Height="70"/>
+                                                <RowDefinition Height="70"/>
+                                                <RowDefinition Height="70"/>
+                                                <RowDefinition Height="70"/>
+                                                <RowDefinition Height="70"/>
+                                            </Grid.RowDefinitions>
+                                        </Grid>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="Grid.Column" Value="{Binding GridColumn}"/>
+                                        <Setter Property="Grid.Row" Value="{Binding GridRow}"/>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Style="{StaticResource InventorySlotStyle}"
+                                                BorderBrush="{Binding RarityBrush}"
+                                                Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                AllowDrop="True"
+                                                Drop="InventorySlot_Drop"
+                                                DragOver="InventorySlot_DragOver"
+                                                PreviewMouseLeftButtonDown="InventorySlot_PreviewMouseLeftButtonDown"
+                                                MouseEnter="InventorySlot_MouseEnter"
+                                                MouseLeave="InventorySlot_MouseLeave">
+                                            <Border.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="Sell one"
+                                                              Command="{Binding PlacementTarget.Tag.SellOneCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                    <MenuItem Header="Sell stack"
+                                                              Command="{Binding PlacementTarget.Tag.SellStackCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              Visibility="{Binding PlacementTarget.DataContext.IsStack, RelativeSource={RelativeSource AncestorType=ContextMenu}, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                                </ContextMenu>
+                                            </Border.ContextMenu>
+                                            <Grid Background="Transparent">
+                                                <ContentControl Content="{Binding Item}" Style="{StaticResource IconSwitcherStyle}" Margin="2"/>
+                                                <TextBlock Text="{Binding Item.StackSize, StringFormat='0'}"
+                                                           Foreground="{DynamicResource Brush.Foreground}"
+                                                           FontSize="12"
+                                                           FontWeight="Bold"
+                                                           HorizontalAlignment="Right"
+                                                           VerticalAlignment="Bottom"
+                                                           Margin="4"
+                                                           Background="#80000000"
+                                                           Padding="2,0,2,0"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Money Bag -->
+                    <Border x:Name="MoneyBagSection"
+                            Background="{DynamicResource Brush.TileBackground}"
+                            BorderBrush="{DynamicResource Brush.Border}"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Padding="15"
+                            Margin="0,10,0,0">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="💰" FontSize="24" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="{Binding MoneyBagTitle}"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource Brush.SecondaryText}"
+                                           FontWeight="Bold"/>
+                                <TextBlock Text="{Binding MoneyDisplay}"
+                                           FontSize="18"
+                                           Foreground="{DynamicResource Brush.Gold}"
+                                           FontWeight="Bold"
+                                           FontFamily="Consolas"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    </StackPanel>
+
+                    <!-- Item Tooltip -->
+                    <Border x:Name="ItemTooltip"
+                            Background="{DynamicResource Brush.TileBackground}"
+                            BorderBrush="{DynamicResource Brush.Border}"
+                            BorderThickness="1"
+                            CornerRadius="6"
+                            Padding="12"
+                            Visibility="{Binding IsTooltipVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                            MaxWidth="300"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Margin="0,60,20,0">
+                        <StackPanel DataContext="{Binding CurrentTooltip}">
+                            <TextBlock Text="{Binding ItemName}" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource Brush.Foreground}" TextWrapping="Wrap" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding ItemType}" FontSize="11" Foreground="{DynamicResource Brush.SecondaryText}" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding ItemRarity}" FontSize="11" FontWeight="Bold" Foreground="{Binding RarityColor}" Margin="0,0,0,8"/>
+                            <TextBlock Text="{Binding ItemStats}" FontSize="10" Foreground="{DynamicResource Brush.SecondaryText}" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <!-- Status Message -->
+            <Border Background="{DynamicResource Brush.TileBackground}"
+                    BorderBrush="{DynamicResource Brush.Border}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="15"
+                    Margin="0,20,0,20">
+                <TextBlock Text="{Binding StatusMessage}"
+                           FontSize="12"
+                           Foreground="{DynamicResource Brush.SecondaryText}"
+                           TextWrapping="Wrap"
+                           MinHeight="40"/>
+            </Border>
+
+            <!-- Back Button -->
+            <Button Content="{Binding BtnBack}"
+                    Command="{Binding BackCommand}"
+                    Padding="15,10"
+                    HorizontalAlignment="Right"
+                    Width="120"/>
+        </StackPanel>
+    </Grid>
+</Page>

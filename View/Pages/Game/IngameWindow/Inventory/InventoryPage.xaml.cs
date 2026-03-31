@@ -1,23 +1,15 @@
-using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using MyriaLib.Entities.Items;
 using MyriaLib.Entities.Players;
-using MyriaRPG.ViewModels;
+using MyriaRPG.ViewModel.Pages.Game.IngameWindow.Inventory;
+using System.Windows.Controls;
 
 namespace MyriaRPG.Pages
 {
-    /// <summary>
-    /// Interaction logic for InventoryPage.xaml
-    /// Uses MVVM pattern with InventoryPageViewModel
-    /// </summary>
     public partial class InventoryPage : Page
     {
-
         public InventoryPage(Player player)
         {
             InitializeComponent();
+            this.DataContext = new InventoryPageViewModel();
         }
     }
 }

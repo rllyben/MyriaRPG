@@ -12,15 +12,6 @@
         <!-- Converters -->
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 
-        <!-- Index to Column Converter -->
-        <local:IndexToColumnConverter x:Key="IndexToColumnConverter"/>
-
-        <!-- Index to Row Converter -->
-        <local:IndexToRowConverter x:Key="IndexToRowConverter"/>
-
-        <!-- Stack Size to Visibility Converter -->
-        <local:StackSizeToVisibilityConverter x:Key="StackSizeToVisibilityConverter"/>
-
         <!-- Equipment Slot Style -->
         <Style x:Key="EquipmentSlotStyle" TargetType="ContentControl">
             <Setter Property="Width" Value="80"/>
@@ -112,9 +103,9 @@
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemContainerStyle>
-                        <Style>
-                            <Setter Property="Grid.Column" Value="{Binding Index, Converter={StaticResource IndexToColumnConverter}}"/>
-                            <Setter Property="Grid.Row" Value="{Binding Index, Converter={StaticResource IndexToRowConverter}}"/>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Grid.Column" Value="{Binding GridColumn}"/>
+                            <Setter Property="Grid.Row" Value="{Binding GridRow}"/>
                         </Style>
                     </ItemsControl.ItemContainerStyle>
                     <ItemsControl.ItemTemplate>
@@ -140,8 +131,7 @@
                                                   VerticalAlignment="Bottom"
                                                   Margin="4"
                                                   Background="#80000000"
-                                                  Padding="2,0,2,0"
-                                                  Visibility="{Binding Item.StackSize, Converter={StaticResource StackSizeToVisibilityConverter}}"/>
+                                                  Padding="2,0,2,0"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>

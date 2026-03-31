@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MyriaRPG.View.UserControls.IngameWindow
+namespace MyriaRPG.View.Pages.Game.IngameWindow.NpcInteraction
 {
     /// <summary>
-    /// Interaktionslogik für InventoryPanel.xaml
+    /// Interaktionslogik für DialogPanel.xaml
     /// </summary>
-    public partial class InventoryPanel : UserControl
+    public partial class DialogPanel : Page
     {
-        public InventoryPanel()
+        public DialogPanel()
         {
             InitializeComponent();
         }

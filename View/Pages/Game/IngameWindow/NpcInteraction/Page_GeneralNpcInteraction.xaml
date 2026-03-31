@@ -6,12 +6,10 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MyriaRPG.View.Pages.Game.IngameWindow.NpcInteraction"
-      xmlns:local2="clr-namespace:MyriaRPG.View.UserControls.IngameWindow"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Page_GeneralNpcInteraction">
     <Page.Resources>
-        <local:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
 
         <!-- Dialog Panel -->
         <DataTemplate DataType="{x:Type vm:DialogPanelViewModel}">
@@ -73,266 +71,6 @@
             <local2:ShopPanel DataContext="{Binding}"/>
         </DataTemplate>
         -->
-
-        <DataTemplate DataType="{x:Type vm:ShopPanelViewModel}">
-            <Grid>
-                <StackPanel Margin="20" Orientation="Vertical">
-                    <!-- Header with Money Display -->
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
-                        <TextBlock Text="{Binding Title}" 
-                           FontSize="28" 
-                           FontWeight="Bold" 
-                           Foreground="{DynamicResource Brush.Foreground}"
-                           VerticalAlignment="Center"/>
-
-                        <TextBlock Text="{Binding PlayerMoneyText}" 
-                           FontSize="16" 
-                           FontWeight="Bold" 
-                           Foreground="{DynamicResource Brush.Gold}"
-                           VerticalAlignment="Center"
-                           Margin="20,0,0,0"/>
-                    </StackPanel>
-
-                    <!-- Main Content: Two columns -->
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="20"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <!-- LEFT: BUY SECTION -->
-                        <Border Grid.Column="0"
-                        Background="{DynamicResource Brush.TileBackground}" 
-                        BorderBrush="{DynamicResource Brush.Border}" 
-                        BorderThickness="1" 
-                        CornerRadius="8" 
-                        Padding="15">
-                            <StackPanel Orientation="Vertical">
-                                <!-- Header -->
-                                <TextBlock Text="{Binding StockLabel}" 
-                                   FontSize="14" 
-                                   FontWeight="Bold" 
-                                   Foreground="{DynamicResource Brush.SecondaryText}"
-                                   Margin="0,0,0,12"/>
-                                <!-- Filter Buttons -->
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                                    <Button Content="Weapons"     Command="{Binding FilterWeaponsCommand}"     Margin="0,0,5,0"/>
-                                    <Button Content="Armor"       Command="{Binding FilterArmorCommand}"       Margin="0,0,5,0"/>
-                                    <Button Content="Accessories" Command="{Binding FilterAccessoriesCommand}" Margin="0,0,5,0"/>
-                                    <Button Content="Utilities"   Command="{Binding FilterUtilitiesCommand}"/>
-                                </StackPanel>
-                                <!-- Shop Items List -->
-                                <ListBox ItemsSource="{Binding Stock}"
-                                 SelectedItem="{Binding SelectedStock}"
-                                 Background="{DynamicResource Brush.Background}"
-                                 BorderThickness="0"
-                                 Height="200"
-                                 Margin="0,0,0,12">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border Background="{DynamicResource Brush.TileBackground}" 
-                                            BorderBrush="{DynamicResource Brush.Border}" 
-                                            BorderThickness="1"
-                                            Padding="10"
-                                            Margin="0,5,0,0"
-                                            CornerRadius="4">
-                                                <StackPanel>
-                                                    <TextBlock Text="{Binding Name}" 
-                                                       FontSize="12" 
-                                                       FontWeight="Bold" 
-                                                       Foreground="{DynamicResource Brush.Foreground}"/>
-                                                    <TextBlock Text="{Binding BuyPrice, StringFormat='Price: {0}'}" 
-                                                       FontSize="11" 
-                                                       Foreground="{DynamicResource Brush.Gold}"/>
-                                                </StackPanel>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-
-                                <!-- Selected Item Details -->
-                                <Border Background="{DynamicResource Brush.Background}" 
-                                BorderBrush="{DynamicResource Brush.Border}" 
-                                BorderThickness="1"
-                                Padding="10"
-                                CornerRadius="4"
-                                Margin="0,0,0,12">
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding SelectedStockName}" 
-                                           FontSize="12" 
-                                           FontWeight="Bold" 
-                                           Foreground="{DynamicResource Brush.Foreground}"
-                                           Margin="0,0,0,8"/>
-
-                                        <TextBlock Text="{Binding SelectedStockPrice}" 
-                                           FontSize="11" 
-                                           Foreground="{DynamicResource Brush.Gold}"
-                                           Margin="0,0,0,8"/>
-
-                                        <TextBlock Text="{Binding BuyTotalPrice, StringFormat='Total: {0}'}" 
-                                           FontSize="11" 
-                                           FontWeight="Bold" 
-                                           Foreground="{DynamicResource Brush.Gold}"/>
-                                    </StackPanel>
-                                </Border>
-
-                                <!-- Quantity Control -->
-                                <StackPanel Margin="0,0,0,12">
-                                    <TextBlock Text="{Binding QuantityLabel}" 
-                                       FontSize="11" 
-                                       Foreground="{DynamicResource Brush.SecondaryText}"
-                                       Margin="0,0,0,8"/>
-
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button Content="-" 
-                                        Command="{Binding DecreaseBuyQtyCommand}"
-                                        Width="30"
-                                        Height="30"
-                                        Padding="0"
-                                        Margin="0,0,5,0"/>
-
-                                        <TextBlock Text="{Binding BuyQuantity}" 
-                                           FontSize="12" 
-                                           FontWeight="Bold" 
-                                           Foreground="{DynamicResource Brush.Foreground}"
-                                           VerticalAlignment="Center"
-                                           TextAlignment="Center"
-                                           Width="40"
-                                           Margin="0,0,5,0"/>
-
-                                        <Button Content="+" 
-                                        Command="{Binding IncreaseBuyQtyCommand}"
-                                        Width="30"
-                                        Height="30"
-                                        Padding="0"
-                                        Margin="0,0,5,0"/>
-
-                                        <Button Content="{Binding MaxLabel}" 
-                                        Command="{Binding MaxBuyQtyCommand}"
-                                        Padding="8,5"
-                                        Height="30"/>
-                                    </StackPanel>
-                                </StackPanel>
-
-                                <!-- Buy Button -->
-                                <Button Content="{Binding BtnBuy}" 
-                                Command="{Binding BuyCommand}"
-                                IsEnabled="{Binding CanBuy}"
-                                Padding="15,10"
-                                FontWeight="Bold"/>
-                            </StackPanel>
-                        </Border>
-
-                        <!-- RIGHT: SELL SECTION -->
-                        <Border Grid.Column="2"
-                        Background="{DynamicResource Brush.TileBackground}" 
-                        BorderBrush="{DynamicResource Brush.Border}" 
-                        BorderThickness="1" 
-                        CornerRadius="8" 
-                        Padding="15">
-                            <StackPanel Orientation="Vertical">
-                                <!-- Header -->
-                                <TextBlock Text="{Binding PlayerInventoryLabel}" 
-                                   FontSize="14" 
-                                   FontWeight="Bold" 
-                                   Foreground="{DynamicResource Brush.SecondaryText}"
-                                   Margin="0,0,0,12"/>
-
-                                <!-- Player Equipment List -->
-                                <ListBox ItemsSource="{Binding PlayerEquipment}"
-                                 SelectedItem="{Binding SelectedPlayerEquipment}"
-                                 Background="{DynamicResource Brush.Background}"
-                                 BorderThickness="0"
-                                 Height="200"
-                                 Margin="0,0,0,12">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border Background="{DynamicResource Brush.TileBackground}" 
-                                            BorderBrush="{DynamicResource Brush.Border}" 
-                                            BorderThickness="1"
-                                            Padding="10"
-                                            Margin="0,5,0,0"
-                                            CornerRadius="4">
-                                                <StackPanel>
-                                                    <TextBlock Text="{Binding Name}" 
-                                                       FontSize="12" 
-                                                       FontWeight="Bold" 
-                                                       Foreground="{DynamicResource Brush.Foreground}"/>
-                                                    <TextBlock Text="{Binding SellPrice, StringFormat='Sell for: {0}'}" 
-                                                       FontSize="11" 
-                                                       Foreground="{DynamicResource Brush.Gold}"/>
-                                                </StackPanel>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-
-                                <!-- Selected Item Details -->
-                                <Border Background="{DynamicResource Brush.Background}" 
-                                BorderBrush="{DynamicResource Brush.Border}" 
-                                BorderThickness="1"
-                                Padding="10"
-                                CornerRadius="4"
-                                Margin="0,0,0,12">
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding SelectedPlayerEquipName}" 
-                                           FontSize="12" 
-                                           FontWeight="Bold" 
-                                           Foreground="{DynamicResource Brush.Foreground}"
-                                           Margin="0,0,0,8"/>
-
-                                        <TextBlock Text="{Binding SelectedPlayerEquipSellPrice}" 
-                                           FontSize="11" 
-                                           Foreground="{DynamicResource Brush.Gold}"/>
-                                    </StackPanel>
-                                </Border>
-
-                                <!-- Info -->
-                                <TextBlock Text="(Smith pays 80% of buy price)" 
-                                   FontSize="9" 
-                                   Foreground="{DynamicResource Brush.SecondaryText}"
-                                   Margin="0,0,0,12"
-                                   TextAlignment="Center"
-                                   FontStyle="Italic"/>
-
-                                <!-- Sell Button -->
-                                <Button Content="{Binding BtnSell}" 
-                                Command="{Binding SellCommand}"
-                                IsEnabled="{Binding CanSell}"
-                                Padding="15,10"
-                                FontWeight="Bold"/>
-                            </StackPanel>
-                        </Border>
-                        <!--
-                <ContentControl Content="{Binding InventoryPage}"/>
-                -->
-                    </Grid>
-
-                    <!-- Status Message -->
-                    <Border Background="{DynamicResource Brush.TileBackground}" 
-                    BorderBrush="{DynamicResource Brush.Border}" 
-                    BorderThickness="1" 
-                    CornerRadius="8" 
-                    Padding="15"
-                    Margin="0,20,0,20">
-                        <TextBlock Text="{Binding StatusMessage}" 
-                           FontSize="12" 
-                           Foreground="{DynamicResource Brush.SecondaryText}"
-                           TextWrapping="Wrap"
-                           MinHeight="40"/>
-                    </Border>
-
-                    <!-- Back Button -->
-                    <Button Content="{Binding BtnBack}" 
-                    Command="{Binding BackCommand}"
-                    Padding="15,10"
-                    HorizontalAlignment="Right"
-                    Width="120"/>
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
 
 
         <!-- Upgrade Panel -->
@@ -543,9 +281,12 @@
 
     </Page.Resources>
 
-    <ContentControl Content="{Binding CurrentPanel}"
+    <Grid>
+        <ContentControl Content="{Binding CurrentPanel}"
                 HorizontalContentAlignment="Stretch"
                 VerticalContentAlignment="Stretch"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"/>
+        <Frame Source="ShopPanel.xaml"></Frame>
+    </Grid>
 </Page>
