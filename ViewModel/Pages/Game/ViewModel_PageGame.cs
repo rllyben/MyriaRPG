@@ -118,8 +118,9 @@ namespace MyriaRPG.ViewModel.Pages.Game
         {
             MainWindow.Instance.gameWindow.Visibility = Visibility.Visible; /* open inventory popup */
             var room = RoomService.GetRoomById(UserAccoundService.CurrentCharacter.CurrentRoom.Id);
-            var page = new Page_LocalMap { DataContext = new ViewModel_PageLocalMap(room) };
-            ((MainWindow.Instance.gameWindow.DataContext) as ViewModel_GameWindow).Title = ((page.DataContext) as ViewModel_PageLocalMap).WindowTitle;
+            var vm   = new ViewModel_PageLocalMap(room);
+            var page = new Page_LocalMap { DataContext = vm };
+            ((MainWindow.Instance.gameWindow.DataContext) as ViewModel_GameWindow).Title = vm.MapTitle;
             Navigation.NavigateIngameWindow(page);
         }
         private void OpenInventory()
