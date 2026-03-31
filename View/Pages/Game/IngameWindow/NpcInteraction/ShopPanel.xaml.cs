@@ -1,5 +1,7 @@
+using MyriaLib.Entities.NPCs;
 using MyriaLib.Services;
 using MyriaRPG.ViewModel.Pages.Game.IngameWindow.Inventory;
+using MyriaRPG.ViewModel.UserControls.IngameWindow;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,10 +12,11 @@ namespace MyriaRPG.View.Pages.Game.IngameWindow.NpcInteraction
     {
         private InventoryGridViewModel _inventoryViewModel;
 
-        public ShopPanel()
+        public ShopPanel(Npc npc)
         {
             InitializeComponent();
             var player = UserAccoundService.CurrentCharacter;
+            this.DataContext = new ShopPanelViewModel(npc, player, () => NavigationService.GoBack());
             _inventoryViewModel = new InventoryGridViewModel(player);
             InventorySection.DataContext = _inventoryViewModel;
             MoneyBagSection.DataContext = new MoneyBagViewModel(player);

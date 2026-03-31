@@ -1,28 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using MyriaLib.Entities.NPCs;
+using MyriaLib.Services;
+using MyriaRPG.ViewModel.UserControls.IngameWindow;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MyriaRPG.View.Pages.Game.IngameWindow.NpcInteraction
 {
-    /// <summary>
-    /// Interaktionslogik für UpgradePanel.xaml
-    /// </summary>
     public partial class UpgradePanel : Page
     {
-        public UpgradePanel()
+        public UpgradePanel(Npc npc)
         {
             InitializeComponent();
+            DataContext = new UpgradePanelViewModel(npc, UserAccoundService.CurrentCharacter, () => NavigationService.GoBack());
         }
     }
 }

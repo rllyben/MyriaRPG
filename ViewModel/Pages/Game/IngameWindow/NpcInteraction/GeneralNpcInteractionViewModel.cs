@@ -1,12 +1,8 @@
-﻿using MyriaLib.Entities.NPCs;
-using MyriaLib.Entities.Players;
+using MyriaLib.Entities.NPCs;
 using MyriaLib.Services;
 using MyriaRPG.Model;
 using MyriaRPG.Utils;
 using MyriaRPG.View.Windows;
-using MyriaRPG.ViewModel.UserControls.IngameWindow;
-using System.Collections.ObjectModel;
-using System.Numerics;
 using System.Windows;
 using System.Windows.Input;
 
@@ -14,126 +10,35 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction
 {
     public class GeneralNpcInteractionViewModel : BaseViewModel
     {
-        // Because of Bug to not show ServiceOption Text property without
-        public string Text { get; set; }
-
-        private Npc _npc;
-
         private string _npcName;
-        private string _npcTypeText;
-        private string _dialogText;
         private string _btnClose;
-        private BaseViewModel _currentPanel;
-        private ShopPanelViewModel _shopPanel;
-        public ShopPanelViewModel ShopPanelViewModel 
-        {
-            get => _shopPanel;
-            private set
-            {
-                _shopPanel = value;
-                OnPropertyChanged();
-            }
-        }
-        public BaseViewModel CurrentPanel
-        {
-            get => _currentPanel;
-            set { _currentPanel = value; OnPropertyChanged(); }
-        }
+
         public string NpcName
         {
             get => _npcName;
-            set
-            {
-                _npcName = value;
-                OnPropertyChanged();
-            }
-
-        }
-        public string NpcTypeText
-        {
-            get => _npcTypeText;
-            set
-            {
-                _npcTypeText = value;
-                OnPropertyChanged();
-            }
-
-        }
-        public string DialogText
-        {
-            get => _dialogText;
-            set
-            {
-                _dialogText = value;
-                OnPropertyChanged();
-            }
-
+            set { _npcName = value; OnPropertyChanged(); }
         }
 
         [LocalizedKey("app.general.UI.close")]
         public string BtnClose
         {
             get => _btnClose;
-            set
-            {
-                _btnClose = value;
-                OnPropertyChanged();
-            }
-
+            set { _btnClose = value; OnPropertyChanged(); }
         }
-
-        public ObservableCollection<ServiceOption> ServiceOptions { get; set; } = new();
 
         public ICommand CloseCommand { get; }
 
         public GeneralNpcInteractionViewModel(Npc npc)
         {
-            Player player = UserAccoundService.CurrentCharacter;
-            _npc = npc;
-            var dialogPanel = new DialogPanelViewModel(
-                npc,
-                player,
-                onNavigate: panel => CurrentPanel = panel
-            );
-
-            CurrentPanel = dialogPanel;
-
             NpcName = MyriaLib.Systems.Localization.T(npc.NameKey);
-            NpcTypeText = MyriaLib.Systems.Localization.T(npc.Type.ToString());
-            DialogText = MyriaLib.Systems.Localization.T("npc." + npc.Id + "dialog");
-            ShopPanelViewModel = new ShopPanelViewModel(npc, player, BackToMe);
-
-            foreach (string service in npc.Services)
-            {
-                ServiceOption serviceOption = new ServiceOption() { Text = service };
-                ServiceOptions.Add(serviceOption);
-
-                switch (service)
-                {
-                    case "heal": serviceOption.Command = new RelayCommand(Healing); break;
-                }
-
-            }
             CloseCommand = new RelayCommand(() => MainWindow.Instance.gameWindow.Visibility = Visibility.Hidden);
         }
-        private void BackToMe()
-        {
-            CurrentPanel = new DialogPanelViewModel(
-                _npc,
-                UserAccoundService.CurrentCharacter,
-                onNavigate: panel => CurrentPanel = panel
-            );
-        }
-        private void Healing()
-        {
-            _npc.HealingAction(UserAccoundService.CurrentCharacter);
-        }
-
     }
+
     public class ServiceOption : BaseViewModel
     {
         public string Text { get; set; }
+        public string Description { get; set; }
         public ICommand Command { get; set; }
     }
-
 }

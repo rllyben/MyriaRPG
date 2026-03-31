@@ -1,28 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using MyriaLib.Entities.NPCs;
+using MyriaLib.Services;
+using MyriaRPG.ViewModel.UserControls.IngameWindow;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MyriaRPG.View.Pages.Game.IngameWindow.NpcInteraction
 {
-    /// <summary>
-    /// Interaktionslogik für DialogPanel.xaml
-    /// </summary>
     public partial class DialogPanel : Page
     {
-        public DialogPanel()
+        private readonly Npc _npc;
+
+        public DialogPanel(Npc npc)
         {
+            _npc = npc;
             InitializeComponent();
+            DataContext = new DialogPanelViewModel(npc, UserAccoundService.CurrentCharacter, NavigateToService);
+        }
+
+        private void NavigateToService(string serviceId)
+        {
+            Page page = serviceId switch
+            {
+                "shop" or "buy_items" or "shop_equipment" => new ShopPanel(_npc),
+                "upgrade"                                 => new UpgradePanel(_npc),
+                "craft"                                   => new CraftPanel(_npc),
+                _                                         => null
+            };
+
+            if (page != null)
+                NavigationService.Navigate(page);
         }
     }
 }

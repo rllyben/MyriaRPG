@@ -1,10 +1,10 @@
-﻿using MyriaLib.Entities.NPCs;
+using MyriaLib.Entities.NPCs;
 using MyriaLib.Entities.Players;
-using MyriaRPG.Utils;
-using MyriaLib.Systems;
-using System.Collections.ObjectModel;
 using MyriaLib.Services;
+using MyriaLib.Systems;
+using MyriaRPG.Utils;
 using MyriaRPG.ViewModel.Pages.Game.IngameWindow.NpcInteraction;
+using System.Collections.ObjectModel;
 
 namespace MyriaRPG.ViewModel.UserControls.IngameWindow
 {
@@ -12,7 +12,7 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
     {
         private readonly Npc _npc;
         private readonly Player _player;
-        private readonly Action<BaseViewModel> _onNavigate;
+        private readonly Action<string> _onNavigate;
 
         private string _dialogText;
         public string DialogText
@@ -23,7 +23,7 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
 
         public ObservableCollection<ServiceOption> ServiceOptions { get; } = new();
 
-        public DialogPanelViewModel(Npc npc, Player player, Action<BaseViewModel> onNavigate)
+        public DialogPanelViewModel(Npc npc, Player player, Action<string> onNavigate)
         {
             _npc = npc;
             _player = player;
@@ -36,16 +36,14 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
                 ServiceOptions.Add(new ServiceOption
                 {
                     Text = Localization.T($"npc.service.{service}.title"),
+                    Description = Localization.T($"npc.service.{service}.description"),
                     Command = new RelayCommand(() => HandleService(service))
                 });
-
             }
-
         }
 
-        public void HandleService(string serviceId)
+        private void HandleService(string serviceId)
         {
-            // Healer: immediate action
             if (serviceId == "heal")
             {
                 NpcActionResult res = _npc.HealingAction(UserAccoundService.CurrentCharacter);
@@ -53,31 +51,7 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
                 return;
             }
 
-            // Shop panels
-            if (serviceId == "buy_items" || serviceId == "shop" || serviceId == "shop_equipment")
-            {
-                _onNavigate(new ShopPanelViewModel(_npc, _player, BackToMe));
-                return;
-            }
-
-            // Smith panels
-            if (serviceId == "upgrade")
-            {
-                _onNavigate(new UpgradePanelViewModel(_npc, _player, BackToMe));
-                return;
-            }
-
-            if (serviceId == "craft")
-            {
-                _onNavigate(new CraftPanelViewModel(_npc, _player, BackToMe));
-                return;
-            }
-
-            // default
-            DialogText = Localization.T("npc.result.unimplemented"); // add this key
+            _onNavigate(serviceId);
         }
-
-        private void BackToMe() => _onNavigate(this);
     }
-
 }
