@@ -1,12 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(ls /c/Users/rhyen/OEBB/source/repos/MyriaRPG/View/Pages/*.xaml)",
-      "Bash(dotnet --version)",
-      "Bash(dotnet build:*)",
+      "Bash(xargs -I {} basename {})",
       "Bash(xargs grep:*)",
-      "Bash(find C:UsersrhyenOEBBsourcereposMyriaRPGSystemsMapNode -type f -name *.cs)",
-      "Bash(find C:UsersrhyenOEBBsourcereposMyriaRPGData -name *.json -type f)"
+      "Bash(grep -i \"\\\\.cs$\")",
+      "Bash(dotnet build:*)",
+      "Bash(xargs head:*)",
+      "Bash(node -e ':*)",
+      "Bash(powershell:*)"
     ]
   }
 }

@@ -74,6 +74,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.Inventory
             HideTooltipCommand = new RelayCommand(HideTooltip);
 
             _player.Inventory.ItemReceived += (s, e) => RefreshInventory();
+            _player.Inventory.ItemRemoved += (s, e) => RefreshInventory();
 
             LoadInventoryLayout();
             RefreshInventory();

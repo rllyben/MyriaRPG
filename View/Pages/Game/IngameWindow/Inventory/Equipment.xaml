@@ -86,6 +86,7 @@
                            Drop="EquipmentSlot_Drop"
                            DragOver="EquipmentSlot_DragOver"
                            PreviewMouseLeftButtonDown="EquipmentSlot_PreviewMouseLeftButtonDown"
+                           PreviewMouseRightButtonDown="EquipmentSlot_PreviewMouseRightButtonDown"
                            MouseEnter="EquipmentSlot_MouseEnter"
                            MouseLeave="EquipmentSlot_MouseLeave">
                         <Border BorderBrush="{Binding BorderColor}" BorderThickness="2" CornerRadius="4">
@@ -103,6 +104,7 @@
                            Drop="EquipmentSlot_Drop"
                            DragOver="EquipmentSlot_DragOver"
                            PreviewMouseLeftButtonDown="EquipmentSlot_PreviewMouseLeftButtonDown"
+                           PreviewMouseRightButtonDown="EquipmentSlot_PreviewMouseRightButtonDown"
                            MouseEnter="EquipmentSlot_MouseEnter"
                            MouseLeave="EquipmentSlot_MouseLeave">
                         <Border BorderBrush="{Binding BorderColor}" BorderThickness="2" CornerRadius="4">
@@ -120,6 +122,7 @@
                            Drop="EquipmentSlot_Drop"
                            DragOver="EquipmentSlot_DragOver"
                            PreviewMouseLeftButtonDown="EquipmentSlot_PreviewMouseLeftButtonDown"
+                           PreviewMouseRightButtonDown="EquipmentSlot_PreviewMouseRightButtonDown"
                            MouseEnter="EquipmentSlot_MouseEnter"
                            MouseLeave="EquipmentSlot_MouseLeave">
                         <Border BorderBrush="{Binding BorderColor}" BorderThickness="2" CornerRadius="4">

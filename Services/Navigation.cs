@@ -19,7 +19,7 @@ namespace MyriaRPG.Services
         {
             switch (frameType)
             {
-                case NavigationFrameType.Main: MainNavigationFrame = navFrame; MainNavigationFrame.Navigate(new Page_StartupMenue()); return true;
+                case NavigationFrameType.Main: MainNavigationFrame = navFrame; MainNavigationFrame.Navigate(new Page_Loading()); return true;
                 case NavigationFrameType.Startup: PageNavigationFrame = navFrame; return true;
                 case NavigationFrameType.Settings: SettingsNavigationFrame = navFrame; return true;
                 case NavigationFrameType.IngameWindow: IngameNavigationFrame = navFrame; return true;

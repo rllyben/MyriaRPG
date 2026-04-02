@@ -54,10 +54,12 @@ namespace MyriaRPG.View.UserControls
         private static readonly Color _colorForest  = Color.FromRgb(25,  65, 30);
         private static readonly Color _colorWorld   = Color.FromRgb(35,  40, 55);
 
-        private static readonly Color _borderNormal  = Color.FromRgb(70,  70, 90);
+        private static readonly Color _borderNormal  = Color.FromRgb(70,  70,  90);
         private static readonly Color _borderCurrent = Color.FromRgb(122, 180, 255);
-        private static readonly Color _edgeColor     = Color.FromRgb(80,  80, 100);
+        private static readonly Color _borderGroup   = Color.FromRgb(200, 170,  80);
+        private static readonly Color _edgeColor     = Color.FromRgb(80,  80,  100);
         private static readonly Color _labelNormal   = Color.FromRgb(190, 190, 205);
+        private static readonly Color _labelGroup    = Color.FromRgb(240, 210, 130);
         private static readonly Color _markerColor   = Color.FromRgb(122, 180, 255);
 
         // ── Public zoom API (called from Page buttons) ─────────────────────────
@@ -138,15 +140,46 @@ namespace MyriaRPG.View.UserControls
                     _                => _colorWorld
                 };
 
-                var rect = new Border
+                Border rect;
+                if (node.IsGroupNode)
                 {
-                    Width           = node.Width,
-                    Height          = node.Height,
-                    Background      = new SolidColorBrush(fillColor),
-                    BorderBrush     = new SolidColorBrush(node.IsCurrent ? _borderCurrent : _borderNormal),
-                    BorderThickness = new Thickness(node.IsCurrent ? 2.5 : 1.5),
-                    CornerRadius    = new CornerRadius(6)
-                };
+                    // Group nodes get a dashed double border to show they contain multiple rooms
+                    rect = new Border
+                    {
+                        Width           = node.Width,
+                        Height          = node.Height,
+                        Background      = new SolidColorBrush(fillColor),
+                        BorderBrush     = new SolidColorBrush(_borderGroup),
+                        BorderThickness = new Thickness(2),
+                        CornerRadius    = new CornerRadius(8)
+                    };
+                    // Outer glow ring drawn as a slightly larger unfilled rect behind
+                    var glow = new Border
+                    {
+                        Width           = node.Width + 6,
+                        Height          = node.Height + 6,
+                        Background      = Brushes.Transparent,
+                        BorderBrush     = new SolidColorBrush(Color.FromArgb(80, _borderGroup.R, _borderGroup.G, _borderGroup.B)),
+                        BorderThickness = new Thickness(2),
+                        CornerRadius    = new CornerRadius(10)
+                    };
+                    Canvas.SetLeft(glow, node.X - 3);
+                    Canvas.SetTop(glow,  node.Y - 3);
+                    Layer.Children.Add(glow);
+                }
+                else
+                {
+                    rect = new Border
+                    {
+                        Width           = node.Width,
+                        Height          = node.Height,
+                        Background      = new SolidColorBrush(fillColor),
+                        BorderBrush     = new SolidColorBrush(node.IsCurrent ? _borderCurrent : _borderNormal),
+                        BorderThickness = new Thickness(node.IsCurrent ? 2.5 : 1.5),
+                        CornerRadius    = new CornerRadius(6)
+                    };
+                }
+
                 Canvas.SetLeft(rect, node.X);
                 Canvas.SetTop(rect,  node.Y);
                 Layer.Children.Add(rect);
@@ -154,16 +187,18 @@ namespace MyriaRPG.View.UserControls
                 var lbl = new TextBlock
                 {
                     Text          = node.Label,
-                    Foreground    = new SolidColorBrush(node.IsCurrent ? Colors.White : _labelNormal),
-                    FontSize      = 11,
-                    FontWeight    = node.IsCurrent ? FontWeights.Bold : FontWeights.Normal,
+                    Foreground    = new SolidColorBrush(node.IsGroupNode ? _labelGroup
+                                                      : node.IsCurrent  ? Colors.White
+                                                      : _labelNormal),
+                    FontSize      = node.IsGroupNode ? 12 : 11,
+                    FontWeight    = node.IsGroupNode || node.IsCurrent ? FontWeights.Bold : FontWeights.Normal,
                     TextAlignment = TextAlignment.Center,
                     TextWrapping  = TextWrapping.NoWrap,
                     Width         = node.Width - 8,
                     TextTrimming  = TextTrimming.CharacterEllipsis
                 };
                 Canvas.SetLeft(lbl, node.X + 4);
-                Canvas.SetTop(lbl,  node.Y + (node.Height - 16) / 2);
+                Canvas.SetTop(lbl,  node.Y + (node.Height - (node.IsGroupNode ? 18 : 16)) / 2);
                 Layer.Children.Add(lbl);
 
                 // ▶ marker left of current room node

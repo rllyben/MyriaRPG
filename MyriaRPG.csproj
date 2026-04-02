@@ -27,6 +27,10 @@
     <None Remove="Data\Icons\upgrade_stone.svg" />
     <None Remove="Data\images\fantasy-group-adventurers.jpg" />
     <None Remove="Data\locales\de.json" />
+    <None Remove="Data\Maps\caves.json" />
+    <None Remove="Data\Maps\cities.json" />
+    <None Remove="Data\Maps\dungeons.json" />
+    <None Remove="Data\Maps\forests.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -156,6 +160,18 @@
     <Content Include="Data\locales\en.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Data\Maps\caves.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Maps\cities.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Maps\dungeons.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Maps\forests.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Remove="Data\icon\mage_robe.svg" />
     <None Remove="Data\icon\shadow_remnant.svg" />
     <Content Update="Data\Icons\default.svg">
@@ -179,7 +195,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Maps\" />
     <Folder Include="Utils\Graphics\" />
     <Folder Include="View\UserControls\IngameWindow\" />
   </ItemGroup>

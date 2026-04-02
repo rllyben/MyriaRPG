@@ -190,7 +190,7 @@ namespace MyriaRPG.ViewModel.Pages
 
             // Set starting room (must be non-null for SaveCharacter)
             // Choose the correct start room for your game (first room is a safe default).
-            player.CurrentRoom = RoomService.GetRoomById(1);
+            player.CurrentRoom = RoomService.GetRoomById(11);
             player.CurrentRoomId = player.CurrentRoom.Id;
 
             // Save to Data/saves/<user>-<name>.json :contentReference[oaicite:7]{index=7}

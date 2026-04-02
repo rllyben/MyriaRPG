@@ -6,7 +6,7 @@
 #define MyAppVersion "0.5"
 #define MyAppPublisher "Rhyen"
 #define MyAppExeName "MyriaRPG.exe"
-#define PublishDir "C:\Users\rhyen\OEBB\source\repos\MyriaRPG\bin\Release\net8.0-windows\publish"
+#define PublishDir "C:\Users\Rhyen\source\repos\rllyben\MyriaRPG\bin\Release\net8.0-windows\publish"
 
 [Setup]
 AppId={{371DF85A-2C8C-4A38-8C5F-EA1B0AD06A41}
@@ -19,7 +19,7 @@ ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
-OutputDir=C:\Users\rhyen\OEBB\source\repos\MyriaRPG\Setup
+OutputDir=C:\Users\Rhyen\source\repos\rllyben\MyriaRPG\Setup
 OutputBaseFilename=MyriaRPG_Setup
 SolidCompression=yes
 WizardStyle=modern

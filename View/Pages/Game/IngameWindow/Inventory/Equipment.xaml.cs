@@ -1,4 +1,5 @@
 using MyriaLib.Services;
+using MyriaLib.Systems;
 using MyriaLib.Systems.Enums;
 using MyriaRPG.ViewModel.Pages.Game.IngameWindow.Inventory;
 using System.Windows;
@@ -67,6 +68,21 @@ namespace MyriaRPG.View.Pages.Game.IngameWindow.Inventory
         private void EquipmentSlot_MouseLeave(object sender, MouseEventArgs e)
         {
             _viewModel.HideTooltipCommand.Execute(null);
+        }
+
+        private void EquipmentSlot_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is not ContentControl control) return;
+            if (control.DataContext is not EquipmentSlotViewModel slotViewModel || slotViewModel.Item == null) return;
+
+            var menu = new ContextMenu();
+            var unequipItem = new MenuItem { Header = MyriaLib.Systems.Localization.T("pg.inventory.slot.unequip") };
+            unequipItem.Click += (s, _) => _viewModel.UnequipItemCommand.Execute(slotViewModel);
+            menu.Items.Add(unequipItem);
+
+            menu.PlacementTarget = control;
+            menu.IsOpen = true;
+            e.Handled = true;
         }
 
         private void EquipmentSlot_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

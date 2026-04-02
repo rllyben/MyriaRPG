@@ -299,11 +299,11 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
         }
         private void AcceptQuest(QuestListItemVm? quest)
         {
-            if (quest == null) 
+            if (quest == null)
                 return;
             if (_player.ActiveQuests.Any(a => a.Id == quest.Id))
                 return;
-            Quest newQuest = QuestManager.GetQuestById(quest.Id);
+            Quest newQuest = QuestManager.GetQuestById(quest.Id).Clone();
             newQuest.Status = QuestStatus.InProgress;
             _player.ActiveQuests.Add(newQuest);
             Quests.Remove(quest);
@@ -323,11 +323,30 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
         private void CompleteQuest(QuestListItemVm? quest)
         {
             if (quest == null) return;
-            Quest playQuest = _player.ActiveQuests.Where(a => a.Id == quest.Id).First();
+            Quest playQuest = _player.ActiveQuests.First(a => a.Id == quest.Id);
             playQuest.GrantRewards(_player);
-            playQuest.Status = QuestStatus.Returned;
-            _player.CompletedQuests.Add(playQuest);
-            _player.ActiveQuests.Remove(playQuest);
+
+            if (playQuest.IsRepeatable)
+            {
+                if (!_player.RepeatableQuestRecords.TryGetValue(playQuest.Id, out var record))
+                {
+                    record = new RepeatRecord();
+                    _player.RepeatableQuestRecords[playQuest.Id] = record;
+                }
+                if (record.LastCompletionDate?.Date != DateTime.Today)
+                    record.CompletionsToday = 0;
+                record.TimesCompleted++;
+                record.CompletionsToday++;
+                record.LastCompletionDate = DateTime.Now;
+                _player.ActiveQuests.Remove(playQuest);
+            }
+            else
+            {
+                playQuest.Status = QuestStatus.Returned;
+                _player.CompletedQuests.Add(playQuest);
+                _player.ActiveQuests.Remove(playQuest);
+            }
+
             Quests.Remove(quest);
         }
 

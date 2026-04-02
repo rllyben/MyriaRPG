@@ -47,6 +47,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.Inventory
         public ItemTooltipViewModel CurrentTooltip { get => _currentTooltip; set => SetProperty(ref _currentTooltip, value); }
         public bool IsTooltipVisible { get => _isTooltipVisible; set => SetProperty(ref _isTooltipVisible, value); }
 
+        public ICommand UnequipItemCommand { get; }
         public ICommand ShowTooltipCommand { get; }
         public ICommand HideTooltipCommand { get; }
 
@@ -58,6 +59,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.Inventory
             _accessorySlot = new EquipmentSlotViewModel(EquipmentType.Accessory);
             _currentTooltip = new ItemTooltipViewModel();
 
+            UnequipItemCommand = new RelayCommand<EquipmentSlotViewModel>(UnequipItem);
             ShowTooltipCommand = new RelayCommand<InventoryItemViewModel>(ShowTooltip);
             HideTooltipCommand = new RelayCommand(HideTooltip);
 
@@ -83,6 +85,21 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.Inventory
                 return;
             }
             _player.Inventory.SwapEquipment(equipment.Id, _player);
+            RefreshEquipmentSlots();
+        }
+
+        private void UnequipItem(EquipmentSlotViewModel slot)
+        {
+            if (slot?.Item == null) return;
+            var item = slot.Item;
+            switch (slot.SlotType)
+            {
+                case EquipmentType.Weapon:    _player.WeaponSlot = null;    break;
+                case EquipmentType.Armor:     _player.ArmorSlot = null;     break;
+                case EquipmentType.Accessory: _player.AccessorySlot = null; break;
+                default: return;
+            }
+            _player.Inventory.AddItem(item, _player, "unequip");
             RefreshEquipmentSlots();
         }
 

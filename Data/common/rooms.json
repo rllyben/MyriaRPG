@@ -1,11 +1,12 @@
 [
   {
     "Id": 1,
-    "Name": "room.luminacaves.start",
-    "Description": "A dimly lit stone chamber. There's a draft from the north.",
+    "Name": "room.luminacaves.entrance",
+    "Description": "A damp stone threshold where daylight fades to nothing. Cold air drifts in from the tunnels ahead.",
     "HasMonsters": false,
     "ExitIds": {
-      "north": 2
+      "north": 11,
+      "south": 5
     }
 
   },
@@ -15,13 +16,13 @@
     "Description": "Whispers seem to float in the air. You feel watched.",
     "HasMonsters": true,
     "ExitIds": {
-      "south": 1,
       "north": 4,
       "west": 3
     },
     "EncounterableMonsters": {
-      "1": 0.65,
-      "2": 0.35
+      "1": 0.45,
+      "2": 0.30,
+      "15": 0.25
     },
     "GatheringSpots": [
       {
@@ -44,8 +45,9 @@
       "west": 5
     },
     "EncounterableMonsters": {
-      "1": 0.6,
-      "3": 0.4
+      "1": 0.35,
+      "3": 0.35,
+      "15": 0.30
     },
     "GatheringSpots": [
       {
@@ -64,10 +66,13 @@
     "Description": "It looks like an Passage lit by faintly glowing mushrooms, though the end seems like and endless dark",
     "HasMonsters": true,
     "ExitIds": {
-      "south": 2
+      "south": 2,
+      "north": 41
     },
     "EncounterableMonsters": {
-      "1": 1
+      "1": 0.35,
+      "15": 0.40,
+      "16": 0.25
     },
     "GatheringSpots": [
       {
@@ -87,7 +92,7 @@
     "ExitIds": {
       "east": 3,
       "west": 6,
-      "north": 11
+      "north": 1
     },
     "EncounterableMonsters": {
       "3": 1
@@ -194,7 +199,7 @@
     "IsCity": true,
     "Npcs": [ "healer_default", "trader_default" ],
     "ExitIds": {
-      "south": 5,
+      "south": 1,
       "north": 12,
       "east": 13
     }
@@ -609,6 +614,46 @@
       "east": 38
     }
 
+  },
+  {
+    "Id": 41,
+    "Name": "room.luminacaves.chamber.deep",
+    "Description": "The cave widens into a proper chamber, its ceiling swallowed by shadow. Faintly glowing fungi cling to the walls and the air smells of damp stone and something older.",
+    "HasMonsters": true,
+    "RequirementType": 1,
+    "AccessLevel": 5,
+    "ExitIds": {
+      "south": 4,
+      "north": 42
+    },
+    "EncounterableMonsters": {
+      "16": 0.60,
+      "15": 0.40
+    },
+    "GatheringSpots": [
+      {
+        "Id": "iron_vein",
+        "Name": "Iron Vein",
+        "Description": "A rich seam of iron embedded in the rock.",
+        "Type": "Ore",
+        "GatheredItemId": "iron_ore"
+      }
+    ]
+  },
+  {
+    "Id": 42,
+    "Name": "room.luminacaves.chamber.ancient",
+    "Description": "Ancient glyphs worn smooth by centuries of moisture cover every surface. Whatever was once worshipped here is long gone — only bones remain.",
+    "HasMonsters": true,
+    "RequirementType": 1,
+    "AccessLevel": 7,
+    "ExitIds": {
+      "south": 41
+    },
+    "EncounterableMonsters": {
+      "17": 0.70,
+      "16": 0.30
+    }
   },
   {
     "Id": 40,
