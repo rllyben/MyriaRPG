@@ -267,7 +267,35 @@ namespace MyriaRPG.ViewModel.Pages.Game
         }
         public void StartGathering()
         {
-            player.Inventory.AddItem(ItemFactory.CreateItem("iron_ore"), player);
+            if (currentRoom.GathersRemaining <= 0)
+            {
+                WriteLog(Localization.T("log.gather.depleted"));
+                return;
+            }
+
+            foreach (var spot in currentRoom.GatheringSpots)
+            {
+                if (!string.IsNullOrEmpty(spot.RequiredToolId))
+                {
+                    bool hasTool = player.Inventory.Items.Any(i => i.Id == spot.RequiredToolId)
+                                || (player.WeaponSlot?.Id == spot.RequiredToolId);
+                    if (!hasTool)
+                    {
+                        string toolName = Localization.T($"item.{spot.RequiredToolId}");
+                        WriteLog(Localization.T("log.gather.no_tool", toolName));
+                        continue;
+                    }
+                }
+
+                if (ItemFactory.TryCreateItem(spot.GatheredItemId, out var item))
+                {
+                    player.Inventory.AddItem(item, player, "gather");
+                    currentRoom.GathersRemaining--;
+                    WriteLog(Localization.T("log.gather.success", 1, Localization.T(item.Name)));
+                    RefreshRoomFlags();
+                    return;
+                }
+            }
         }
         private void RefreshRoomFlags()
         {
@@ -305,6 +333,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
 
                 return;
             }
+            MainWindow.Instance.gameWindow.Visibility = System.Windows.Visibility.Hidden;
             currentRoom = currentRoom.Exits[dir.ToLower()];
             player.CurrentRoom = currentRoom;
             RoomName = MyriaLib.Systems.Localization.T(currentRoom.Name);

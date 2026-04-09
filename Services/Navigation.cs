@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Navigation;
 using MyriaRPG.View.Pages;
 
 namespace MyriaRPG.Services
@@ -15,8 +16,18 @@ namespace MyriaRPG.Services
         private static Page GameRoomPage = new();
         private static Page GameCombatPage = new();
 
+        private static void DisableJournalNavigation(Frame frame)
+        {
+            frame.Navigating += (s, e) =>
+            {
+                if (e.NavigationMode == NavigationMode.Back || e.NavigationMode == NavigationMode.Forward)
+                    e.Cancel = true;
+            };
+        }
+
         public static bool SetNavigationFrame(Frame navFrame, NavigationFrameType frameType)
         {
+            DisableJournalNavigation(navFrame);
             switch (frameType)
             {
                 case NavigationFrameType.Main: MainNavigationFrame = navFrame; MainNavigationFrame.Navigate(new Page_Loading()); return true;

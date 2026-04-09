@@ -1,5 +1,6 @@
 ﻿using MyriaLib.Entities.Players;
 using MyriaLib.Services;
+using MyriaLib.Systems.Enums;
 using MyriaLib.Systems.Events;
 using MyriaRPG.Model;
 using MyriaRPG.Services;
@@ -91,6 +92,13 @@ namespace MyriaRPG.ViewModel.Pages.Game
         // Character (name-only for header)
         public CharacterHeaderVm Char { get; } = new();
 
+        private bool _hasReturnableQuest;
+        public bool HasReturnableQuest
+        {
+            get => _hasReturnableQuest;
+            set { _hasReturnableQuest = value; OnPropertyChanged(); }
+        }
+
         // Commands
         public ICommand MapCommand { get; }
         public ICommand SettingsCommand { get; }
@@ -113,6 +121,17 @@ namespace MyriaRPG.ViewModel.Pages.Game
             if (UserAccoundService.CurrentCharacter.CurrentRoom == null)
                 UserAccoundService.CurrentCharacter.CurrentRoom = RoomService.GetRoomById(UserAccoundService.CurrentCharacter.CurrentRoomId);
             Navigation.NavigateGamePageToRegister(GamePageType.Room);
+
+            var player = UserAccoundService.CurrentCharacter;
+            player.XpGained += (s, e) => RefreshQuestBadge();
+            player.Inventory.ItemReceived += (s, e) => RefreshQuestBadge();
+            RefreshQuestBadge();
+        }
+
+        private void RefreshQuestBadge()
+        {
+            HasReturnableQuest = UserAccoundService.CurrentCharacter.ActiveQuests
+                .Any(q => q.Status == QuestStatus.Completed);
         }
         private void OpenMap()
         {
@@ -272,7 +291,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
             }
         
         }
-        public string NameAndLevel { get; set; }
+        public string NameAndLevel => string.IsNullOrWhiteSpace(Name) ? string.Empty : $"{Name} • Lv {Level}";
         private int xpPercent;
         public int XpPercent 
         {
@@ -312,7 +331,6 @@ namespace MyriaRPG.ViewModel.Pages.Game
             Player character = UserAccoundService.CurrentCharacter;
             Set(character.Name, character.Level, character.Experience, character.ExpForNextLvl, character.CurrentHealth, character.MaxHealth, character.CurrentMana, character.MaxMana);
 
-            NameAndLevel = string.IsNullOrWhiteSpace(Name) ? string.Empty : $"{Name} • Lv {Level}";
             XpPercent = (int)Math.Round(100.0 * CurrentXp / Math.Max(1, XpToNext));
             HpDisplay = $"{Hp}/{MaxHp}";
             ManaDisplay = $"{Mana}/{MaxMana}";

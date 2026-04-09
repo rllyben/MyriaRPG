@@ -49,6 +49,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.Inventory
             set => SetProperty(ref _isTooltipVisible, value);
         }
 
+        public string LblEquip     => Localization.T("pg.inventory.context.equip");
         public string LblSellOne   => Localization.T("npc.shop.context.sell_one");
         public string LblSellStack => Localization.T("npc.shop.context.sell_stack");
 
@@ -93,12 +94,18 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.Inventory
 
             if (draggedItem.Item is EquipmentItem equipment)
             {
-                if (_player.WeaponSlot == equipment) _player.WeaponSlot = null;
-                else if (_player.ArmorSlot == equipment) _player.ArmorSlot = null;
-                else if (_player.AccessorySlot == equipment) _player.AccessorySlot = null;
-                _player.Inventory.AddItem(equipment, _player, "unequip");
-                RefreshInventory();
-                return;
+                bool wasEquipped = false;
+                if (_player.WeaponSlot == equipment)        { _player.WeaponSlot = null;    wasEquipped = true; }
+                else if (_player.ArmorSlot == equipment)    { _player.ArmorSlot = null;     wasEquipped = true; }
+                else if (_player.AccessorySlot == equipment){ _player.AccessorySlot = null; wasEquipped = true; }
+
+                if (wasEquipped)
+                {
+                    _player.Inventory.AddItem(equipment, _player, "unequip");
+                    RefreshInventory();
+                    return;
+                }
+                // Equipment is already in inventory — fall through to normal repositioning
             }
 
             _gridPositions[draggedItem.Item.Id] = targetSlotIndex;
@@ -184,7 +191,10 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow.Inventory
         public Item Item { get => _item; set => SetProperty(ref _item, value); }
         public int Index { get => _index; set => SetProperty(ref _index, value); }
         public Brush RarityBrush { get => _rarityBrush; set => SetProperty(ref _rarityBrush, value); }
-        public bool IsStack => (_item?.StackSize ?? 0) > 1;
+        public bool IsStack     => (_item?.StackSize ?? 0) > 1;
+        public bool IsEquipment => _item is EquipmentItem;
+        public string SellOneText   => $"{Localization.T("npc.shop.context.sell_one")} ({_item?.SellValue ?? 0})";
+        public string SellStackText => $"{Localization.T("npc.shop.context.sell_stack")} ({(_item?.SellValue ?? 0) * (_item?.StackSize ?? 1)})";
         public int GridColumn => _index % 7;
         public int GridRow => _index / 7;
 

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using MyriaLib.Models.Settings;
 using MyriaRPG.Services;
 using MyriaRPG.View.UserControls;
 
@@ -18,9 +19,24 @@ namespace MyriaRPG.View.Windows
             Navigation.SetNavigationFrame(Frame, NavigationFrameType.Main);
             Canvas.Children.Add(gameWindow);
             gameWindow.Visibility = Visibility.Hidden;
-            this.WindowState = WindowState.Maximized;
+            ApplyWindowMode(Settings.Current.VisualSettings.FullScreen);
         }
 
+        public void ApplyWindowMode(bool fullScreen)
+        {
+            if (fullScreen)
+            {
+                WindowStyle = WindowStyle.None;
+                WindowState = WindowState.Maximized;
+                ResizeMode = ResizeMode.NoResize;
+            }
+            else
+            {
+                WindowStyle = WindowStyle.SingleBorderWindow;
+                ResizeMode = ResizeMode.CanResize;
+                WindowState = WindowState.Normal;
+            }
+        }
     }
 
 }

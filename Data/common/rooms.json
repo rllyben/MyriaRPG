@@ -30,7 +30,8 @@
         "Name": "Iron Vein",
         "Description": "A rich seam of iron embedded in the rock.",
         "Type": "Ore",
-        "GatheredItemId": "iron_ore"
+        "GatheredItemId": "iron_ore",
+        "RequiredToolId": "pickaxe"
       }
     ]
 
@@ -55,7 +56,8 @@
         "Name": "Iron Vein",
         "Description": "A rich seam of iron embedded in the rock.",
         "Type": "Ore",
-        "GatheredItemId": "iron_ore"
+        "GatheredItemId": "iron_ore",
+        "RequiredToolId": "pickaxe"
       }
     ]
 
@@ -80,7 +82,8 @@
         "Name": "Iron Vein",
         "Description": "A rich seam of iron embedded in the rock.",
         "Type": "Ore",
-        "GatheredItemId": "iron_ore"
+        "GatheredItemId": "iron_ore",
+        "RequiredToolId": "pickaxe"
       }
     ]
   },
@@ -621,7 +624,6 @@
     "Description": "The cave widens into a proper chamber, its ceiling swallowed by shadow. Faintly glowing fungi cling to the walls and the air smells of damp stone and something older.",
     "HasMonsters": true,
     "RequirementType": 1,
-    "AccessLevel": 5,
     "ExitIds": {
       "south": 4,
       "north": 42
@@ -636,7 +638,8 @@
         "Name": "Iron Vein",
         "Description": "A rich seam of iron embedded in the rock.",
         "Type": "Ore",
-        "GatheredItemId": "iron_ore"
+        "GatheredItemId": "iron_ore",
+        "RequiredToolId": "pickaxe"
       }
     ]
   },
@@ -646,7 +649,6 @@
     "Description": "Ancient glyphs worn smooth by centuries of moisture cover every surface. Whatever was once worshipped here is long gone — only bones remain.",
     "HasMonsters": true,
     "RequirementType": 1,
-    "AccessLevel": 7,
     "ExitIds": {
       "south": 41
     },

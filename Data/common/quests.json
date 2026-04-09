@@ -82,7 +82,7 @@
       "17": 15
     },
     "RequiredItems": {},
-    "RewardXp": 850,
+    "RewardXp": 2150,
     "RewardGold": 450
   },
   {
@@ -96,7 +96,7 @@
       "12": 10
     },
     "RequiredItems": {},
-    "RewardXp": 630,
+    "RewardXp": 8320,
     "RewardGold": 520
   },
   {
@@ -109,7 +109,7 @@
       "14": 25
     },
     "RequiredItems": {},
-    "RewardXp": 3840,
+    "RewardXp": 13840,
     "RewardGold": 1250
   }
 ]

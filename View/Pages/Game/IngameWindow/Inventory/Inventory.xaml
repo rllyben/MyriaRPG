@@ -110,14 +110,23 @@
                     </ItemsControl.ItemContainerStyle>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Style="{StaticResource InventorySlotStyle}" 
+                            <Border Style="{StaticResource InventorySlotStyle}"
                                        BorderBrush="{Binding RarityBrush}"
+                                       Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                        AllowDrop="True"
                                        Drop="InventorySlot_Drop"
                                        DragOver="InventorySlot_DragOver"
                                        PreviewMouseLeftButtonDown="InventorySlot_PreviewMouseLeftButtonDown"
                                        MouseEnter="InventorySlot_MouseEnter"
                                        MouseLeave="InventorySlot_MouseLeave">
+                                <Border.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="{Binding PlacementTarget.Tag.LblEquip, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                  Command="{Binding PlacementTarget.Tag.EquipItemCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                  CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                  Visibility="{Binding PlacementTarget.DataContext.IsEquipment, RelativeSource={RelativeSource AncestorType=ContextMenu}, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    </ContextMenu>
+                                </Border.ContextMenu>
                                 <Grid Background="Transparent">
                                     <!-- Display Icon from Icons.xaml DataTemplate based on Item.Id -->
                                     <ContentControl Content="{Binding Item}" Style="{StaticResource IconSwitcherStyle}" Margin="2"/>

@@ -104,12 +104,11 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
         {
             if (SelectedEquipment == null) return;
 
-            // Find the actual item in inventory
-            EquipmentItem eq = _player.Inventory.Items
-                .OfType<EquipmentItem>()
-                .FirstOrDefault(i => i.Id == SelectedEquipment.Id);
+            // Use the direct item reference — matching by Id would always pick the first
+            // duplicate, causing two identical items to share upgrade state.
+            EquipmentItem eq = SelectedEquipment.Item;
 
-            if (eq == null)
+            if (eq == null || !_player.Inventory.Items.Contains(eq))
             {
                 StatusMessage = Localization.T("npc.upgrade.fail");
                 return;
@@ -134,6 +133,7 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
     {
         private EquipmentItem _item;
 
+        public EquipmentItem Item => _item;
         public string Id => _item.Id;
         public string Name => Localization.T($"item.{_item.Id}");
         public string DisplayName => UpgradeLevel >= 1 ? $"{Name} +{UpgradeLevel}" : Name;

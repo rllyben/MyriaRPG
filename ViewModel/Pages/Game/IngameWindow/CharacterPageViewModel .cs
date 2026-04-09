@@ -1,4 +1,5 @@
-﻿using MyriaLib.Entities.Players;
+﻿using MyriaLib.Entities;
+using MyriaLib.Entities.Players;
 using MyriaLib.Systems;
 using MyriaRPG.Model;
 using MyriaRPG.Utils;
@@ -27,6 +28,11 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
         private string tbl_Crit;
         private string tbl_Evasion;
         private string tbl_Block;
+        private string _strTooltip;
+        private string _dexTooltip;
+        private string _endTooltip;
+        private string _intTooltip;
+        private string _sprTooltip;
         private string _charClass;
         private Player _player;
 
@@ -217,6 +223,38 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
             }
 
         }
+
+        [LocalizedKey("pg.character.tooltip.str")]
+        public string StrTooltip
+        {
+            get { return _strTooltip; }
+            private set { _strTooltip = value; OnPropertyChanged(); }
+        }
+        [LocalizedKey("pg.character.tooltip.dex")]
+        public string DexTooltip
+        {
+            get { return _dexTooltip; }
+            private set { _dexTooltip = value; OnPropertyChanged(); }
+        }
+        [LocalizedKey("pg.character.tooltip.end")]
+        public string EndTooltip
+        {
+            get { return _endTooltip; }
+            private set { _endTooltip = value; OnPropertyChanged(); }
+        }
+        [LocalizedKey("pg.character.tooltip.int")]
+        public string IntTooltip
+        {
+            get { return _intTooltip; }
+            private set { _intTooltip = value; OnPropertyChanged(); }
+        }
+        [LocalizedKey("pg.character.tooltip.spr")]
+        public string SprTooltip
+        {
+            get { return _sprTooltip; }
+            private set { _sprTooltip = value; OnPropertyChanged(); }
+        }
+
         [LocalizedKey("pg.character.info.unspent")]
         public string TblUnspent
         {
@@ -295,11 +333,8 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
                 _player.Stats.Spirit, _player.Stats.SpiritAdded,
                 _player.Stats.UnusedPoints);
 
-            Derived = new DerivedStatsVm(
-                _player.CurrentHealth, _player.MaxHealth, _player.CurrentMana, _player.MaxMana,
-                _player.TotalPhysicalAttack, _player.TotalPhysicalDefense, _player.TotalMagicAttack, _player.TotalMagicDefense,
-                _player.TotalAim, _player.TotalEvasion, _player.CritChance, _player.BlockChance);
-            
+            Derived = new DerivedStatsVm(_player);
+
             OnPropertyChanged(nameof(Base));
             OnPropertyChanged(nameof(Derived));
         }
@@ -355,40 +390,99 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
         int SPR, int SPR_Added,
         int Unspent)
     {
-        public string STR_Display => STR_Added > 0 ? $"{STR} (+{STR_Added})" : $"{STR}";
-        public string DEX_Display => DEX_Added > 0 ? $"{DEX} (+{DEX_Added})" : $"{DEX}";
-        public string END_Display => END_Added > 0 ? $"{END} (+{END_Added})" : $"{END}";
-        public string INT_Display => INT_Added > 0 ? $"{INT} (+{INT_Added})" : $"{INT}";
-        public string SPR_Display => SPR_Added > 0 ? $"{SPR} (+{SPR_Added})" : $"{SPR}";
+        public string STR_Display => Fmt(STR, STR_Added);
+        public string DEX_Display => Fmt(DEX, DEX_Added);
+        public string END_Display => Fmt(END, END_Added);
+        public string INT_Display => Fmt(INT, INT_Added);
+        public string SPR_Display => Fmt(SPR, SPR_Added);
+
+        private static string Fmt(int @base, int added)
+        {
+            int total = @base + added;
+            if (added > 0)             return $"{total} (+{added})";
+            return $"{@base}";
+        }
     }
 
     public class DerivedStatsVm
     {
-        public int HP { get; }
-        public int MaxHP { get; }
-        public int MP { get; }
-        public int MaxMP { get; }
+        public string HP { get; }
+        public string MaxHP { get; }
+        public string MP { get; }
+        public string MaxMP { get; }
 
-        public int ATK { get; }
-        public int DEF { get; }
-        public int MATK { get; }
-        public int MDEF { get; }
-        public int Aim { get; }
-        public int Evasion { get; }
+        public string ATK { get; }
+        public string DEF { get; }
+        public string MATK { get; }
+        public string MDEF { get; }
+        public string Aim { get; }
+        public string Evasion { get; }
 
         public double Crit { get; }
         public double Block { get; }
 
-        public string CritPercent => $"{Crit * 100:0.#}%";
+        private readonly int _gearHP,  _gearMP;
+        private readonly int _gearATK, _gearDEF, _gearMATK, _gearMDEF, _gearAim, _gearEva;
+        private readonly int _statHP,  _statMP;
+        private readonly int _statATK, _statDEF, _statMATK, _statMDEF, _statAim, _statEva;
+
+        public string CritPercent  => $"{Crit  * 100:0.#}%";
         public string BlockPercent => $"{Block * 100:0.#}%";
 
-        public DerivedStatsVm(int hp, int maxHp, int mp, int maxMp,
-                              int atk, int def, int matk, int mdef,
-                              int aim, int evasion, double crit, double block)
+        public string Crit_Hint  => Crit  > 0 ? "(from gear)" : "";
+        public string Block_Hint => Block > 0 ? "(from gear)" : "";
+
+        public string HP_Hint   => Hint(_statHP,   _gearHP);
+        public string MP_Hint   => Hint(_statMP,   _gearMP);
+        public string ATK_Hint  => Hint(_statATK,  _gearATK);
+        public string DEF_Hint  => Hint(_statDEF,  _gearDEF);
+        public string MATK_Hint => Hint(_statMATK, _gearMATK);
+        public string MDEF_Hint => Hint(_statMDEF, _gearMDEF);
+        public string Aim_Hint  => Hint(_statAim,  _gearAim);
+        public string Eva_Hint  => Hint(_statEva,  _gearEva);
+
+        public DerivedStatsVm(Player player)
         {
-            HP = hp; MaxHP = maxHp; MP = mp; MaxMP = maxMp;
-            ATK = atk; DEF = def; MATK = matk; MDEF = mdef;
-            Aim = aim; Evasion = evasion; Crit = crit; Block = block;
+            HP    = player.CurrentHealth.ToString();
+            MaxHP = player.MaxHealth.ToString();
+            MP    = player.CurrentMana.ToString();
+            MaxMP = player.MaxMana.ToString();
+
+            ATK     = player.TotalPhysicalAttack.ToString();
+            DEF     = player.TotalPhysicalDefense.ToString();
+            MATK    = player.TotalMagicAttack.ToString();
+            MDEF    = player.TotalMagicDefense.ToString();
+            Aim     = player.TotalAim.ToString();
+            Evasion = player.TotalEvasion.ToString();
+
+            Crit  = player.CritChance;
+            Block = player.BlockChance;
+
+            _gearHP   = player.GetBonusFromGear(g => g.BonusHP);
+            _gearMP   = player.GetBonusFromGear(g => g.BonusMP);
+            _gearATK  = player.GetBonusFromGear(g => g.BonusATK);
+            _gearDEF  = player.GetBonusFromGear(g => g.BonusDEF);
+            _gearMATK = player.GetBonusFromGear(g => g.BonusMATK);
+            _gearMDEF = player.GetBonusFromGear(g => g.BonusMDEF);
+            _gearAim  = player.GetBonusFromGear(g => g.BonusAim);
+            _gearEva  = player.GetBonusFromGear(g => g.BonusEvasion);
+
+            _statHP   = player.Stats.GetAddedStatBonus(DerivedStatType.MaxHealth);
+            _statMP   = player.Stats.GetAddedStatBonus(DerivedStatType.MaxMana);
+            _statATK  = player.Stats.GetAddedStatBonus(DerivedStatType.PhysicalAttack);
+            _statDEF  = player.Stats.GetAddedStatBonus(DerivedStatType.PhysicalDefense);
+            _statMATK = player.Stats.GetAddedStatBonus(DerivedStatType.MagicAttack);
+            _statMDEF = player.Stats.GetAddedStatBonus(DerivedStatType.MagicDefense);
+            _statAim  = player.Stats.GetAddedStatBonus(DerivedStatType.HitChance);
+            _statEva  = player.Stats.GetAddedStatBonus(DerivedStatType.DodgeChance);
+        }
+
+        private static string Hint(int fromStats, int fromGear)
+        {
+            if (fromStats > 0 && fromGear > 0) return $"(+{fromStats} stats, +{fromGear} gear)";
+            if (fromStats > 0) return $"(+{fromStats} stats)";
+            if (fromGear  > 0) return $"(+{fromGear} gear)";
+            return "";
         }
     }
 }

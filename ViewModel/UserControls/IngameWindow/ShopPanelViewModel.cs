@@ -8,6 +8,7 @@ using MyriaLib.Systems.Enums;
 using MyriaLib.Systems.Events;
 using MyriaRPG.Model;
 using MyriaRPG.Utils;
+using MyriaRPG.ViewModel.Pages.Game.IngameWindow.Inventory;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -168,6 +169,22 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
             }
         }
 
+        // Shop item tooltip
+        private ItemTooltipViewModel _currentShopTooltip;
+        private bool _isShopTooltipVisible;
+
+        public ItemTooltipViewModel CurrentShopTooltip
+        {
+            get => _currentShopTooltip;
+            set => SetProperty(ref _currentShopTooltip, value);
+        }
+
+        public bool IsShopTooltipVisible
+        {
+            get => _isShopTooltipVisible;
+            set => SetProperty(ref _isShopTooltipVisible, value);
+        }
+
         // Commands
         public ICommand FilterWeaponsCommand     { get; }
         public ICommand FilterArmorCommand       { get; }
@@ -179,6 +196,8 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
         public ICommand IncreaseBuyQtyCommand    { get; }
         public ICommand DecreaseBuyQtyCommand    { get; }
         public ICommand MaxBuyQtyCommand         { get; }
+        public ICommand ShowShopTooltipCommand   { get; }
+        public ICommand HideShopTooltipCommand   { get; }
 
         public ShopPanelViewModel(Npc npc, Player player, Action goBack)
         {
@@ -187,6 +206,8 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
             _goBack = goBack;
 
             PlayerMoney = _player.Money.Coins.TotalBronze;
+
+            _currentShopTooltip = new ItemTooltipViewModel();
 
             BackCommand           = new RelayCommand(_goBack);
             BuyCommand            = new RelayCommand(BuySelected);
@@ -198,6 +219,8 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
             FilterAccessoriesCommand = new RelayCommand(() => ActiveFilter = ShopFilter.Accessories);
             FilterUtilitiesCommand   = new RelayCommand(() => ActiveFilter = ShopFilter.Utilities);
             FilterBuybackCommand     = new RelayCommand(() => ActiveFilter = ShopFilter.Buyback);
+            ShowShopTooltipCommand   = new RelayCommand<ShopItemVm>(ShowShopTooltip);
+            HideShopTooltipCommand   = new RelayCommand(HideShopTooltip);
 
             _player.Inventory.ItemSold += OnItemSold;
 
@@ -288,6 +311,18 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
                 StatusMessage = Localization.T("npc.shop.buyFailed");
             }
         }
+
+        private void ShowShopTooltip(ShopItemVm shopItem)
+        {
+            if (shopItem == null) return;
+            if (ItemFactory.TryCreateItem(shopItem.Id, out var item))
+            {
+                CurrentShopTooltip.SetItem(item);
+                IsShopTooltipVisible = true;
+            }
+        }
+
+        private void HideShopTooltip() => IsShopTooltipVisible = false;
 
         private void RebuySelected(BuybackItemVm buyback)
         {

@@ -57,7 +57,17 @@
                 <UniformGrid Columns="4" HorizontalAlignment="Stretch">
 
                     <!-- STR -->
-                    <TextBlock Text="{Binding TblSTR}" Foreground="#889" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding TblSTR}" Foreground="#889" VerticalAlignment="Center"/>
+                        <TextBlock Text=" ⓘ" Foreground="#557" FontSize="9" VerticalAlignment="Center" Cursor="Help" ToolTipService.ShowDuration="60000">
+                            <TextBlock.ToolTip>
+                                <ToolTip Background="#1D2030" BorderBrush="#334"
+                                         DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                    <TextBlock Text="{Binding StrTooltip}" Foreground="#C7C7D6" MaxWidth="220" TextWrapping="Wrap"/>
+                                </ToolTip>
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                    </StackPanel>
                     <Button Content="−"
               Command="{Binding DecreaseStatCommand}"
               CommandParameter="STR"
@@ -71,7 +81,17 @@
               Padding="0" />
 
                     <!-- DEX -->
-                    <TextBlock Text="{Binding TblDEX}" Foreground="#889" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding TblDEX}" Foreground="#889" VerticalAlignment="Center"/>
+                        <TextBlock Text=" ⓘ" Foreground="#557" FontSize="9" VerticalAlignment="Center" Cursor="Help" ToolTipService.ShowDuration="60000">
+                            <TextBlock.ToolTip>
+                                <ToolTip Background="#1D2030" BorderBrush="#334"
+                                         DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                    <TextBlock Text="{Binding DexTooltip}" Foreground="#C7C7D6" MaxWidth="220" TextWrapping="Wrap"/>
+                                </ToolTip>
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                    </StackPanel>
                     <Button Content="−"
               Command="{Binding DecreaseStatCommand}"
               CommandParameter="DEX"
@@ -85,7 +105,17 @@
               Padding="0" />
 
                     <!-- END -->
-                    <TextBlock Text="{Binding TblEND}" Foreground="#889" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding TblEND}" Foreground="#889" VerticalAlignment="Center"/>
+                        <TextBlock Text=" ⓘ" Foreground="#557" FontSize="9" VerticalAlignment="Center" Cursor="Help" ToolTipService.ShowDuration="60000">
+                            <TextBlock.ToolTip>
+                                <ToolTip Background="#1D2030" BorderBrush="#334"
+                                         DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                    <TextBlock Text="{Binding EndTooltip}" Foreground="#C7C7D6" MaxWidth="220" TextWrapping="Wrap"/>
+                                </ToolTip>
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                    </StackPanel>
                     <Button Content="−"
               Command="{Binding DecreaseStatCommand}"
               CommandParameter="END"
@@ -99,7 +129,17 @@
               Padding="0" />
 
                     <!-- INT -->
-                    <TextBlock Text="{Binding TblINT}" Foreground="#889" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding TblINT}" Foreground="#889" VerticalAlignment="Center"/>
+                        <TextBlock Text=" ⓘ" Foreground="#557" FontSize="9" VerticalAlignment="Center" Cursor="Help" ToolTipService.ShowDuration="60000">
+                            <TextBlock.ToolTip>
+                                <ToolTip Background="#1D2030" BorderBrush="#334"
+                                         DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                    <TextBlock Text="{Binding IntTooltip}" Foreground="#C7C7D6" MaxWidth="220" TextWrapping="Wrap"/>
+                                </ToolTip>
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                    </StackPanel>
                     <Button Content="−"
               Command="{Binding DecreaseStatCommand}"
               CommandParameter="INT"
@@ -113,7 +153,17 @@
               Padding="0" />
 
                     <!-- SPR -->
-                    <TextBlock Text="{Binding TblSPR}" Foreground="#889" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding TblSPR}" Foreground="#889" VerticalAlignment="Center"/>
+                        <TextBlock Text=" ⓘ" Foreground="#557" FontSize="9" VerticalAlignment="Center" Cursor="Help" ToolTipService.ShowDuration="60000">
+                            <TextBlock.ToolTip>
+                                <ToolTip Background="#1D2030" BorderBrush="#334"
+                                         DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                    <TextBlock Text="{Binding SprTooltip}" Foreground="#C7C7D6" MaxWidth="220" TextWrapping="Wrap"/>
+                                </ToolTip>
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                    </StackPanel>
                     <Button Content="−"
               Command="{Binding DecreaseStatCommand}"
               CommandParameter="SPR"
@@ -149,35 +199,61 @@
                         <TextBlock Text="{Binding Derived.HP}" Foreground="#EEF" FontWeight="SemiBold"/>
                         <TextBlock Text="/" Foreground="#667" Margin="4,0"/>
                         <TextBlock Text="{Binding Derived.MaxHP}" Foreground="#EEF"/>
+                        <TextBlock Text="{Binding Derived.HP_Hint}" Foreground="#557" FontSize="10" VerticalAlignment="Bottom" Margin="3,0,0,1"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding TblMP}" Foreground="#889"/>
                         <TextBlock Text="{Binding Derived.MP}" Foreground="#EEF" FontWeight="SemiBold"/>
                         <TextBlock Text="/" Foreground="#667" Margin="4,0"/>
                         <TextBlock Text="{Binding Derived.MaxMP}" Foreground="#EEF"/>
+                        <TextBlock Text="{Binding Derived.MP_Hint}" Foreground="#557" FontSize="10" VerticalAlignment="Bottom" Margin="3,0,0,1"/>
                     </StackPanel>
                 </DockPanel>
 
                 <UniformGrid Columns="4" Rows="4" HorizontalAlignment="Stretch">
                     <TextBlock Text="{Binding TblATK}" Foreground="#889"/>
-                    <TextBlock Text="{Binding Derived.ATK}" Foreground="#EEF" TextAlignment="Right"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Derived.ATK}" Foreground="#EEF"/>
+                        <TextBlock Text="{Binding Derived.ATK_Hint}" Foreground="#557" FontSize="10" VerticalAlignment="Bottom" Margin="3,0,0,1"/>
+                    </StackPanel>
                     <TextBlock Text="{Binding TblDEF}" Foreground="#889"/>
-                    <TextBlock Text="{Binding Derived.DEF}" Foreground="#EEF" TextAlignment="Right"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Derived.DEF}" Foreground="#EEF"/>
+                        <TextBlock Text="{Binding Derived.DEF_Hint}" Foreground="#557" FontSize="10" VerticalAlignment="Bottom" Margin="3,0,0,1"/>
+                    </StackPanel>
 
                     <TextBlock Text="{Binding TblMATK}" Foreground="#889"/>
-                    <TextBlock Text="{Binding Derived.MATK}" Foreground="#EEF" TextAlignment="Right"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Derived.MATK}" Foreground="#EEF"/>
+                        <TextBlock Text="{Binding Derived.MATK_Hint}" Foreground="#557" FontSize="10" VerticalAlignment="Bottom" Margin="3,0,0,1"/>
+                    </StackPanel>
                     <TextBlock Text="{Binding TblMDEF}" Foreground="#889"/>
-                    <TextBlock Text="{Binding Derived.MDEF}" Foreground="#EEF" TextAlignment="Right"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Derived.MDEF}" Foreground="#EEF"/>
+                        <TextBlock Text="{Binding Derived.MDEF_Hint}" Foreground="#557" FontSize="10" VerticalAlignment="Bottom" Margin="3,0,0,1"/>
+                    </StackPanel>
 
                     <TextBlock Text="{Binding TblAim}" Foreground="#889"/>
-                    <TextBlock Text="{Binding Derived.Aim}" Foreground="#EEF" TextAlignment="Right"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Derived.Aim}" Foreground="#EEF"/>
+                        <TextBlock Text="{Binding Derived.Aim_Hint}" Foreground="#557" FontSize="10" VerticalAlignment="Bottom" Margin="3,0,0,1"/>
+                    </StackPanel>
                     <TextBlock Text="{Binding TblEvasion}" Foreground="#889"/>
-                    <TextBlock Text="{Binding Derived.Evasion}" Foreground="#EEF" TextAlignment="Right"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Derived.Evasion}" Foreground="#EEF"/>
+                        <TextBlock Text="{Binding Derived.Eva_Hint}" Foreground="#557" FontSize="10" VerticalAlignment="Bottom" Margin="3,0,0,1"/>
+                    </StackPanel>
 
                     <TextBlock Text="{Binding TblCrit}" Foreground="#889"/>
-                    <TextBlock Text="{Binding Derived.CritPercent}" Foreground="#EEF" TextAlignment="Right"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Derived.CritPercent}" Foreground="#EEF"/>
+                        <TextBlock Text="{Binding Derived.Crit_Hint}" Foreground="#557" FontSize="10" VerticalAlignment="Bottom" Margin="3,0,0,1"/>
+                    </StackPanel>
                     <TextBlock Text="{Binding TblBlock}" Foreground="#889"/>
-                    <TextBlock Text="{Binding Derived.BlockPercent}" Foreground="#EEF" TextAlignment="Right"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Derived.BlockPercent}" Foreground="#EEF"/>
+                        <TextBlock Text="{Binding Derived.Block_Hint}" Foreground="#557" FontSize="10" VerticalAlignment="Bottom" Margin="3,0,0,1"/>
+                    </StackPanel>
                 </UniformGrid>
             </StackPanel>
         </Border>

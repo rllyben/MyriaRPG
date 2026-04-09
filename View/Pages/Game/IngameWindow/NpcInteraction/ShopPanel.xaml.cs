@@ -1,5 +1,6 @@
 using MyriaLib.Entities.NPCs;
 using MyriaLib.Services;
+using MyriaRPG.Model;
 using MyriaRPG.ViewModel.Pages.Game.IngameWindow.Inventory;
 using MyriaRPG.ViewModel.UserControls.IngameWindow;
 using System.Windows;
@@ -21,6 +22,28 @@ namespace MyriaRPG.View.Pages.Game.IngameWindow.NpcInteraction
             _inventoryViewModel = new InventoryGridViewModel(player);
             InventorySection.DataContext = _inventoryViewModel;
             MoneyBagSection.DataContext = new MoneyBagViewModel(player);
+        }
+
+        private void ShopItem_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (sender is Border border && border.DataContext is ShopItemVm shopItem
+                && DataContext is ShopPanelViewModel vm)
+            {
+                ShopItemTooltipPopup.PlacementTarget = border;
+                ShopItemTooltipPopup.CustomPopupPlacementCallback = (popupSize, targetSize, _) =>
+                {
+                    double x = targetSize.Width + 4;
+                    double y = 0;
+                    return new[] { new CustomPopupPlacement(new Point(x, y), PopupPrimaryAxis.None) };
+                };
+                vm.ShowShopTooltipCommand.Execute(shopItem);
+            }
+        }
+
+        private void ShopItem_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (DataContext is ShopPanelViewModel vm)
+                vm.HideShopTooltipCommand.Execute(null);
         }
 
         private void InventorySlot_MouseEnter(object sender, MouseEventArgs e)

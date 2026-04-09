@@ -43,7 +43,7 @@
         </Grid.Background>
         <Image Source="{Binding ImageSource}" Stretch="Fill" ></Image>
         <!-- CENTER: Map / main content (text-only placeholder for now) -->
-        <Border Background="{DynamicResource Brush.Background}" Grid.Row="1">
+        <Border Background="{DynamicResource Brush.Background}" Grid.Row="1" Padding="24,10,12,10">
             <StackPanel>
                 <TextBlock Text="{Binding RoomName}" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource Brush.Foreground}"/>
                 <TextBlock Text="{Binding RoomDescription}" Margin="0,8,0,0" TextWrapping="Wrap" Foreground="{DynamicResource Brush.Foreground}"/>

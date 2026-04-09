@@ -11,6 +11,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -19,6 +20,8 @@
         </Grid.ColumnDefinitions>
         <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding DarkMode}" VerticalAlignment="Center" Margin="0,0,5,0" FontSize="16" Foreground="{DynamicResource Brush.Foreground}" FontWeight="Bold"/>
         <CheckBox Grid.Column="1" Content="{Binding DarkMidnightMode}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding DarkModeSetter}" Background="{DynamicResource Brush.Background}" BorderBrush="{DynamicResource Brush.Border}" Foreground="{DynamicResource Brush.Foreground}"/>
+        <TextBlock Grid.Row="1" HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding FullScreen}" VerticalAlignment="Center" Margin="0,0,5,0" FontSize="16" Foreground="{DynamicResource Brush.Foreground}" FontWeight="Bold"/>
+        <CheckBox Grid.Row="1" Grid.Column="1" Content="{Binding FullScreenCheck}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding FullScreenSetter}" Background="{DynamicResource Brush.Background}" BorderBrush="{DynamicResource Brush.Border}" Foreground="{DynamicResource Brush.Foreground}"/>
 
     </Grid>
 </Page>
