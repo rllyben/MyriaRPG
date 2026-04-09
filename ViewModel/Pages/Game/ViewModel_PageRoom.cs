@@ -188,7 +188,7 @@ namespace MyriaRPG.ViewModel.Pages.Game
 
         public Npc SelectedNpc { get => _selectedNpc; set { _selectedNpc = value; } }
 
-        public ObservableCollection<string> Log { get; set; }
+        public ObservableCollection<LogEntryVm> Log { get; set; }
         public ObservableCollection<Npc> Npcs { get; set; }
 
         // Commands
@@ -203,7 +203,11 @@ namespace MyriaRPG.ViewModel.Pages.Game
             player = UserAccoundService.CurrentCharacter;
 
             Npcs = new ObservableCollection<Npc>();
-            Log = new ObservableCollection<string>();
+            Log = new ObservableCollection<LogEntryVm>();
+
+            // Show library-level errors (missing data, etc.) as red entries.
+            GameLog.EntryAdded += entry =>
+                System.Windows.Application.Current?.Dispatcher.Invoke(() => WriteLog(entry.Message, entry.IsError));
 
             MoveCommand = new RelayCommand<string>(Move);
             StartFightCommand = new RelayCommand(StartFight);
@@ -246,11 +250,12 @@ namespace MyriaRPG.ViewModel.Pages.Game
         {
             WriteLog(Localization.T("log.skill.learned", Localization.T(e.Skill.Name)));
         }
-        public static void WriteLog(string msg)
+        public static void WriteLog(string msg, bool isError = false)
         {
-            _instantce.Log.Add(msg);
+            if (_instantce == null) return;
+            _instantce.Log.Add(new LogEntryVm(msg, isError));
             if (_instantce.Log.Count > 5)
-                _instantce.Log.Remove(_instantce.Log[0]);
+                _instantce.Log.RemoveAt(0);
         }
         private void TalkNpc()
         {

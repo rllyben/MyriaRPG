@@ -2,6 +2,7 @@
 using MyriaLib.Entities.Players;
 using MyriaLib.Models;
 using MyriaLib.Services;
+using MyriaLib.Services.Builder;
 using MyriaLib.Systems;
 using MyriaLib.Systems.Enums;
 using MyriaRPG.Model;
@@ -186,14 +187,15 @@ namespace MyriaRPG.ViewModel.Pages
             // If you have a "StatsBuilder/ClassProfile" later, call it here instead.
             var stats = new Stats(); // adjust if your Stats needs args
 
-            var player = new Player(name, stats) { Class = chosenClass }; // Player requires (name, stats) :contentReference[oaicite:6]{index=6}
+            var player = new Player(name, stats) { Class = chosenClass };
 
             // Set starting room (must be non-null for SaveCharacter)
-            // Choose the correct start room for your game (first room is a safe default).
             player.CurrentRoom = RoomService.GetRoomById(1);
             player.CurrentRoomId = player.CurrentRoom.Id;
 
-            // Save to Data/saves/<user>-<name>.json :contentReference[oaicite:7]{index=7}
+            // Grant class-specific starting runes (magic classes) — no-op for other classes
+            BaseRuneService.GrantBaseRunes(player);
+
             CharacterService.SaveCharacter(_user, player);
             
 

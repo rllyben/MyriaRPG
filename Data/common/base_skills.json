@@ -1,0 +1,24 @@
+[
+  {
+    "id": "slash",
+    "name": "Slash",
+    "description": "A swift sideways sword slash.",
+    "componentType": [ "Physical", "Single" ],
+    "class": "Fighter",
+    "manaCost": 0,
+    "scalingFactor": 1.2,
+    "statToScaleFrom": "ATK",
+    "requiredLevel": 1
+  },
+  {
+    "id": "heavy_blow",
+    "name": "Heavy Blow",
+    "description": "A slow but powerful overhead strike.",
+    "componentType": [ "Physical", "Single" ],
+    "class": "Fighter",
+    "manaCost": 5,
+    "scalingFactor": 1.6,
+    "statToScaleFrom": "STR",
+    "requiredLevel": 1
+  }
+]

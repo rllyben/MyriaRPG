@@ -1,0 +1,8 @@
+[
+  {
+    "wordIdA": "water",
+    "wordIdB": "poison",
+    "relationship": "Transform",
+    "transformResultRuneId": "rune_poison"
+  }
+]

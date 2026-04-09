@@ -106,7 +106,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
                 temp.Id = accessory.Id;
                 Swap(ref _ex, temp);
             }
-            Bronze = _player.Money.Coins.TotalBronze;
+            Bronze = _player.Money.Balance.BronzeTotal;
         }
 
         private void OnEquipDropped(EquipDropArgs a)

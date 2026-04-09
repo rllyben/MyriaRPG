@@ -31,12 +31,12 @@ namespace MyriaRPG.ViewModel.Pages.Game
         // Enemy / player display
         public string ActiveMonsterName => _encounter.Enemy.Name;
         public int PlayerHp => _encounter.Player.CurrentHealth;
-        public int PlayerHpMax => _encounter.Player.Stats.MaxHealth;
+        public int PlayerHpMax => _encounter.Player.MaxHealth;
         public int PlayerMp => _encounter.Player.CurrentMana;
-        public int PlayerMpMax => _encounter.Player.Stats.MaxMana;
+        public int PlayerMpMax => _encounter.Player.MaxMana;
 
         public int EnemyHp => _encounter.Enemy.CurrentHealth;
-        public int EnemyHpMax => _encounter.Enemy.Stats.MaxHealth;
+        public int EnemyHpMax => _encounter.Enemy.MaxHealth;
 
         public bool CanAct => _encounter.Phase != CombatPhase.EnemyTurn && _encounter.Phase != CombatPhase.Recovery && _encounter.Phase != CombatPhase.Finished;
 

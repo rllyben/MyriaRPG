@@ -120,18 +120,6 @@
     "MinLevel": 10
   },
   {
-    "Id": "power_strike",
-    "Name": "Power Strike",
-    "Description": "A powerful physical attack.",
-    "Class": "Fighter",
-    "ManaCost": 10,
-    "Type": "Physical",
-    "Target": "SingleEnemy",
-    "ScalingFactor": 1.6,
-    "StatToScaleFrom": "ATK",
-    "MinLevel": 10
-  },
-  {
     "Id": "shadow_strike",
     "Name": "Shadow Strike",
     "Description": "A precise strike from the shadows. Higher crit chance.",

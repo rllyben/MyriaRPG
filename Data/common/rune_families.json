@@ -1,0 +1,45 @@
+[
+  {
+    "id": "fire",
+    "name": "Fire",
+    "familyRelations": {
+      "water": "Contradiction",
+      "poison": "Support",
+      "intensify": "Support"
+    }
+  },
+  {
+    "id": "water",
+    "name": "Water",
+    "familyRelations": {
+      "fire": "Contradiction",
+      "poison": "Transform",
+      "area": "Support"
+    }
+  },
+  {
+    "id": "area",
+    "name": "Area",
+    "familyRelations": {
+      "water": "Support",
+      "fire": "Support"
+    }
+  },
+  {
+    "id": "poison",
+    "name": "Poison",
+    "familyRelations": {
+      "fire": "Support",
+      "water": "Transform"
+    }
+  },
+  {
+    "id": "intensify",
+    "name": "Intensify",
+    "familyRelations": {
+      "fire": "Support",
+      "water": "Support",
+      "poison": "Support"
+    }
+  }
+]

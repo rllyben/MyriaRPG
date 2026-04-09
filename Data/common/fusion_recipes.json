@@ -1,0 +1,8 @@
+[
+  {
+    "resultId": "whirlwind_slash",
+    "resultName": "Whirlwind Slash",
+    "resultDescription": "A full rotation slash that cuts through all nearby enemies.",
+    "componentIds": [ "slash", "slash", "slash" ]
+  }
+]

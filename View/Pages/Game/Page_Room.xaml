@@ -99,8 +99,24 @@
                             <ListBox Grid.Column="3"
                                      ItemsSource="{Binding Log}"
                                      Background="{x:Null}"
-                                     Foreground="{DynamicResource Brush.Foreground}"
-                                     MinHeight="120"/>
+                                     MinHeight="120">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Message}" TextWrapping="Wrap">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground}"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsError}" Value="True">
+                                                            <Setter Property="Foreground" Value="#E53935"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                         </Grid>
                     </StackPanel>
                 </Border>

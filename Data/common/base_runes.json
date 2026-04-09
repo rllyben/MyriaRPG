@@ -1,0 +1,38 @@
+[
+  {
+    "id": "rune_fire",
+    "name": "Fire Rune",
+    "description": "A rune imbued with the essence of fire.",
+    "coreWordId": "fire",
+    "class": "Mage",
+    "baseManaCost": 20,
+    "baseScalingFactor": 1.0,
+    "statToScaleFrom": "MATK",
+    "target": "SingleEnemy",
+    "isHealing": false
+  },
+  {
+    "id": "rune_water",
+    "name": "Water Rune",
+    "description": "A rune that channels the flow of water.",
+    "coreWordId": "water",
+    "class": "Mage",
+    "baseManaCost": 18,
+    "baseScalingFactor": 1.0,
+    "statToScaleFrom": "MATK",
+    "target": "SingleEnemy",
+    "isHealing": false
+  },
+  {
+    "id": "rune_poison",
+    "name": "Poison Rune",
+    "description": "A rune born from the union of water and poison — unlocked through combination.",
+    "coreWordId": "poison",
+    "class": "Mage",
+    "baseManaCost": 22,
+    "baseScalingFactor": 1.1,
+    "statToScaleFrom": "MATK",
+    "target": "SingleEnemy",
+    "isHealing": false
+  }
+]

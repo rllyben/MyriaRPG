@@ -1,0 +1,44 @@
+[
+  {
+    "id": "fire",
+    "englishName": "Fire",
+    "runicScript": "?",
+    "familyId": "fire"
+  },
+  {
+    "id": "water",
+    "englishName": "Water",
+    "runicScript": "?",
+    "familyId": "water"
+  },
+  {
+    "id": "ocean",
+    "englishName": "Ocean",
+    "runicScript": "?",
+    "familyId": "area"
+  },
+  {
+    "id": "river",
+    "englishName": "River",
+    "runicScript": "?",
+    "familyId": "water"
+  },
+  {
+    "id": "burn",
+    "englishName": "Burn",
+    "runicScript": "?",
+    "familyId": "fire"
+  },
+  {
+    "id": "intensify",
+    "englishName": "Intensify",
+    "runicScript": "?",
+    "familyId": "intensify"
+  },
+  {
+    "id": "poison",
+    "englishName": "Poison",
+    "runicScript": "?",
+    "familyId": "poison"
+  }
+]
