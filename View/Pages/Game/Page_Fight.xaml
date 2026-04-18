@@ -1,11 +1,15 @@
 ﻿<Page x:Class="MyriaRPG.View.Pages.Game.Page_Fight"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:MyriaRPG.View.Pages.Game"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
       Background="{DynamicResource Brush.Background}">
+
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -75,10 +79,11 @@
                     BorderThickness="1"
                     CornerRadius="{StaticResource Radius.Panel}"
                     Padding="8">
-                <ListBox ItemsSource="{Binding LogLines}"
-                         Background="Transparent"
-                         BorderThickness="0"
-                         Foreground="{DynamicResource Brush.Foreground}"/>
+                <ScrollViewer x:Name="LogScrollViewer"
+                              VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding LogLines}"
+                                  Foreground="{DynamicResource Brush.Foreground}"/>
+                </ScrollViewer>
             </Border>
 
             <!-- Skill bar (icons) -->
@@ -111,29 +116,38 @@
                                     <Button Width="44" Height="44"
                                             Margin="4,0"
                                             Command="{Binding DataContext.CastSkillCommand, RelativeSource={RelativeSource AncestorType=Page}}"
-                                            CommandParameter="{Binding}" 
+                                            CommandParameter="{Binding}"
                                             Foreground="{DynamicResource Brush.Foreground}">
                                         <Button.ToolTip>
                                             <StackPanel>
-                                                <TextBlock Text="{Binding Name}" 
-                                                           FontWeight="SemiBold" 
+                                                <!-- Skill system badge -->
+                                                <Border Background="{DynamicResource Brush.Accent}"
+                                                        CornerRadius="3" Padding="4,1" Margin="0,0,0,4"
+                                                        HorizontalAlignment="Left"
+                                                        Visibility="{Binding HasTag, Converter={StaticResource BoolToVis}}">
+                                                    <TextBlock Text="{Binding Tag}"
+                                                               FontSize="10" FontWeight="SemiBold"
+                                                               Foreground="{DynamicResource Brush.Foreground}"/>
+                                                </Border>
+                                                <TextBlock Text="{Binding Name}"
+                                                           FontWeight="SemiBold"
                                                            Foreground="{DynamicResource Brush.Foreground}"/>
-                                                <TextBlock Text="{Binding Description}" 
-                                                           TextWrapping="Wrap" 
-                                                           MaxWidth="220" 
-                                                           Opacity="0.8" 
+                                                <TextBlock Text="{Binding Description}"
+                                                           TextWrapping="Wrap"
+                                                           MaxWidth="220"
+                                                           Opacity="0.8"
                                                            Foreground="{DynamicResource Brush.Foreground}"/>
-                                                <TextBlock Text="{Binding ManaCost, StringFormat=Mana: {0}}" 
-                                                           Opacity="0.8" 
+                                                <TextBlock Text="{Binding ManaCost, StringFormat=Mana: {0}}"
+                                                           Opacity="0.8"
                                                            Foreground="{DynamicResource Brush.Foreground}"/>
                                             </StackPanel>
                                         </Button.ToolTip>
 
-                                        <!-- Placeholder icon: first letter -->
-                                        <TextBlock Text="{Binding Name, ConverterCulture=en-US}"
+                                        <!-- Short label that fits the 44×44 button -->
+                                        <TextBlock Text="{Binding ButtonLabel}"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   FontWeight="Bold" 
+                                                   FontWeight="Bold"
                                                    Foreground="{DynamicResource Brush.Foreground}"/>
                                     </Button>
                                 </DataTemplate>

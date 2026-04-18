@@ -1,8 +1,9 @@
-﻿using System.Windows.Input;
-using MyriaRPG.Model;
+﻿using MyriaRPG.Model;
 using MyriaRPG.Services;
 using MyriaRPG.Utils;
+using MyriaRPG.View.Pages.Game.IngameWindow;
 using MyriaRPG.View.Pages.Settings;
+using System.Windows.Input;
 
 namespace MyriaRPG.ViewModel.Pages
 {
@@ -11,6 +12,7 @@ namespace MyriaRPG.ViewModel.Pages
         private string _title;
         private string _btnLanguage;
         private string _btnVisuals;
+        private string _btnKeybindings;
 
         [LocalizedKey("pg.settings.title")]
         public string Title 
@@ -47,12 +49,24 @@ namespace MyriaRPG.ViewModel.Pages
             }
 
         }
+        [LocalizedKey("pg.settings.keybindings")]
+        public string BtnKeybindings
+        {
+            get { return _btnKeybindings; }
+            set
+            {
+                _btnKeybindings = value;
+                OnPropertyChanged();
+            }
+        }
         public ICommand Language { get; }
         public ICommand Visuals { get; }
+        public ICommand KeybindingsCommand { get; }
         public ViewModel_SettingsPage()
         {
             Language = new RelayCommand(LanguageAction);
             Visuals = new RelayCommand(VisalsAction);
+            KeybindingsCommand = new RelayCommand(KeybindingsAction);
             LocalizationAutoWire.Wire(this);
         }
         private void VisalsAction()
@@ -62,6 +76,10 @@ namespace MyriaRPG.ViewModel.Pages
         private void LanguageAction()
         {
             Navigation.NavigateSettings(new Page_SettingsLanguage());
+        }
+        public void KeybindingsAction()
+        {
+            Navigation.NavigateSettings(new Page_Keybindings());
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using MyriaLib.Models.Settings;
 using MyriaLib.Services;
+using MyriaLib.Services.Manager;
 using MyriaRPG.Services;
 using MyriaLib.Utils;
 using System.Windows;
@@ -18,6 +19,8 @@ namespace MyriaRPG
             SettingsService.Load();
             MyriaLib.Systems.Localization.Load(Settings.Current.LanguageSettings.Local);
             ThemeManager.Apply(Settings.Current.VisualSettings.DarkMode);
+
+            GameService.SessionStarted += _ => DayCycleManager.StartInactivityTimer();
         }
 
     }

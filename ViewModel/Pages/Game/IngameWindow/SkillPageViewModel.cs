@@ -2,7 +2,9 @@
 using MyriaLib.Systems;
 using MyriaLib.Services;
 using MyriaRPG.Model;
+using MyriaRPG.Services;
 using MyriaRPG.Utils;
+using MyriaRPG.View.Pages.Game.IngameWindow;
 using MyriaRPG.View.Windows;
 using MyriaRPG.ViewModel.Windows;
 using System.Collections.ObjectModel;
@@ -28,6 +30,14 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
         public ObservableCollection<SkillVm> Skills { get; } = new();
 
         public ICommand OpenDetailsCommand { get; }
+        public ICommand OpenCombineCommand { get; }
+        public ICommand OpenSlotsCommand { get; }
+
+        [LocalizedKey("pg.skill_combo.title")]
+        public string TblCombineSkills { get; set; }
+
+        [LocalizedKey("pg.skill_slots.title")]
+        public string TblManageSlots { get; set; }
 
         public string WindowTitle
         {
@@ -40,19 +50,42 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
 
         public SkillPageViewModel()
         {
-            foreach (var s in UserAccoundService.CurrentCharacter.Skills)
-            {
+            var player = UserAccoundService.CurrentCharacter;
+
+            // Regular class skills (all classes)
+            foreach (var s in player.Skills)
                 Skills.Add(new SkillVm(s));
+
+            // Combined skills
+            foreach (var combined in player.CombinedSkills)
+            {
+                if (combined.ResolvedSkill != null)
+                    Skills.Add(new SkillVm(combined.ResolvedSkill, "Combined"));
+            }
+
+            // Rune skills — magic classes that have runes in their collection
+            foreach (var rune in player.KnownRunes)
+            {
+                if (rune.ResolvedSkill != null)
+                    Skills.Add(new SkillVm(rune.ResolvedSkill, "Rune"));
+            }
+
+            // Fusion skills — physical classes that have composed skills
+            foreach (var composite in player.CompositeSkills)
+            {
+                if (composite.ResolvedSkill != null)
+                    Skills.Add(new SkillVm(composite.ResolvedSkill, "Fusion"));
             }
 
             OpenDetailsCommand = new RelayCommand<SkillVm?>(OpenDetails);
+            OpenCombineCommand = new RelayCommand(() => Navigation.NavigateIngameWindow(new Page_SkillCombination()));
+            OpenSlotsCommand = new RelayCommand(() => Navigation.NavigateIngameWindow(new Page_SkillSlots()));
         }
 
         private void OpenDetails(SkillVm? skill)
         {
             if (skill == null) return;
 
-            // open a detail window
             var win = new SkillDetailWindow
             {
                 DataContext = new SkillDetailViewModel(skill)
@@ -67,9 +100,14 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
     {
         private readonly Skill _skill;
 
-        public SkillVm(Skill skill)
+        /// <summary>"Rune", "Fusion", or empty string for regular class skills.</summary>
+        public string Tag { get; }
+        public bool HasTag => !string.IsNullOrEmpty(Tag);
+
+        public SkillVm(Skill skill, string tag = "")
         {
             _skill = skill;
+            Tag = tag;
         }
 
         public string Id => _skill.Id;

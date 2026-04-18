@@ -227,8 +227,11 @@ namespace MyriaRPG.ViewModel.Pages.Game
 
             player.SkillLearned += OnPlayerSkillLearned;
             player.Inventory.ItemReceived += OnItemReceived;
+            player.Inventory.ItemRemoved += OnItemRemoved;
+            player.Inventory.ItemSold += OnItemSold;
             player.XpGained += OnXpGained;
             player.LeveledUp += OnLeveledUp;
+            GameLog.EntryAdded += OnGameLogEntry;
         }
         private void OnXpGained(object? sender, XpGainedEventArgs e)
         {
@@ -242,14 +245,30 @@ namespace MyriaRPG.ViewModel.Pages.Game
         {
             WriteLog(Localization.T("log.item.received", e.Amount, Localization.T(e.Item.Name)));
         }
+        private void OnItemRemoved(object? sender, ItemReceivedEventArgs e)
+        {
+            WriteLog(Localization.T("log.item.removed", e.Amount, Localization.T(e.Item.Name)));
+        }
+        private void OnItemSold(object? sender, ItemReceivedEventArgs e)
+        {
+            WriteLog(Localization.T("log.item.sold", e.Amount, Localization.T(e.Item.Name)));
+        }
         private void OnPlayerSkillLearned(object? sender, SkillLearnedEventArgs e)
         {
             WriteLog(Localization.T("log.skill.learned", Localization.T(e.Skill.Name)));
         }
+        private void OnGameLogEntry(GameLogEntry entry)
+        {
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
+            {
+                string prefix = entry.IsError ? "[!] " : string.Empty;
+                WriteLog(prefix + entry.Message);
+            });
+        }
         public static void WriteLog(string msg)
         {
             _instantce.Log.Add(msg);
-            if (_instantce.Log.Count > 5)
+            if (_instantce.Log.Count > 100)
                 _instantce.Log.Remove(_instantce.Log[0]);
         }
         private void TalkNpc()
@@ -323,10 +342,12 @@ namespace MyriaRPG.ViewModel.Pages.Game
         }
         private void StartFight()
         {
+            Navigation.SetFightState(true);
             Navigation.NavigateGamePage(new Page_Fight());
         }
         private void Move(string? dir)
         {
+            if (!currentRoom.Exits.ContainsKey(dir.ToLower())) return;
             if (string.IsNullOrWhiteSpace(dir)) return;
             if (!RoomService.CanEnterRoom(currentRoom.Exits[dir.ToLower()], player))
             {

@@ -7,6 +7,10 @@
       mc:Ignorable="d"
       Title="Skills">
 
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Page.Resources>
+
     <Grid Margin="12" Background="{DynamicResource Brush.Background}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -17,14 +21,28 @@
         </Grid.RowDefinitions>
 
         <!-- Header -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center">
-            <TextBlock Text="{Binding TblTitle}"
-                       FontSize="20" FontWeight="SemiBold"
-                       Foreground="{DynamicResource Brush.Foreground}" />
-            <TextBlock Text="  •  " Foreground="{DynamicResource Brush.SecondaryText}" FontSize="14" Margin="4,0"/>
-            <TextBlock Text="{Binding HeaderText}"
-                       FontSize="14" Foreground="{DynamicResource Brush.SecondaryText}" />
-        </StackPanel>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="{Binding TblTitle}"
+                           FontSize="20" FontWeight="SemiBold"
+                           Foreground="{DynamicResource Brush.Foreground}" />
+                <TextBlock Text="  •  " Foreground="{DynamicResource Brush.SecondaryText}" FontSize="14" Margin="4,0"/>
+                <TextBlock Text="{Binding HeaderText}"
+                           FontSize="14" Foreground="{DynamicResource Brush.SecondaryText}" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Content="{Binding TblCombineSkills}"
+                        Command="{Binding OpenCombineCommand}"
+                        Padding="12,4" Margin="0,0,8,0"/>
+                <Button Content="{Binding TblManageSlots}"
+                        Command="{Binding OpenSlotsCommand}"
+                        Padding="12,4"/>
+            </StackPanel>
+        </Grid>
 
         <!-- Scrollable skills list -->
         <Border Grid.Row="2" Background="{DynamicResource Brush.TileBackground}" CornerRadius="8" Padding="8">
@@ -73,6 +91,12 @@
                                     <StackPanel Grid.Row="2" Grid.Column="0"
                                                 Orientation="Horizontal"
                                                 Margin="0,2,0,0">
+                                        <!-- Skill system tag: Rune / Fusion -->
+                                        <Border Background="{DynamicResource Brush.Accent}"
+                                                CornerRadius="4" Padding="4,1" Margin="0,0,4,0"
+                                                Visibility="{Binding HasTag, Converter={StaticResource BoolToVis}}">
+                                            <TextBlock Text="{Binding Tag}" Foreground="{DynamicResource Brush.Foreground}" FontSize="11" FontWeight="SemiBold"/>
+                                        </Border>
                                         <!-- Type -->
                                         <Border Background="{DynamicResource Brush.TileBackground}" CornerRadius="4" Padding="4,1" Margin="0,0,4,0">
                                             <TextBlock Text="{Binding TypeText}" Foreground="{DynamicResource Brush.Foreground}" FontSize="11"/>
@@ -82,7 +106,8 @@
                                             <TextBlock Text="{Binding TargetText}" Foreground="{DynamicResource Brush.Foreground}" FontSize="11"/>
                                         </Border>
                                         <!-- Healing -->
-                                        <Border Background="{DynamicResource Brush.Success}" CornerRadius="4" Padding="4,1" Margin="0,0,4,0">
+                                        <Border Background="{DynamicResource Brush.Success}" CornerRadius="4" Padding="4,1" Margin="0,0,4,0"
+                                                Visibility="{Binding IsHealing, Converter={StaticResource BoolToVis}}">
                                             <TextBlock Text="Healing" Foreground="{DynamicResource Brush.Foreground}" FontSize="11"/>
                                         </Border>
                                         <!-- Level -->

@@ -52,6 +52,7 @@ namespace MyriaRPG.ViewModel.Pages
             ["quests"]      = "Loading quests",
             ["skills"]      = "Loading skills",
             ["registries"]  = "Loading registries",
+            ["skill_systems"] = "Loading skill systems",
         };
 
         public ObservableCollection<LoadingStepVm> Steps { get; } = new();

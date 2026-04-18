@@ -195,7 +195,7 @@ namespace MyriaRPG.ViewModel.Pages
 
             // Save to Data/saves/<user>-<name>.json :contentReference[oaicite:7]{index=7}
             CharacterService.SaveCharacter(_user, player);
-            
+            GameService.StartSession(player);
 
             // Optional: navigate back to character selection
             UserAccoundService.CurrentCharacter = player;

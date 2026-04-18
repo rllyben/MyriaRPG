@@ -225,7 +225,7 @@
     "Name": "room.lumina.east",
     "Description": "The eastern Gate of the City, you can hear the sounds of the Forest Edge. Many adventurers are passing by.",
     "IsCity": true,
-    "Npcs": [ "villager_default" ],
+    "Npcs": [ "villager_default", "skill_master_lumina" ],
     "ExitIds": {
       "west": 11,
       "east": 25

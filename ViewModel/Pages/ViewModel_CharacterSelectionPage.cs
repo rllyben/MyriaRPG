@@ -214,6 +214,7 @@ namespace MyriaRPG.ViewModel.Pages
         private void JoinAction()
         {
             SkillFactory.UpdateSkills(UserAccoundService.CurrentCharacter);
+            GameService.StartSession(UserAccoundService.CurrentCharacter);
             Navigation.NavigateMain(new Page_Game());
         }
         private bool IsSelected()

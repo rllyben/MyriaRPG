@@ -128,7 +128,7 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
         public string MaxLabel         => Localization.T("app.general.UI.max");
 
         public int BuyQuantityMax => _selectedStock is BuybackItemVm ? 1
-            : _selectedStock != null ? _player.Money.Coins.Bronze / _selectedStock.BuyPrice : 0;
+            : _selectedStock != null ? (int)(_player.Money.Balance.BronzeTotal / _selectedStock.BuyPrice) : 0;
 
         // Quantity Control
         private int _buyQuantity = 1;
@@ -164,8 +164,8 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
             {
                 if (_selectedStock == null) return false;
                 if (_selectedStock is BuybackItemVm bb)
-                    return _player.Money.Coins.TotalBronze >= bb.TotalRebuyPrice;
-                return _buyQuantity > 0 && _player.Money.Coins.TotalBronze >= BuyTotalPrice;
+                    return _player.Money.Balance.BronzeTotal >= bb.TotalRebuyPrice;
+                return _buyQuantity > 0 && _player.Money.Balance.BronzeTotal >= BuyTotalPrice;
             }
         }
 
@@ -205,7 +205,7 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
             _player = player;
             _goBack = goBack;
 
-            PlayerMoney = _player.Money.Coins.TotalBronze;
+            PlayerMoney = (int)_player.Money.Balance.BronzeTotal;
 
             _currentShopTooltip = new ItemTooltipViewModel();
 
@@ -229,7 +229,7 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
 
         private void OnItemSold(object? sender, ItemReceivedEventArgs e)
         {
-            PlayerMoney = _player.Money.Coins.TotalBronze;
+            PlayerMoney = (int)_player.Money.Balance.BronzeTotal;
 
             // Add to buyback list so player can repurchase accidentally sold items
             BuybackStock.Add(new BuybackItemVm
@@ -283,7 +283,7 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
 
             int totalCost = SelectedStock.BuyPrice * BuyQuantity;
 
-            if (_player.Money.Coins.TotalBronze < totalCost)
+            if (_player.Money.Balance.BronzeTotal < totalCost)
             {
                 StatusMessage = Localization.T("npc.shop.notEnoughMoney");
                 return;
@@ -295,8 +295,8 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
 
                 if (_player.Inventory.AddItem(item, _player))
                 {
-                    _player.Money.Coins.TrySpend(totalCost);
-                    PlayerMoney = _player.Money.Coins.TotalBronze;
+                    _player.Money.TrySpend(totalCost);
+                    PlayerMoney = (int)_player.Money.Balance.BronzeTotal;
                     StatusMessage = Localization.T("npc.shop.buySuccess", BuyQuantity, SelectedStock.Name);
                     BuyQuantity = 1;
                     OnPropertyChanged(nameof(CanBuy));
@@ -328,7 +328,7 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
         {
             int totalCost = buyback.TotalRebuyPrice;
 
-            if (_player.Money.Coins.TotalBronze < totalCost)
+            if (_player.Money.Balance.BronzeTotal < totalCost)
             {
                 StatusMessage = Localization.T("npc.shop.notEnoughMoney");
                 return;
@@ -340,8 +340,8 @@ namespace MyriaRPG.ViewModel.UserControls.IngameWindow
 
                 if (_player.Inventory.AddItem(item, _player))
                 {
-                    _player.Money.Coins.TrySpend(totalCost);
-                    PlayerMoney = _player.Money.Coins.TotalBronze;
+                    _player.Money.TrySpend(totalCost);
+                    PlayerMoney = (int)_player.Money.Balance.BronzeTotal;
                     BuybackStock.Remove(buyback);
                     StatusMessage = Localization.T("npc.shop.buySuccess", buyback.Quantity, buyback.Name);
                     OnPropertyChanged(nameof(FilteredStock));

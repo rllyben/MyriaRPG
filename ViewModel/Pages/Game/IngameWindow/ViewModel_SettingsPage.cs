@@ -3,6 +3,7 @@ using MyriaRPG.Model;
 using MyriaRPG.Services;
 using MyriaRPG.Utils;
 using MyriaRPG.View.Pages;
+using MyriaRPG.View.Pages.Game.IngameWindow;
 using MyriaRPG.View.Windows;
 using System.Windows;
 using System.Windows.Input;
@@ -100,7 +101,7 @@ namespace MyriaRPG.ViewModel.Pages.Game.IngameWindow
         }
         public void SettingsAction()
         {
-            Navigation.NavigateIngameMenue(new Page_Settings());
+            Navigation.NavigateIngameMenue(new MyriaRPG.View.Pages.Page_Settings());
         }
         public void CharacterMenueAction()
         {

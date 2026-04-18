@@ -16,6 +16,9 @@ namespace MyriaRPG.Services
         private static Page GameRoomPage = new();
         private static Page GameCombatPage = new();
 
+        public static bool IsInFight { get; private set; }
+        public static void SetFightState(bool isInFight) => IsInFight = isInFight;
+
         private static void DisableJournalNavigation(Frame frame)
         {
             frame.Navigating += (s, e) =>
